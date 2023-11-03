@@ -1,23 +1,32 @@
 package com.Binusa.BawasluServer.model;
 
 import com.Binusa.BawasluServer.auditing.DateConfig;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class UserModel extends DateConfig {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    private long id;
+    @Column
     private String username;
+
+    @Column
+    private String role;
+    @Column
+    @JsonIgnore
     private String password;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -35,5 +44,13 @@ public class UserModel extends DateConfig {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
