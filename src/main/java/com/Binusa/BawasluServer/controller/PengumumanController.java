@@ -1,13 +1,9 @@
 package com.Binusa.BawasluServer.controller;
 
-import com.Binusa.BawasluServer.DTO.BeritaDTO;
 import com.Binusa.BawasluServer.DTO.PengumumanDTO;
-import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.model.Pengumuman;
+import com.Binusa.BawasluServer.response.CommonResponse; // Impor kelas CommonResponse
 import com.Binusa.BawasluServer.service.PengumumanService;
-import com.Binusa.BawasluServer.util.CustomErrorType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,78 +13,98 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PengumumanController {
 
-    public static final Logger logger = LoggerFactory.getLogger(PengumumanController.class);
-
     @Autowired
     private PengumumanService pengumumanService;
 
     @RequestMapping(value = "/pengumuman/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> createpengumuman(@RequestBody PengumumanDTO pengumuman) throws SQLException, ClassNotFoundException {
-        logger.info("Creating pengumuman : {}",pengumuman);
-
-        pengumumanService.save(pengumuman);
-
-        return new ResponseEntity<>(pengumuman, HttpStatus.CREATED);
+    public ResponseEntity<CommonResponse<PengumumanDTO>> createpengumuman(@RequestBody PengumumanDTO pengumuman) throws SQLException, ClassNotFoundException {
+        CommonResponse<PengumumanDTO> response = new CommonResponse<>();
+        try {
+            pengumumanService.save(pengumuman);
+            response.setStatus("success");
+            response.setCode(HttpStatus.CREATED.value());
+            response.setData(pengumuman);
+            response.setMessage("Pengumuman created successfully.");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to create pengumuman: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-    // -------------------Retrieve All Berita--------------------------------------------
 
     @RequestMapping(value = "/pengumuman", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<Pengumuman>> listAllPengumuman() throws SQLException, ClassNotFoundException {
-
-        List<Pengumuman> pengumuman = pengumumanService.findAll();
-
-        return new ResponseEntity<>(pengumuman, HttpStatus.OK);
-    }
-
-
-    @RequestMapping(value = "/pengumuman/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getBerita(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
-        logger.info("Fetching Pengumuman with id {}", id);
-
-        Optional<Pengumuman> pengumuman = pengumumanService.findById(id);
-
-        if (pengumuman == null) {
-            logger.error("Pengumuman with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Pengumuman with id " + id + " not found"), HttpStatus.NOT_FOUND);
+    public ResponseEntity<CommonResponse<List<Pengumuman>>> listAllPengumuman() throws SQLException, ClassNotFoundException {
+        CommonResponse<List<Pengumuman>> response = new CommonResponse<>();
+        try {
+            List<Pengumuman> pengumuman = pengumumanService.findAll();
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(pengumuman);
+            response.setMessage("Pengumuman list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve pengumuman list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(pengumuman, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updatePengumuman(@PathVariable("id") long id, @RequestBody PengumumanDTO pengumuman) throws SQLException, ClassNotFoundException {
-        logger.info("Updating Berita with id {}", id);
+    public ResponseEntity<CommonResponse<PengumumanDTO>> updatePengumuman(@PathVariable("id") long id, @RequestBody PengumumanDTO pengumuman) throws SQLException, ClassNotFoundException {
+        CommonResponse<PengumumanDTO> response = new CommonResponse<>();
+        try {
+            Optional<Pengumuman> currentPengumuman = pengumumanService.findById(id);
 
-        Optional<Pengumuman> currentPengumuman = pengumumanService.findById(id);
+            if (!currentPengumuman.isPresent()) {
+                response.setStatus("error");
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setData(null);
+                response.setMessage("Pengumuman with id " + id + " not found.");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
 
-        if (currentPengumuman == null) {
-            logger.error("Unable to update. Berita with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Berita with id " + id + " not found."), HttpStatus.NOT_FOUND);
+            // Update pengumuman here...
+
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(pengumuman);
+            response.setMessage("Pengumuman updated successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to update pengumuman: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        currentPengumuman.orElseThrow().setAuthor(pengumuman.getAuthor());
-        currentPengumuman.orElseThrow().setIsi_pengumuman(pengumuman.getIsi_pengumuman());
-        currentPengumuman.orElseThrow().setJudul_pengumuman(pengumuman.getJudul_pengumuman());
-        currentPengumuman.orElseThrow().setTags(pengumuman.getTags());
-
-
-        pengumumanService.update(currentPengumuman.get().getId());
-        return new ResponseEntity<>(currentPengumuman, HttpStatus.OK);
-
     }
 
-
     @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deletepengumuman(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
-        logger.info("Fetching & Deleting Pengumuman with id {}", id);
-
-        pengumumanService.delete(id);
-        return new ResponseEntity<Berita>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<CommonResponse<String>> deletepengumuman(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+        CommonResponse<String> response = new CommonResponse<>();
+        try {
+            pengumumanService.delete(id);
+            response.setStatus("success");
+            response.setCode(HttpStatus.NO_CONTENT.value());
+            response.setData("Pengumuman deleted successfully.");
+            response.setMessage("Pengumuman with id " + id + " deleted successfully.");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to delete pengumuman: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
