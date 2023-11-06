@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/isiinformasiketerangan")
+@RequestMapping("/bawaslu/api/isiinformasiketerangan")
 @CrossOrigin(origins = "http://localhost:3000")
 public class IsiInformasiKeteranganController {
 
@@ -95,5 +95,4 @@ public class IsiInformasiKeteranganController {
         }
     }
 
-    // Tambahkan endpoint untuk operasi CRUD lainnya (misalnya, mendapatkan semua IsiInformasiKeterangan)
 }
