@@ -34,14 +34,17 @@ public class JenisKeteranganService {
             jenisKeterangan.setJenisInformasi(jenisInformasi);
         }
 
-
         JenisKeterangan savedJenisKeterangan = jenisKeteranganRepository.save(jenisKeterangan);
         JenisKeteranganDTO savedDTO = new JenisKeteranganDTO();
         savedDTO.setId(savedJenisKeterangan.getId());
         savedDTO.setNama_keterangan(savedJenisKeterangan.getNama_keterangan());
 
+        // Set properti "jenisInformasi" dalam respons
+        savedDTO.setJenisInformasi(jenisKeteranganDTO.getJenisInformasi());
+
         return savedDTO;
     }
+
 
 
     public JenisKeteranganDTO findById(Long id) {
