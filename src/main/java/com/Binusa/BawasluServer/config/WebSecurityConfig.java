@@ -50,10 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/berita/add", "/api/berita/{id}", "/api/berita/id/{id}").hasRole("ADMIN")
-                .antMatchers("/api/pengumuman/add", "/api/pengumuman/id/{id}","/api/pengumuman/{id}").hasAnyRole( "ADMIN")
+                .antMatchers("/bawaslu/api/berita/add", "/bawaslu/api/berita/{id}", "/bawaslu/api/berita/id/{id}").hasRole("ADMIN")
+                .antMatchers("/bawaslu/api/pengumuman/add", "/bawaslu/api/pengumuman/id/{id}","/bawaslu/api/pengumuman/{id}").hasAnyRole( "ADMIN")
                 .antMatchers("/login", "/register").permitAll()
-                .antMatchers("/api/berita","/api/pengumuman").permitAll().
+                .antMatchers("/bawaslu/api/berita","/bawaslu/api/pengumuman").permitAll().
                 anyRequest()
                 .authenticated().and().
 

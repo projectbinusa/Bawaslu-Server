@@ -1,6 +1,7 @@
 package com.Binusa.BawasluServer.controller;
 
 import com.Binusa.BawasluServer.DTO.JenisInformasiDTO;
+import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
 import com.Binusa.BawasluServer.model.JenisInformasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.JenisInformasiService;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/jenisinformasi")
+@RequestMapping("bawaslu/api/jenisinformasi")
 @CrossOrigin(origins = "http://localhost:3000")
 public class JenisInformasiController {
 
@@ -43,6 +44,11 @@ public class JenisInformasiController {
         CommonResponse<JenisInformasiDTO> response = new CommonResponse<>();
         try {
             JenisInformasiDTO jenisInformasiDTO = jenisInformasiService.findById(id);
+
+            // Mengambil jenis keterangan terkait dengan jenis informasi berdasarkan ID jenis informasi
+            List<JenisKeteranganDTO> jenisKeteranganList = jenisInformasiService.getJenisKeteranganByJenisInformasiId(id);
+            jenisInformasiDTO.setJenisKeteranganList(jenisKeteranganList);
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(jenisInformasiDTO);
@@ -76,6 +82,7 @@ public class JenisInformasiController {
         }
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<CommonResponse<String>> deleteJenisInformasi(@PathVariable("id") Long id) {
         CommonResponse<String> response = new CommonResponse<>();
@@ -95,5 +102,4 @@ public class JenisInformasiController {
         }
     }
 
-    // Tambahkan endpoint untuk operasi CRUD lainnya (misalnya, mendapatkan semua JenisInformasi)
 }

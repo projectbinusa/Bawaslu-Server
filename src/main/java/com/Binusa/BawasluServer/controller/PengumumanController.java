@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/bawaslu/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class PengumumanController {
 
