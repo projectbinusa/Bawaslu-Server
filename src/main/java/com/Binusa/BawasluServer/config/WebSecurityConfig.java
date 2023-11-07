@@ -46,14 +46,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            // API controller
+            "/login", "/register", "/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add"
+    };
+
+    private static final String[] AUTH_AUTHORIZATION = {
+            "/bawaslu/api/berita/**",
+            "/bawaslu/api/pengumuman/**",
+            "/bawaslu/api/isiinformasiketerangan/**",
+            "/bawaslu/api/jenisinformasi/**",
+            "/bawaslu/api/jenisketerangan/**",
+            "/bawaslu/api/permohonan-informasi/**",
+            "/bawaslu/api/permohonan-keberatan/**",
+
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/bawaslu/api/berita/add", "/bawaslu/api/berita/{id}", "/bawaslu/api/berita/id/{id}").hasRole("ADMIN")
-                .antMatchers("/bawaslu/api/pengumuman/add", "/bawaslu/api/pengumuman/id/{id}","/bawaslu/api/pengumuman/{id}").hasAnyRole( "ADMIN")
-                .antMatchers("/login", "/register").permitAll()
-                .antMatchers("/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers(AUTH_AUTHORIZATION).hasRole("ADMIN")
+                .antMatchers(AUTH_AUTHORIZATION).hasAnyRole( "ADMIN")
+//                .antMatchers("/bawaslu/api/berita/add", "/bawaslu/api/berita/{id}", "/bawaslu/api/berita/id/{id}").hasRole("ADMIN")
+//                .antMatchers("/bawaslu/api/pengumuman/add", "/bawaslu/api/pengumuman/id/{id}","/bawaslu/api/pengumuman/{id}").hasAnyRole( "ADMIN")
+//                .antMatchers("/login", "/register").permitAll()
+//                .antMatchers("/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add").permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

@@ -1,6 +1,9 @@
 package com.Binusa.BawasluServer.controller;
 
+import com.Binusa.BawasluServer.DTO.BeritaDTO;
+import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.response.CommonResponse;
+import com.Binusa.BawasluServer.service.BeritaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
