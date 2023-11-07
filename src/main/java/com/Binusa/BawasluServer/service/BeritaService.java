@@ -83,6 +83,10 @@ public class BeritaService {
         return beritaDao.findFirst5ByOrderByUpdatedDateDesc();
     }
 
+    public List<Berita> searchBerita(String judul) {
+        return beritaDao.findByJudulBerita(judul);
+    }
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());
