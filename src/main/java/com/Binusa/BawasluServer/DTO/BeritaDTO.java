@@ -7,7 +7,6 @@ public class BeritaDTO {
     private String author;
     private String tags;
     private String isiBerita;
-
     public long getId() {
         return id;
     }

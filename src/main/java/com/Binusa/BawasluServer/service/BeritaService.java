@@ -84,6 +84,12 @@ public class BeritaService {
         return beritaDao.findByJudulBerita(judul);
     }
 
+    public Berita getBeritaById(Long id) throws Exception {
+        Berita berita = beritaDao.findById(id);
+        if (berita == null) throw new Exception("Category not found!!!");
+        return berita;
+    }
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());

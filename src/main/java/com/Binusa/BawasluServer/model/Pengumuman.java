@@ -14,6 +14,7 @@ public class Pengumuman extends DateConfig {
     private String judulPengumuman;
     private String author;
     private String tags;
+    @Lob
     private String isiPengumuman;
     @Lob
     private String image;
