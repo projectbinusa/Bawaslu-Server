@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.model;
 
+import com.Binusa.BawasluServer.auditing.DateConfig;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

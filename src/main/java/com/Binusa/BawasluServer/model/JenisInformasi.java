@@ -1,6 +1,8 @@
 package com.Binusa.BawasluServer.model;
 
 
+import com.Binusa.BawasluServer.auditing.DateConfig;
+
 import javax.persistence.*;
 import java.util.List;
 
