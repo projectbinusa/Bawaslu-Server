@@ -1,10 +1,11 @@
 package com.Binusa.BawasluServer.controller;
 
 import com.Binusa.BawasluServer.response.CommonResponse;
-import com.Binusa.BawasluServer.service.BeritaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,14 +19,14 @@ public class BeritaController {
     @Autowired
     private BeritaService beritaService;
 
-    @RequestMapping(value = "/berita/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CommonResponse<BeritaDTO>> createberita(@RequestBody BeritaDTO berita) throws SQLException, ClassNotFoundException {
-        CommonResponse<BeritaDTO> response = new CommonResponse<>();
+    @RequestMapping(value = "/berita/add", method = RequestMethod.POST, consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<Berita>> createberita(BeritaDTO berita, @RequestPart("file")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+        CommonResponse<Berita> response = new CommonResponse<>();
         try {
-            beritaService.save(berita);
+            Berita berita1 = beritaService.save(berita, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
-            response.setData(berita);
+            response.setData(berita1);
             response.setMessage("Berita created successfully.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -56,9 +57,9 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<CommonResponse<BeritaDTO>> updateBerita(@PathVariable("id") long id, @RequestBody BeritaDTO berita) throws SQLException, ClassNotFoundException {
-        CommonResponse<BeritaDTO> response = new CommonResponse<>();
+    @RequestMapping(value = "/berita/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<Berita>> updateBerita(@PathVariable("id") long id, BeritaDTO berita, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+        CommonResponse<Berita> response = new CommonResponse<>();
         try {
             Optional<Berita> currentBerita = beritaService.findById(id);
 
@@ -72,9 +73,10 @@ public class BeritaController {
 
             // Update berita here...
 
+            Berita berita1 = beritaService.update(id, berita, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(berita);
+            response.setData(berita1);
             response.setMessage("Berita updated successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -101,6 +103,25 @@ public class BeritaController {
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
             response.setMessage("Failed to delete berita: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/berita-terbaru", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<Berita>>> listBeritaTerbaru() throws SQLException, ClassNotFoundException {
+        CommonResponse<List<Berita>> response = new CommonResponse<>();
+        try {
+            List<Berita> berita = beritaService.beritaTerbaru();
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(berita);
+            response.setMessage("Berita list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve berita list: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
