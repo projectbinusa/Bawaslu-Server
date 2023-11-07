@@ -42,14 +42,12 @@ public class BeritaService {
         Berita newBerita = new Berita();
         String image = imageConverter(multipartFile);
         newBerita.setAuthor(berita.getAuthor());
-        newBerita.setTags(berita.getTags());
         newBerita.setJudulBerita(berita.getJudulBerita());
         newBerita.setIsiBerita(berita.getIsiBerita());
         newBerita.setImage(image);
 
         return beritaDao.save(newBerita);
     }
-
 
     public Optional<Berita> findById(Long id) {
         return Optional.ofNullable(beritaDao.findById(id));
@@ -74,7 +72,6 @@ public class BeritaService {
         berita.setJudulBerita(berita.getJudulBerita());
         berita.setIsiBerita(beritaDTO.getIsiBerita());
         berita.setAuthor(beritaDTO.getAuthor());
-        berita.setTags(beritaDTO.getTags());
         berita.setImage(image);
         return beritaDao.save(berita);
     }
