@@ -1,11 +1,11 @@
 package com.Binusa.BawasluServer.controller;
 
-import com.Binusa.BawasluServer.response.CommonResponse; // Impor kelas CommonResponse
-import com.Binusa.BawasluServer.service.PengumumanService;
+import com.Binusa.BawasluServer.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,14 +19,14 @@ public class PengumumanController {
     @Autowired
     private PengumumanService pengumumanService;
 
-    @RequestMapping(value = "/pengumuman/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CommonResponse<PengumumanDTO>> createpengumuman(@RequestBody PengumumanDTO pengumuman) throws SQLException, ClassNotFoundException {
-        CommonResponse<PengumumanDTO> response = new CommonResponse<>();
+    @RequestMapping(value = "/pengumuman/add", method = RequestMethod.POST, consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<Pengumuman>> createpengumuman(PengumumanDTO pengumuman, @RequestPart("file")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+        CommonResponse<Pengumuman> response = new CommonResponse<>();
         try {
-            pengumumanService.save(pengumuman);
+            Pengumuman pengumuman1 = pengumumanService.save(pengumuman, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
-            response.setData(pengumuman);
+            response.setData(pengumuman1);
             response.setMessage("Pengumuman created successfully.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -57,9 +57,9 @@ public class PengumumanController {
         }
     }
 
-    @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<CommonResponse<PengumumanDTO>> updatePengumuman(@PathVariable("id") long id, @RequestBody PengumumanDTO pengumuman) throws SQLException, ClassNotFoundException {
-        CommonResponse<PengumumanDTO> response = new CommonResponse<>();
+    @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<Pengumuman>> updatePengumuman(@PathVariable("id") long id, PengumumanDTO pengumuman, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+        CommonResponse<Pengumuman> response = new CommonResponse<>();
         try {
             Optional<Pengumuman> currentPengumuman = pengumumanService.findById(id);
 
@@ -73,9 +73,10 @@ public class PengumumanController {
 
             // Update pengumuman here...
 
+            Pengumuman pengumuman1 = pengumumanService.update(id, pengumuman, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(pengumuman);
+            response.setData(pengumuman1);
             response.setMessage("Pengumuman updated successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
