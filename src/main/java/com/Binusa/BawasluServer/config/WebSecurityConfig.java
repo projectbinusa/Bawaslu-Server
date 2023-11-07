@@ -53,11 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/bawaslu/api/berita/add", "/bawaslu/api/berita/{id}", "/bawaslu/api/berita/id/{id}").hasRole("ADMIN")
                 .antMatchers("/bawaslu/api/pengumuman/add", "/bawaslu/api/pengumuman/id/{id}","/bawaslu/api/pengumuman/{id}").hasAnyRole( "ADMIN")
                 .antMatchers("/login", "/register").permitAll()
-                .antMatchers("/bawaslu/api/berita","/bawaslu/api/pengumuman").permitAll().
-                anyRequest()
-                .authenticated().and().
-
-                exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                .antMatchers("/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add").permitAll()
+                .anyRequest()
+                .authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 

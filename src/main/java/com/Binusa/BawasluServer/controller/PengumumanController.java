@@ -1,7 +1,5 @@
 package com.Binusa.BawasluServer.controller;
 
-import com.Binusa.BawasluServer.DTO.PengumumanDTO;
-import com.Binusa.BawasluServer.model.Pengumuman;
 import com.Binusa.BawasluServer.response.CommonResponse; // Impor kelas CommonResponse
 import com.Binusa.BawasluServer.service.PengumumanService;
 import org.springframework.beans.factory.annotation.Autowired;

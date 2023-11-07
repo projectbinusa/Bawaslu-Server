@@ -1,7 +1,5 @@
 package com.Binusa.BawasluServer.service;
 
-import com.Binusa.BawasluServer.DTO.BeritaDTO;
-import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.repository.BeritaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

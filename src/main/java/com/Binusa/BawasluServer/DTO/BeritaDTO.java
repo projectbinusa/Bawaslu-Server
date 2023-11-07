@@ -3,10 +3,10 @@ package com.Binusa.BawasluServer.DTO;
 public class BeritaDTO {
 
     private long id;
-    private String judul_berita;
+    private String judulBerita;
     private String author;
     private String tags;
-    private String isi_berita;
+    private String isiBerita;
 
     public long getId() {
         return id;
@@ -16,12 +16,12 @@ public class BeritaDTO {
         this.id = id;
     }
 
-    public String getJudul_berita() {
-        return judul_berita;
+    public String getJudulBerita() {
+        return judulBerita;
     }
 
-    public void setJudul_berita(String judul_berita) {
-        this.judul_berita = judul_berita;
+    public void setJudulBerita(String judulBerita) {
+        this.judulBerita = judulBerita;
     }
 
     public String getAuthor() {
@@ -40,11 +40,11 @@ public class BeritaDTO {
         this.tags = tags;
     }
 
-    public String getIsi_berita() {
-        return isi_berita;
+    public String getIsiBerita() {
+        return isiBerita;
     }
 
-    public void setIsi_berita(String isi_berita) {
-        this.isi_berita = isi_berita;
+    public void setIsiBerita(String isiBerita) {
+        this.isiBerita = isiBerita;
     }
 }

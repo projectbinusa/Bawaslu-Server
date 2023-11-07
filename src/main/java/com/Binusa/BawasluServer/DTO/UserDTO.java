@@ -1,7 +1,5 @@
 package com.Binusa.BawasluServer.DTO;
 
-import com.Binusa.BawasluServer.auditing.DateConfig;
-
 public class UserDTO {
     private String username;
     private String password;

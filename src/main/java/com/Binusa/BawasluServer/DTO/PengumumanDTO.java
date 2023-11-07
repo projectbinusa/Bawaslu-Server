@@ -3,10 +3,10 @@ package com.Binusa.BawasluServer.DTO;
 public class PengumumanDTO {
 
     private long id;
-    private String judul_pengumuman;
+    private String judulPengumuman;
     private String author;
     private String tags;
-    private String isi_pengumuman;
+    private String isiPengumuman;
 
     public long getId() {
         return id;
@@ -14,22 +14,6 @@ public class PengumumanDTO {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getJudul_pengumuman() {
-        return judul_pengumuman;
-    }
-
-    public void setJudul_pengumuman(String judul_pengumuman) {
-        this.judul_pengumuman = judul_pengumuman;
-    }
-
-    public String getIsi_pengumuman() {
-        return isi_pengumuman;
-    }
-
-    public void setIsi_pengumuman(String isi_pengumuman) {
-        this.isi_pengumuman = isi_pengumuman;
     }
 
     public String getAuthor() {
@@ -48,4 +32,19 @@ public class PengumumanDTO {
         this.tags = tags;
     }
 
+    public String getJudulPengumuman() {
+        return judulPengumuman;
+    }
+
+    public void setJudulPengumuman(String judulPengumuman) {
+        this.judulPengumuman = judulPengumuman;
+    }
+
+    public String getIsiPengumuman() {
+        return isiPengumuman;
+    }
+
+    public void setIsiPengumuman(String isiPengumuman) {
+        this.isiPengumuman = isiPengumuman;
+    }
 }
