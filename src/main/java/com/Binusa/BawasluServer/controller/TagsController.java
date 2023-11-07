@@ -1,7 +1,10 @@
 package com.Binusa.BawasluServer.controller;
 
+import com.Binusa.BawasluServer.DTO.TagsDTO;
+import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.model.Tags;
 import com.Binusa.BawasluServer.response.CommonResponse;
+import com.Binusa.BawasluServer.service.BeritaService;
 import com.Binusa.BawasluServer.service.TagsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,11 +22,15 @@ public class TagsController {
     @Autowired
     private TagsService tagsService;
 
+    @Autowired
+    private BeritaService beritaService;
+
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CommonResponse<Tags>> createTags(@RequestBody Tags tags) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<Tags>> createTags(@RequestBody TagsDTO tags) throws SQLException, ClassNotFoundException {
         CommonResponse<Tags> response = new CommonResponse<>();
         try {
-            Tags tags1 = tagsService.save(tags);
+            Berita berita = beritaService.getBeritaById(tags.getBeritaId());
+            Tags tags1 = tagsService.save(tags, berita);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
             response.setData(tags1);

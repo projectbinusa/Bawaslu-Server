@@ -11,7 +11,6 @@ public class Tags {
     private String tags;
 
     @ManyToOne
-    @JoinColumn(name = "berita_id")
     private Berita berita;
 
     public Long getId() {

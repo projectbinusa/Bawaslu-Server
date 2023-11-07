@@ -2,6 +2,7 @@ package com.Binusa.BawasluServer.model;
 
 
 import com.Binusa.BawasluServer.auditing.DateConfig;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,12 +15,14 @@ public class Berita extends DateConfig {
     private long id;
     private String judulBerita;
     private String author;
+    @Lob
     private String isiBerita;
     @Lob
     private String image;
 
-    @OneToMany(mappedBy = "berita_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Tags> tagsList;
+    @JsonIgnore
+    @OneToMany(mappedBy = "berita", cascade = CascadeType.REMOVE)
+    private List<Tags> tags;
 
     public Berita() {
     }
@@ -64,11 +67,11 @@ public class Berita extends DateConfig {
         this.image = image;
     }
 
-    public List<Tags> getTagsList() {
-        return tagsList;
+    public List<Tags> getTags() {
+        return tags;
     }
 
-    public void setTagsList(List<Tags> tagsList) {
-        this.tagsList = tagsList;
+    public void setTags(List<Tags> tags) {
+        this.tags = tags;
     }
 }
