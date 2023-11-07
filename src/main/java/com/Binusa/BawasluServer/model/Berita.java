@@ -4,6 +4,7 @@ package com.Binusa.BawasluServer.model;
 import com.Binusa.BawasluServer.auditing.DateConfig;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "berita")
@@ -13,10 +14,15 @@ public class Berita extends DateConfig {
     private long id;
     private String judulBerita;
     private String author;
-    private String tags;
     private String isiBerita;
     @Lob
     private String image;
+
+    @OneToMany(mappedBy = "berita_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Tags> tagsList;
+
+    public Berita() {
+    }
 
     public long getId() {
         return id;
@@ -42,14 +48,6 @@ public class Berita extends DateConfig {
         this.author = author;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public String getIsiBerita() {
         return isiBerita;
     }
@@ -64,5 +62,13 @@ public class Berita extends DateConfig {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Tags> getTagsList() {
+        return tagsList;
+    }
+
+    public void setTagsList(List<Tags> tagsList) {
+        this.tagsList = tagsList;
     }
 }
