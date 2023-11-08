@@ -7,6 +7,7 @@ import com.Binusa.BawasluServer.service.IsiInformasiKeteranganService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +20,11 @@ public class IsiInformasiKeteranganController {
     @Autowired
     private IsiInformasiKeteranganService isiInformasiKeteranganService;
 
-    @PostMapping("/add")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> createIsiInformasiKeterangan(@RequestBody IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
+    @PostMapping(value = "/add", consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> createIsiInformasiKeterangan(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, @RequestPart("upload")MultipartFile multipartFile) {
         CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO savedDTO = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO);
+            IsiInformasiKeteranganDTO savedDTO = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
             response.setData(savedDTO);
@@ -57,11 +58,11 @@ public class IsiInformasiKeteranganController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> updateIsiInformasiKeterangan(@PathVariable("id") Long id, @RequestBody IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> updateIsiInformasiKeterangan(@PathVariable("id") Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, @RequestPart("upload") MultipartFile multipartFile) {
         CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO updatedDTO = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO);
+            IsiInformasiKeteranganDTO updatedDTO = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(updatedDTO);
