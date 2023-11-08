@@ -90,6 +90,11 @@ public class BeritaService {
         return berita;
     }
 
+    public List<Berita> arsip(String bulan){
+        return beritaDao.find(bulan);
+    }
+
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());
