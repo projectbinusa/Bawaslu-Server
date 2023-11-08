@@ -181,4 +181,23 @@ public class BeritaController {
         }
     }
 
+    @RequestMapping(value = "/berita/{id}", method = RequestMethod.GET)
+    public ResponseEntity<CommonResponse<Berita>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+        CommonResponse<Berita> response = new CommonResponse<>();
+        try {
+            Berita berita1 = beritaService.getBeritaById(id);
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(berita1);
+            response.setMessage("Berita get successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to get berita: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
