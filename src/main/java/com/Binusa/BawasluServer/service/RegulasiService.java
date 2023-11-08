@@ -1,8 +1,9 @@
 package com.Binusa.BawasluServer.service;
 
-import com.Binusa.BawasluServer.DTO.BeritaDTO;
-import com.Binusa.BawasluServer.model.Berita;
-import com.Binusa.BawasluServer.repository.BeritaRepository;
+import com.Binusa.BawasluServer.DTO.RegulasiDTO;
+import com.Binusa.BawasluServer.model.Regulasi;
+import com.Binusa.BawasluServer.repository.MenuRegulasiRepository;
+import com.Binusa.BawasluServer.repository.RegulasiRepository;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobId;
@@ -24,78 +25,63 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
-public class BeritaService {
+public class RegulasiService {
+    @Autowired
+    private RegulasiRepository regulasiRepository;
 
     @Autowired
-    private BeritaRepository beritaDao;
+    private MenuRegulasiRepository menuRegulasiRepository;
+
     private long id;
 
-    public BeritaService() {
+    public RegulasiService() {
     }
 
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.firebaseapp.com/o/%s?alt=media";
 
-    public Berita save(BeritaDTO berita, MultipartFile multipartFile) throws Exception {
-
-        Berita newBerita = new Berita();
-        String image = imageConverter(multipartFile);
-        newBerita.setAuthor(berita.getAuthor());
-        newBerita.setJudulBerita(berita.getJudulBerita());
-        newBerita.setIsiBerita(berita.getIsiBerita());
-        newBerita.setImage(image);
-
-        return beritaDao.save(newBerita);
+    public Regulasi save(RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
+        Regulasi regulasi = new Regulasi();
+        regulasi.setMenuRegulasi(menuRegulasiRepository.findById(regulasiDTO.getMenuRegulasi()));
+        regulasi.setDokumen(regulasiDTO.getDokumen());
+        regulasi.setPdfDokumen(uploadPdf(multipartFile));
+        return regulasiRepository.save(regulasi);
     }
 
-    public Optional<Berita> findById(Long id) {
-        return Optional.ofNullable(beritaDao.findById(id));
+    public Optional<Regulasi> findById(Long id) {
+        return Optional.ofNullable(regulasiRepository.findById(id));
     }
 
-    public List<Berita> findAll() {
-        List<Berita> berita = new ArrayList<>();
-        beritaDao.findAll().forEach(berita::add);
-        return berita;
+    public List<Regulasi> findAll() {
+        List<Regulasi> regulasis = new ArrayList<>();
+        regulasiRepository.findAll().forEach(regulasis::add);
+        return regulasis;
     }
-
 
     public void delete(Long id) {
-        Berita berita = beritaDao.findById(id);
-        beritaDao.delete(berita);
+        Regulasi regulasi = regulasiRepository.findById(id);
+        regulasiRepository.delete(regulasi);
     }
 
-
-    public Berita update(Long id, BeritaDTO beritaDTO, MultipartFile multipartFile) throws Exception {
-        Berita berita = beritaDao.findById(id);
-        String image = imageConverter(multipartFile);
-        berita.setJudulBerita(berita.getJudulBerita());
-        berita.setIsiBerita(beritaDTO.getIsiBerita());
-        berita.setAuthor(beritaDTO.getAuthor());
-        berita.setImage(image);
-        return beritaDao.save(berita);
+    public Regulasi update(Long id, RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
+        Regulasi regulasi = regulasiRepository.findById(id);
+        regulasi.setMenuRegulasi(menuRegulasiRepository.findById(regulasiDTO.getMenuRegulasi()));
+        regulasi.setDokumen(regulasiDTO.getDokumen());
+        regulasi.setPdfDokumen(uploadPdf(multipartFile));
+        return regulasiRepository.save(regulasi);
     }
 
-    public List<Berita> beritaTerbaru(){
-        return beritaDao.findFirst5ByOrderByUpdatedDateDesc();
+    public Regulasi getById(Long id) throws Exception{
+        Regulasi regulasi = regulasiRepository.findById(id);
+        if(regulasi == null) throw new Exception("Menu regulasi not found!");
+        return regulasi;
     }
 
-    public List<Berita> searchBerita(String judul) {
-        return beritaDao.findByJudulBerita(judul);
+    public List<Regulasi> allByMenuRegulasi(Long id) {
+        return regulasiRepository.getByMenuRegulasi(id);
     }
 
-    public Berita getBeritaById(Long id) throws Exception {
-        Berita berita = beritaDao.findById(id);
-        if (berita == null) throw new Exception("Berita not found!!!");
-        return berita;
-    }
-
-    public List<Berita> arsip(String bulan){
-        return beritaDao.find(bulan);
-    }
-
-
-    private String imageConverter(MultipartFile multipartFile) throws Exception {
+    private String uploadPdf(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());
             File file = convertFile(multipartFile, fileName);
@@ -123,11 +109,10 @@ public class BeritaService {
 
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("application/pdf").build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/bawaslu-firebase.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
-
 }

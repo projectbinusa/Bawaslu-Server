@@ -39,7 +39,7 @@ public class PermohonanKeberatanService {
         PermohonanKeberatan permohonanKeberatan = new PermohonanKeberatan();
         String image = imageConverter(multipartFile);
         permohonanKeberatan.setAlamat(permohonanKeberatanDTO.getAlamat());
-        permohonanKeberatan.setAlasan(permohonanKeberatan.getAlasan());
+        permohonanKeberatan.setAlasan(permohonanKeberatanDTO.getAlasan());
         permohonanKeberatan.setEmail(permohonanKeberatanDTO.getEmail());
         permohonanKeberatan.setJenisIdentitas(permohonanKeberatanDTO.getJenisIdentitas());
         permohonanKeberatan.setKasusPosisi(permohonanKeberatanDTO.getKasusPosisi());
