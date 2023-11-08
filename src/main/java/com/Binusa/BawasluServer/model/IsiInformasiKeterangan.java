@@ -9,6 +9,8 @@ public class IsiInformasiKeterangan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String dokumen;
+    @Lob
+    private String pdfDokumen;
 
     @ManyToOne
     @JoinColumn(name = "jenis_keterangan_id")
@@ -36,6 +38,14 @@ public class IsiInformasiKeterangan {
 
     public void setJenisKeterangan(JenisKeterangan jenisKeterangan) {
         this.jenisKeterangan = jenisKeterangan;
+    }
+
+    public String getPdfDokumen() {
+        return pdfDokumen;
+    }
+
+    public void setPdfDokumen(String pdfDokumen) {
+        this.pdfDokumen = pdfDokumen;
     }
 }
 
