@@ -154,4 +154,31 @@ public class BeritaController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/berita/arsip", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<Berita>>> listBeritaArsip(@RequestParam("bulan") String bulan) throws SQLException, ClassNotFoundException {
+        CommonResponse<List<Berita>> response = new CommonResponse<>();
+        try {
+            List<Berita> berita = beritaService.arsip(bulan);
+            if(berita.isEmpty()) {
+                response.setStatus("not found");
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setData(null);
+                response.setMessage("Berita list not found");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(berita);
+            response.setMessage("Berita list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve berita list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

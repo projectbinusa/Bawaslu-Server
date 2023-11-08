@@ -55,7 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             // API controller
-            "/login", "/register", "/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add"
+            "/login", "/register", "/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add",
+            "/bawaslu/api/berita-terbaru", "/bawaslu/api/berita/search", "/bawaslu/api/berita/arsip"
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
