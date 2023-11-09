@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/menu-regulasi")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MenuRegulasiController {
     @Autowired
     private MenuRegulasiService menuRegulasiService;

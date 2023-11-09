@@ -14,7 +14,7 @@ public class Regulasi extends DateConfig {
     private String dokumen;
     @Lob
     private String pdfDokumen;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "menu_regulasi")
     private MenuRegulasi menuRegulasi;
 

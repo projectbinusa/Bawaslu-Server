@@ -60,7 +60,7 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    @RequestMapping(value = "/berita/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Berita>> updateBerita(@PathVariable("id") long id, BeritaDTO berita, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {
@@ -91,7 +91,7 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/berita/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<CommonResponse<String>> deleteberita(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
@@ -181,7 +181,7 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/berita/get/{id}", method = RequestMethod.GET)
     public ResponseEntity<CommonResponse<Berita>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {
@@ -198,6 +198,14 @@ public class BeritaController {
             response.setMessage("Failed to get berita: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping("/berita/{tags}/in/{berita}")
+    public Berita addTags(
+            @PathVariable Long tags,
+            @PathVariable Long berita
+    ) {
+        return beritaService.tagsInBerita(tags, berita);
     }
 
 }

@@ -2,7 +2,9 @@ package com.Binusa.BawasluServer.service;
 
 import com.Binusa.BawasluServer.DTO.BeritaDTO;
 import com.Binusa.BawasluServer.model.Berita;
+import com.Binusa.BawasluServer.model.Tags;
 import com.Binusa.BawasluServer.repository.BeritaRepository;
+import com.Binusa.BawasluServer.repository.TagsRepository;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobId;
@@ -23,6 +25,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -30,6 +33,10 @@ public class BeritaService {
 
     @Autowired
     private BeritaRepository beritaDao;
+
+    @Autowired
+    private TagsRepository tagsRepository;
+
     private long id;
 
     public BeritaService() {
@@ -92,6 +99,16 @@ public class BeritaService {
 
     public List<Berita> arsip(String bulan){
         return beritaDao.find(bulan);
+    }
+
+    public Berita tagsInBerita(Long beritaId, Long tagsId) {
+        Set<Tags> tagsSet = null;
+        Berita berita = beritaDao.findById(beritaId);
+        Tags tags = tagsRepository.findById(tagsId);
+        tagsSet = berita.getTagsBerita();
+        tagsSet.add(tags);
+        berita.setTagsBerita(tagsSet);
+        return beritaDao.save(berita);
     }
 
 

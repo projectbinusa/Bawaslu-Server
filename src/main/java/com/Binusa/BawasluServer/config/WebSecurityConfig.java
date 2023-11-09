@@ -59,7 +59,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/berita-terbaru", "/bawaslu/api/berita/search", "/bawaslu/api/berita/arsip",
             "/bawaslu/api/jenis-regulasi/all", "/bawaslu/api/jenis-regulasi/get-by-id",
             "/bawaslu/api/menu-regulasi/all", "/bawaslu/api/menu-regulasi/get-by-jenis-regulasi",
-            "/bawaslu/api/regulasi/all", "/bawaslu/api/regulasi/get-by-menu-regulasi"
+            "/bawaslu/api/menu-regulasi/get",
+            "/bawaslu/api/regulasi/all", "/bawaslu/api/regulasi/get-by-menu-regulasi",
+            "/bawaslu/api/regulasi/get",
+            "/bawaslu/api/berita/get"
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
