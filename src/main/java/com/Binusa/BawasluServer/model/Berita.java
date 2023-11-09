@@ -5,7 +5,9 @@ import com.Binusa.BawasluServer.auditing.DateConfig;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "berita")
@@ -20,9 +22,19 @@ public class Berita extends DateConfig {
     @Lob
     private String image;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "berita", cascade = CascadeType.REMOVE)
-    private List<Tags> tags;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, targetEntity = Tags.class)
+    @JoinTable(name = "tags_berita",
+            joinColumns = @JoinColumn(name = "tags_id", nullable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "berita_id", nullable = false, updatable = false),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    private Set<Tags> tagsBerita = new HashSet<>();
+
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "berita", cascade = CascadeType.REMOVE)
+//    private List<Tags> tags;
 
     public Berita() {
     }
@@ -67,11 +79,11 @@ public class Berita extends DateConfig {
         this.image = image;
     }
 
-    public List<Tags> getTags() {
-        return tags;
+    public Set<Tags> getTagsBerita() {
+        return tagsBerita;
     }
 
-    public void setTags(List<Tags> tags) {
-        this.tags = tags;
+    public void setTagsBerita(Set<Tags> tagsBerita) {
+        this.tagsBerita = tagsBerita;
     }
 }

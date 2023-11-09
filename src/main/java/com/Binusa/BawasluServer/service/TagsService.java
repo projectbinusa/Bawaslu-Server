@@ -25,10 +25,9 @@ public class TagsService {
     public TagsService() {
     }
 
-    public Tags save(TagsDTO tagss, Berita berita) {
+    public Tags save(TagsDTO tagss) {
         Tags tags = new Tags();
         tags.setTags(tagss.getTags());
-        tags.setBerita(berita);
         return tagsRepository.save(tags);
     }
 

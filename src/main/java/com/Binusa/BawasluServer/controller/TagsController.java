@@ -29,8 +29,8 @@ public class TagsController {
     public ResponseEntity<CommonResponse<Tags>> createTags(@RequestBody TagsDTO tags) throws SQLException, ClassNotFoundException {
         CommonResponse<Tags> response = new CommonResponse<>();
         try {
-            Berita berita = beritaService.getBeritaById(tags.getBeritaId());
-            Tags tags1 = tagsService.save(tags, berita);
+//            Berita berita = beritaService.getBeritaById(tags.getBeritaId());
+            Tags tags1 = tagsService.save(tags);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
             response.setData(tags1);
