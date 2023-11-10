@@ -22,4 +22,7 @@ public interface BeritaRepository extends CrudRepository<Berita, Integer> {
 
     @Query("SELECT p FROM Berita p WHERE DATE_FORMAT(p.createdDate, '%Y-%m') LIKE CONCAT('%', :bulan, '%')")
     List<Berita> find(String bulan);
+
+    @Query(value = "SELECT * FROM berita t1 INNER JOIN tags_berita t2 ON t1.id = t2.berita_id WHERE t2.tags_id = :tags ", nativeQuery = true)
+    List<Berita> getAllByTags(@Param("tags") Long tagsId);
 }

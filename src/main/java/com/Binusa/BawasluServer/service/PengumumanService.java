@@ -80,6 +80,9 @@ public class PengumumanService {
         return pengumumanRepository.save(pengumuman);
     }
 
+    public List<Pengumuman> searchPengumuman(String judul) {
+        return pengumumanRepository.findByJudulPengumuman(judul);
+    }
 
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
