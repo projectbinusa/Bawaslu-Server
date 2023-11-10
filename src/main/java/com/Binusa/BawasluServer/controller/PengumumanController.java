@@ -109,4 +109,30 @@ public class PengumumanController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/pengumuman/search", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<Pengumuman>>> searchPengumuman(@RequestParam("search") String judul) {
+        CommonResponse<List<Pengumuman>> response = new CommonResponse<>();
+        try {
+            List<Pengumuman> pengumumans = pengumumanService.searchPengumuman(judul);
+            if(pengumumans.isEmpty()) {
+                response.setStatus("not found");
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setData(null);
+                response.setMessage("Pengumuman list not found");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(pengumumans);
+            response.setMessage("Pengumuman list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve pengumuman list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

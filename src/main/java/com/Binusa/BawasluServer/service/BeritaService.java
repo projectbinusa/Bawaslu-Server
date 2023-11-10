@@ -111,6 +111,11 @@ public class BeritaService {
         return beritaDao.save(berita);
     }
 
+    public List<Berita> getByTags(Long tagsId) {
+        return beritaDao.getAllByTags(tagsId);
+    }
+
+
 
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
