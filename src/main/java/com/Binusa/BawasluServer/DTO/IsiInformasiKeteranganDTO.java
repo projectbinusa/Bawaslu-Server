@@ -19,4 +19,5 @@ public class IsiInformasiKeteranganDTO {
     public void setDokumen(String dokumen) {
         this.dokumen = dokumen;
     }
+
 }

@@ -1,15 +1,11 @@
 package com.Binusa.BawasluServer.controller;
 
 import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
-import com.Binusa.BawasluServer.model.JenisKeterangan;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.JenisKeteranganService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/jenisketerangan")

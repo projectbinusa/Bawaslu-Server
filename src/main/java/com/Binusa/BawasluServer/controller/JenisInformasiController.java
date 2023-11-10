@@ -2,7 +2,6 @@ package com.Binusa.BawasluServer.controller;
 
 import com.Binusa.BawasluServer.DTO.JenisInformasiDTO;
 import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
-import com.Binusa.BawasluServer.model.JenisInformasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.JenisInformasiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("bawaslu/api/jenisinformasi")
@@ -19,6 +17,26 @@ public class JenisInformasiController {
 
     @Autowired
     private JenisInformasiService jenisInformasiService;
+
+    @GetMapping("/all")
+    public ResponseEntity<CommonResponse<List<JenisInformasiDTO>>> getAllJenisInformasi() {
+        CommonResponse<List<JenisInformasiDTO>> response = new CommonResponse<>();
+        List<JenisInformasiDTO> jenisInformasiDTOList = jenisInformasiService.getAllJenisInformasi();
+
+        if (!jenisInformasiDTOList.isEmpty()) {
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(jenisInformasiDTOList);
+            response.setMessage("All Jenis Informasi retrieved successfully.");
+        } else {
+            response.setStatus("error");
+            response.setCode(HttpStatus.NOT_FOUND.value());
+            response.setData(null);
+            response.setMessage("No Jenis Informasi found.");
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<CommonResponse<JenisInformasiDTO>> createJenisInformasi(@RequestBody JenisInformasiDTO jenisInformasiDTO) {

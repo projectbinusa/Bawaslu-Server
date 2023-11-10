@@ -31,6 +31,4 @@ public class JenisInformasiDTO {
     public void setJenisKeteranganList(List<JenisKeteranganDTO> jenisKeteranganList) {
         this.jenisKeteranganList = jenisKeteranganList;
     }
-
-    // Constructors, getters, and setters
 }

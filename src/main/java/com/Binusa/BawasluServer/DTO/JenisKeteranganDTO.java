@@ -5,8 +5,8 @@ import java.util.List;
 public class JenisKeteranganDTO {
     private Long id;
     private String nama_keterangan;
-    private JenisInformasiDTO jenisInformasi;
-    private List<IsiInformasiKeteranganDTO> isiInformasiKeteranganList;
+    private List<IsiInformasiKeteranganDTO> isiInformasiKeteranganDTOList;
+
 
     public Long getId() {
         return id;
@@ -24,19 +24,11 @@ public class JenisKeteranganDTO {
         this.nama_keterangan = nama_keterangan;
     }
 
-    public JenisInformasiDTO getJenisInformasi() {
-        return jenisInformasi;
+    public List<IsiInformasiKeteranganDTO> getIsiInformasiKeteranganDTOList() {
+        return isiInformasiKeteranganDTOList;
     }
 
-    public void setJenisInformasi(JenisInformasiDTO jenisInformasi) {
-        this.jenisInformasi = jenisInformasi;
-    }
-
-    public List<IsiInformasiKeteranganDTO> getIsiInformasiKeteranganList() {
-        return isiInformasiKeteranganList;
-    }
-
-    public void setIsiInformasiKeteranganList(List<IsiInformasiKeteranganDTO> isiInformasiKeteranganList) {
-        this.isiInformasiKeteranganList = isiInformasiKeteranganList;
+    public void setIsiInformasiKeteranganDTOList(List<IsiInformasiKeteranganDTO> isiInformasiKeteranganDTOList) {
+        this.isiInformasiKeteranganDTOList = isiInformasiKeteranganDTOList;
     }
 }

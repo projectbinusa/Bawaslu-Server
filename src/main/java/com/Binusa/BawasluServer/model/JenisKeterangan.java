@@ -15,8 +15,9 @@ public class JenisKeterangan {
     @JoinColumn(name = "jenis_informasi_id")
     private JenisInformasi jenisInformasi;
 
-    @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IsiInformasiKeterangan> isiInformasiKeteranganList;
+
 
     public Long getId() {
         return id;

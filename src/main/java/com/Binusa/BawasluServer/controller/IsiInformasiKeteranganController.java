@@ -20,11 +20,34 @@ public class IsiInformasiKeteranganController {
     @Autowired
     private IsiInformasiKeteranganService isiInformasiKeteranganService;
 
+    @GetMapping("/all")
+    public ResponseEntity<CommonResponse<List<IsiInformasiKeteranganDTO>>>getAllIsiInformasiKeterangan() {
+        CommonResponse<List<IsiInformasiKeteranganDTO>> response = new CommonResponse<>();
+        List<IsiInformasiKeteranganDTO> isiInformasiKeteranganDTOList = isiInformasiKeteranganService.getAllIsiInformasiKeterangan();
+
+        if (!isiInformasiKeteranganDTOList.isEmpty()) {
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(isiInformasiKeteranganDTOList);
+            response.setMessage("All Isi Informasi Keterangan retrieved successfully.");
+        } else {
+            response.setStatus("error");
+            response.setCode(HttpStatus.NOT_FOUND.value());
+            response.setData(null);
+            response.setMessage("No Isi Informasi Keterangan found.");
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/add", consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> createIsiInformasiKeterangan(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, @RequestPart("upload")MultipartFile multipartFile) {
+    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> createIsiInformasiKeterangan(
+            IsiInformasiKeteranganDTO isiInformasiKeteranganDTO,
+            @RequestPart("upload") MultipartFile multipartFile,
+            @RequestParam("jenisKeteranganId") Long jenisKeteranganId) {
         CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO savedDTO = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO, multipartFile);
+            IsiInformasiKeteranganDTO savedDTO = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO, multipartFile, jenisKeteranganId);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
             response.setData(savedDTO);
@@ -38,6 +61,7 @@ public class IsiInformasiKeteranganController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> getIsiInformasiKeterangan(@PathVariable("id") Long id) {
@@ -59,10 +83,14 @@ public class IsiInformasiKeteranganController {
     }
 
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> updateIsiInformasiKeterangan(@PathVariable("id") Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, @RequestPart("upload") MultipartFile multipartFile) {
+    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> updateIsiInformasiKeterangan(
+            @PathVariable("id") Long id,
+            IsiInformasiKeteranganDTO isiInformasiKeteranganDTO,
+            @RequestPart("upload") MultipartFile multipartFile,
+            @RequestParam("jenisKeteranganId") Long jenisKeteranganId) {
         CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO updatedDTO = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO, multipartFile);
+            IsiInformasiKeteranganDTO updatedDTO = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO, multipartFile, jenisKeteranganId);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(updatedDTO);
@@ -76,6 +104,8 @@ public class IsiInformasiKeteranganController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CommonResponse<String>> deleteIsiInformasiKeterangan(@PathVariable("id") Long id) {

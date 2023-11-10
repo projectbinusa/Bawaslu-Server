@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class JenisInformasiService {
@@ -24,6 +23,21 @@ public class JenisInformasiService {
 
     @Autowired
     private JenisKeteranganRepository jenisKeteranganRepository;
+
+    public List<JenisInformasiDTO> getAllJenisInformasi() {
+        List<JenisInformasi> jenisInformasiList = jenisInformasiRepository.findAll();
+        List<JenisInformasiDTO> jenisInformasiDTOList = new ArrayList<>();
+
+        for (JenisInformasi jenisInformasi : jenisInformasiList) {
+            JenisInformasiDTO jenisInformasiDTO = new JenisInformasiDTO();
+            jenisInformasiDTO.setId(jenisInformasi.getId());
+            jenisInformasiDTO.setNama_jenis(jenisInformasi.getNama_jenis());
+            // Set other properties if needed
+            jenisInformasiDTOList.add(jenisInformasiDTO);
+        }
+
+        return jenisInformasiDTOList;
+    }
 
     public JenisInformasiDTO save(JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = new JenisInformasi();
@@ -44,6 +58,10 @@ public class JenisInformasiService {
         jenisInformasiDTO.setId(jenisInformasi.getId());
         jenisInformasiDTO.setNama_jenis(jenisInformasi.getNama_jenis());
 
+        // Isi jenisKeteranganList dengan data yang sesuai
+        List<JenisKeteranganDTO> jenisKeteranganDTOList = convertToDTO(jenisInformasi.getJenisKeteranganList());
+        jenisInformasiDTO.setJenisKeteranganList(jenisKeteranganDTOList);
+
         return jenisInformasiDTO;
     }
 
@@ -58,7 +76,7 @@ public class JenisInformasiService {
                 JenisInformasiDTO jenisInformasiDTO = new JenisInformasiDTO();
                 jenisInformasiDTO.setId(jenisKeterangan.getJenisInformasi().getId());
                 jenisInformasiDTO.setNama_jenis(jenisKeterangan.getJenisInformasi().getNama_jenis());
-                jenisKeteranganDTO.setJenisInformasi(jenisInformasiDTO);
+
             }
 
             jenisKeteranganDTOList.add(jenisKeteranganDTO);
@@ -75,7 +93,6 @@ public class JenisInformasiService {
         return jenisKeteranganDTOList;
     }
 
-
     public JenisInformasiDTO update(Long id, JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = jenisInformasiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("JenisInformasi not found with id: " + id));
@@ -90,7 +107,9 @@ public class JenisInformasiService {
         updatedDTO.setId(updatedJenisInformasi.getId());
         updatedDTO.setNama_jenis(updatedJenisInformasi.getNama_jenis());
 
-        updatedDTO.setJenisKeteranganList(null);
+        // Isi jenisKeteranganList dengan data yang sesuai
+        List<JenisKeteranganDTO> jenisKeteranganDTOList = convertToDTO(updatedJenisInformasi.getJenisKeteranganList());
+        updatedDTO.setJenisKeteranganList(jenisKeteranganDTOList);
 
         CommonResponse<JenisInformasiDTO> response = new CommonResponse<>();
         response.setStatus("success");
@@ -100,6 +119,7 @@ public class JenisInformasiService {
 
         return updatedDTO;
     }
+
 
 
     public void delete(Long id) {
