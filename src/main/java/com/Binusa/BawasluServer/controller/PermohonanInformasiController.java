@@ -60,7 +60,7 @@ public class PermohonanInformasiController {
     }
 
     @RequestMapping(value = "/permohonan-informasi/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<PermohonanInformasi>> updatePermohonanInformasi(@PathVariable("id") long id, PermohonanInformasiDTO permohonanInformasiDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<PermohonanInformasi>> updatePermohonanInformasi(@PathVariable("id") Long id, PermohonanInformasiDTO permohonanInformasiDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanInformasi> response = new CommonResponse<>();
         try {
             Optional<PermohonanInformasi> currentPermohonanInformasi = permohonanInformasiService.findById(id);
@@ -108,4 +108,24 @@ public class PermohonanInformasiController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/permohonan-informasi/get/{id}", method = RequestMethod.GET)
+    public ResponseEntity<CommonResponse<PermohonanInformasi>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+        CommonResponse<PermohonanInformasi> response = new CommonResponse<>();
+        try {
+            PermohonanInformasi permohonanInformasi = permohonanInformasiService.getPermohonanKeberatanById(id);
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(permohonanInformasi);
+            response.setMessage("Permohonan informasi get successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to get permohonan informasi : " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

@@ -61,7 +61,7 @@ public class BeritaController {
     }
 
     @RequestMapping(value = "/berita/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<Berita>> updateBerita(@PathVariable("id") long id, BeritaDTO berita, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<Berita>> updateBerita(@PathVariable("id") Long id, BeritaDTO berita, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {
             Optional<Berita> currentBerita = beritaService.findById(id);
@@ -213,6 +213,32 @@ public class BeritaController {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
             List<Berita> beritas = beritaService.getByTags(tagsId);
+            if(beritas.isEmpty()) {
+                response.setStatus("not found");
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setData(null);
+                response.setMessage("Berita list not found");
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(beritas);
+            response.setMessage("Berita list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve berita list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/berita/by-category", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<Berita>>> allByCategory(@RequestParam("categoryId") Long categoryId) {
+        CommonResponse<List<Berita>> response = new CommonResponse<>();
+        try {
+            List<Berita> beritas = beritaService.getByCategory(categoryId);
             if(beritas.isEmpty()) {
                 response.setStatus("not found");
                 response.setCode(HttpStatus.NOT_FOUND.value());

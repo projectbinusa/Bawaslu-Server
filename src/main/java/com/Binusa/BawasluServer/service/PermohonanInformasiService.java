@@ -88,6 +88,13 @@ public class PermohonanInformasiService {
         return permohonanInformasiRepository.save(permohonanInformasi);
     }
 
+    public PermohonanInformasi getPermohonanKeberatanById(Long id) throws Exception {
+        PermohonanInformasi permohonanInformasi = permohonanInformasiRepository.findById(id);
+        if (permohonanInformasi == null) throw new Exception("Berita not found!!!");
+        return permohonanInformasi;
+    }
+
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());

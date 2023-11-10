@@ -60,7 +60,7 @@ public class RegulasiController {
     }
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<Regulasi>> updateRegulasi(@PathVariable("id") long id, RegulasiDTO regulasiDTO, @RequestPart("upload")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<Regulasi>> updateRegulasi(@PathVariable("id") Long id, RegulasiDTO regulasiDTO, @RequestPart("upload")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Regulasi> response = new CommonResponse<>();
         try {
             Optional<Regulasi> currentRegulasi = regulasiService.findById(id);

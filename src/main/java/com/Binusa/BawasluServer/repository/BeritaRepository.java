@@ -25,4 +25,7 @@ public interface BeritaRepository extends CrudRepository<Berita, Integer> {
 
     @Query(value = "SELECT * FROM berita t1 INNER JOIN tags_berita t2 ON t1.id = t2.berita_id WHERE t2.tags_id = :tags ", nativeQuery = true)
     List<Berita> getAllByTags(@Param("tags") Long tagsId);
+
+    @Query(value = "SELECT * FROM berita  WHERE category_id = :categoryId", nativeQuery = true)
+    List<Berita> getAllByCategory(Long categoryId);
 }

@@ -55,14 +55,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             // API controller
-            "/login", "/register", "/bawaslu/api/berita","/bawaslu/api/pengumuman", "/bawaslu/api/permohonan-informasi/add", "/bawaslu/api/permohonan-keberatan/add",
-            "/bawaslu/api/berita-terbaru", "/bawaslu/api/berita/search", "/bawaslu/api/berita/arsip",
-            "/bawaslu/api/jenis-regulasi/all", "/bawaslu/api/jenis-regulasi/get-by-id",
-            "/bawaslu/api/menu-regulasi/all", "/bawaslu/api/menu-regulasi/get-by-jenis-regulasi",
+            "/login", "/register",
+            "/bawaslu/api/berita",
+            "/bawaslu/api/pengumuman",
+            "/bawaslu/api/permohonan-informasi/add",
+            "/bawaslu/api/permohonan-keberatan/add",
+            "/bawaslu/api/berita-terbaru",
+            "/bawaslu/api/berita/search",
+            "/bawaslu/api/berita/arsip",
+            "/bawaslu/api/jenis-regulasi/all",
+            "/bawaslu/api/jenis-regulasi/get-by-id",
+            "/bawaslu/api/menu-regulasi/all",
+            "/bawaslu/api/menu-regulasi/get-by-jenis-regulasi",
             "/bawaslu/api/menu-regulasi/get",
-            "/bawaslu/api/regulasi/all", "/bawaslu/api/regulasi/get-by-menu-regulasi",
+            "/bawaslu/api/regulasi/all",
+            "/bawaslu/api/regulasi/get-by-menu-regulasi",
             "/bawaslu/api/regulasi/get",
-            "/bawaslu/api/berita/get"
+            "/bawaslu/api/berita/get",
+            "/bawaslu/api/category-berita/all",
+            "/bawaslu/api/category-berita/get",
+            "/bawaslu/api/berita/by-category",
+            "/bawaslu/api/berita/by-tags"
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
@@ -77,6 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/jenis-regulasi/**",
             "/bawaslu/api/menu-regulasi/**",
             "/bawaslu/api/regulasi/**",
+            "/bawaslu/api/category-berita/**",
     };
 
     @Override

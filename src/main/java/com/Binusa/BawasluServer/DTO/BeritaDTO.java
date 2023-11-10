@@ -7,6 +7,7 @@ public class BeritaDTO {
     private String author;
     private String tags;
     private String isiBerita;
+    private Long categoryId;
     public long getId() {
         return id;
     }
@@ -45,5 +46,13 @@ public class BeritaDTO {
 
     public void setIsiBerita(String isiBerita) {
         this.isiBerita = isiBerita;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

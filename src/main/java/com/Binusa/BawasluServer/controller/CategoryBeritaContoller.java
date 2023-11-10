@@ -1,8 +1,8 @@
 package com.Binusa.BawasluServer.controller;
 
-import com.Binusa.BawasluServer.model.JenisRegulasi;
+import com.Binusa.BawasluServer.model.CategoryBerita;
 import com.Binusa.BawasluServer.response.CommonResponse;
-import com.Binusa.BawasluServer.service.JenisRegulasiService;
+import com.Binusa.BawasluServer.service.CategoryBeritaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,115 +13,117 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bawaslu/api/jenis-regulasi")
+@RequestMapping("/bawaslu/api/category-berita")
 @CrossOrigin(origins = "http://localhost:3000")
-public class JenisRegulasiController {
+public class CategoryBeritaContoller {
     @Autowired
-    private JenisRegulasiService jenisRegulasiService;
+    private CategoryBeritaService categoryBeritaService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CommonResponse<JenisRegulasi>> addJenisRegulasi(@RequestBody JenisRegulasi jenisRegulasi) {
-        CommonResponse<JenisRegulasi> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<CategoryBerita>> createCategoryBerita(@RequestBody CategoryBerita categoryBerita) throws SQLException, ClassNotFoundException {
+        CommonResponse<CategoryBerita> response = new CommonResponse<>();
         try {
-            JenisRegulasi jenisRegulasi1 = jenisRegulasiService.save(jenisRegulasi);
+            CategoryBerita berita1 = categoryBeritaService.save(categoryBerita);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
-            response.setData(jenisRegulasi1);
-            response.setMessage("Jenis regulasi created successfully.");
+            response.setData(berita1);
+            response.setMessage("Category berita created successfully.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             response.setStatus("error");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
-            response.setMessage("Failed to create jenis regulasi : " + e.getMessage());
+            response.setMessage("Failed to create category berita: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<JenisRegulasi>>> listAllBerita() throws SQLException, ClassNotFoundException {
-        CommonResponse<List<JenisRegulasi>> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<List<CategoryBerita>>> listAlCategoryBerita() throws SQLException, ClassNotFoundException {
+        CommonResponse<List<CategoryBerita>> response = new CommonResponse<>();
         try {
-            List<JenisRegulasi> jenisRegulasis = jenisRegulasiService.allJenisRegulasi();
+            List<CategoryBerita> categoryBeritas = categoryBeritaService.findAll();
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(jenisRegulasis);
-            response.setMessage("Jenis regulasi list retrieved successfully.");
+            response.setData(categoryBeritas);
+            response.setMessage("Category berita list retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setStatus("error");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
-            response.setMessage("Failed to retrieve jenis regulasi list: " + e.getMessage());
+            response.setMessage("Failed to retrieve category berita list: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasi jenisRegulasi) throws SQLException, ClassNotFoundException {
-        CommonResponse<JenisRegulasi> response = new CommonResponse<>();
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<CommonResponse<CategoryBerita>> updateCategoryBerita(@PathVariable("id") Long id, @RequestBody CategoryBerita categoryBerita) throws SQLException, ClassNotFoundException {
+        CommonResponse<CategoryBerita> response = new CommonResponse<>();
         try {
-            Optional<JenisRegulasi> currentJenisRegulasi = jenisRegulasiService.findById(id);
-            if (!currentJenisRegulasi.isPresent()) {
+            Optional<CategoryBerita> currentCategoryBerita = categoryBeritaService.findById(id);
+
+            if (!currentCategoryBerita.isPresent()) {
                 response.setStatus("error");
                 response.setCode(HttpStatus.NOT_FOUND.value());
                 response.setData(null);
-                response.setMessage("Jenis regulasi with id " + id + " not found.");
+                response.setMessage("Category berita with id " + id + " not found.");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
 
-//            // Update berita here...
+            // Update berita here...
 
-            JenisRegulasi jenisRegulasi1 = jenisRegulasiService.update(id, jenisRegulasi);
+            CategoryBerita categoryBerita1 = categoryBeritaService.update(id, categoryBerita);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(jenisRegulasi1);
-            response.setMessage("Jenis regulasi updated successfully.");
+            response.setData(categoryBerita1);
+            response.setMessage("Category berita updated successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setStatus("error");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
-            response.setMessage("Failed to update jenis regulasi : " + e.getMessage());
+            response.setMessage("Failed to update category berita: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<CommonResponse<String>> deleteJenisRegulasi(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<String>> deletecategoryberita(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
-            jenisRegulasiService.delete(id);
+            categoryBeritaService.delete(id);
             response.setStatus("success");
             response.setCode(HttpStatus.NO_CONTENT.value());
-            response.setData("Jenis regulasi deleted successfully.");
-            response.setMessage("Jenis regulasi with id " + id + " deleted successfully.");
+            response.setData("Category berita deleted successfully.");
+            response.setMessage("Category berita with id " + id + " deleted successfully.");
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             response.setStatus("error");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
-            response.setMessage("Failed to delete jenis regulasi: " + e.getMessage());
+            response.setMessage("Failed to delete category berita: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(value = "/get-by-id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<CommonResponse<JenisRegulasi>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
-        CommonResponse<JenisRegulasi> response = new CommonResponse<>();
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public ResponseEntity<CommonResponse<CategoryBerita>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+        CommonResponse<CategoryBerita> response = new CommonResponse<>();
         try {
-            JenisRegulasi jenisRegulasi = jenisRegulasiService.getJenisRegulasiById(id);
+            CategoryBerita categoryBerita = categoryBeritaService.getById(id);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(jenisRegulasi);
-            response.setMessage("Jenis regulasi get successfully.");
+            response.setData(categoryBerita);
+            response.setMessage("Category berita get successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setStatus("error");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
-            response.setMessage("Failed to get jenis regulasi : " + e.getMessage());
+            response.setMessage("Failed to get category berita: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

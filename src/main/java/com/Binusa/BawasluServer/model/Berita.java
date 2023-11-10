@@ -2,11 +2,9 @@ package com.Binusa.BawasluServer.model;
 
 
 import com.Binusa.BawasluServer.auditing.DateConfig;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,10 +29,9 @@ public class Berita extends DateConfig {
     )
     private Set<Tags> tagsBerita = new HashSet<>();
 
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "berita", cascade = CascadeType.REMOVE)
-//    private List<Tags> tags;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "category_id")
+    private CategoryBerita categoryBerita;
 
     public Berita() {
     }
@@ -85,5 +82,13 @@ public class Berita extends DateConfig {
 
     public void setTagsBerita(Set<Tags> tagsBerita) {
         this.tagsBerita = tagsBerita;
+    }
+
+    public CategoryBerita getCategoryBerita() {
+        return categoryBerita;
+    }
+
+    public void setCategoryBerita(CategoryBerita categoryBerita) {
+        this.categoryBerita = categoryBerita;
     }
 }
