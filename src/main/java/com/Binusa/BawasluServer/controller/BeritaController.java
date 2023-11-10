@@ -205,7 +205,7 @@ public class BeritaController {
             @PathVariable Long tags,
             @PathVariable Long berita
     ) {
-        return beritaService.tagsInBerita(tags, berita);
+        return beritaService.tagsInBerita(berita, tags);
     }
 
     @RequestMapping(value = "/berita/by-tags", method = RequestMethod.GET, produces = "application/json")
