@@ -60,7 +60,7 @@ public class PermohonanKeberatanController {
     }
 
     @RequestMapping(value = "/permohonan-keberatan/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<PermohonanKeberatan>> updatePermohonanKeberatan(@PathVariable("id") long id, PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<PermohonanKeberatan>> updatePermohonanKeberatan(@PathVariable("id") Long id, PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanKeberatan> response = new CommonResponse<>();
         try {
             Optional<PermohonanKeberatan> currentPermohonanKeberatan = permohonanKeberatanService.findById(id);
@@ -105,6 +105,25 @@ public class PermohonanKeberatanController {
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
             response.setMessage("Failed to delete permohonan keberatan : " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/permohonan-keberatan/get/{id}", method = RequestMethod.GET)
+    public ResponseEntity<CommonResponse<PermohonanKeberatan>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+        CommonResponse<PermohonanKeberatan> response = new CommonResponse<>();
+        try {
+            PermohonanKeberatan permohonanKeberatan = permohonanKeberatanService.getPermohonanKeberatanById(id);
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(permohonanKeberatan);
+            response.setMessage("Permohonan keberatan get successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to get permohonan keberatan : " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

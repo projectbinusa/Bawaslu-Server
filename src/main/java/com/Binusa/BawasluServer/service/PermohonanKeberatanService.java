@@ -83,6 +83,12 @@ public class PermohonanKeberatanService {
         return permohonanKeberatanRepository.save(permohonanKeberatan);
     }
 
+    public PermohonanKeberatan getPermohonanKeberatanById(Long id) throws Exception {
+        PermohonanKeberatan permohonanKeberatan = permohonanKeberatanRepository.findById(id);
+        if (permohonanKeberatan == null) throw new Exception("Permohonan keberatan not found!!!");
+        return permohonanKeberatan;
+    }
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());

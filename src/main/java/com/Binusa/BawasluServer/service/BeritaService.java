@@ -4,6 +4,7 @@ import com.Binusa.BawasluServer.DTO.BeritaDTO;
 import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.model.Tags;
 import com.Binusa.BawasluServer.repository.BeritaRepository;
+import com.Binusa.BawasluServer.repository.CategoryBeritaRepository;
 import com.Binusa.BawasluServer.repository.TagsRepository;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -37,6 +38,9 @@ public class BeritaService {
     @Autowired
     private TagsRepository tagsRepository;
 
+    @Autowired
+    private CategoryBeritaRepository categoryBeritaRepository;
+
     private long id;
 
     public BeritaService() {
@@ -52,6 +56,7 @@ public class BeritaService {
         newBerita.setJudulBerita(berita.getJudulBerita());
         newBerita.setIsiBerita(berita.getIsiBerita());
         newBerita.setImage(image);
+        newBerita.setCategoryBerita(categoryBeritaRepository.findById(berita.getCategoryId()));
 
         return beritaDao.save(newBerita);
     }
@@ -80,6 +85,7 @@ public class BeritaService {
         berita.setIsiBerita(beritaDTO.getIsiBerita());
         berita.setAuthor(beritaDTO.getAuthor());
         berita.setImage(image);
+        berita.setCategoryBerita(categoryBeritaRepository.findById(beritaDTO.getCategoryId()));
         return beritaDao.save(berita);
     }
 
@@ -115,7 +121,9 @@ public class BeritaService {
         return beritaDao.getAllByTags(tagsId);
     }
 
-
+    public List<Berita> getByCategory(Long categoryId) {
+        return beritaDao.getAllByCategory(categoryId);
+    }
 
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
