@@ -16,18 +16,18 @@ import java.util.Optional;
 @RequestMapping("/bawaslu/api/isiinformasiketerangan")
 @CrossOrigin(origins = "http://localhost:3000")
 public class IsiInformasiKeteranganController {
-
     @Autowired
     private IsiInformasiKeteranganService isiInformasiKeteranganService;
 
     @PostMapping(value = "/add", consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> createIsiInformasiKeterangan(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, @RequestPart("upload")MultipartFile multipartFile) {
-        CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> createIsiInformasiKeterangan(
+            @ModelAttribute IsiInformasiKeterangan isiInformasiKeterangan, @RequestPart("upload") MultipartFile multipartFile) {
+        CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO savedDTO = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO, multipartFile);
+            IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganService.save(isiInformasiKeterangan, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
-            response.setData(savedDTO);
+            response.setData(savedIsiInformasiKeterangan);
             response.setMessage("Isi Informasi Keterangan created successfully.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -40,13 +40,13 @@ public class IsiInformasiKeteranganController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> getIsiInformasiKeterangan(@PathVariable("id") Long id) {
-        CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> getIsiInformasiKeterangan(@PathVariable("id") Long id) {
+        CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO isiInformasiKeteranganDTO = isiInformasiKeteranganService.findById(id);
+            IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganService.findById(id);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(isiInformasiKeteranganDTO);
+            response.setData(isiInformasiKeterangan);
             response.setMessage("Isi Informasi Keterangan retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -59,13 +59,14 @@ public class IsiInformasiKeteranganController {
     }
 
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganDTO>> updateIsiInformasiKeterangan(@PathVariable("id") Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, @RequestPart("upload") MultipartFile multipartFile) {
-        CommonResponse<IsiInformasiKeteranganDTO> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> updateIsiInformasiKeterangan(
+            @PathVariable("id") Long id, @ModelAttribute IsiInformasiKeterangan isiInformasiKeterangan, @RequestPart("upload") MultipartFile multipartFile) {
+        CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
         try {
-            IsiInformasiKeteranganDTO updatedDTO = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO, multipartFile);
+            IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganService.update(id, isiInformasiKeterangan, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(updatedDTO);
+            response.setData(updatedIsiInformasiKeterangan);
             response.setMessage("Isi Informasi Keterangan updated successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -95,5 +96,4 @@ public class IsiInformasiKeteranganController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

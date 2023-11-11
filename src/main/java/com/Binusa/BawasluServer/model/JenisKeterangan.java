@@ -9,14 +9,12 @@ public class JenisKeterangan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nama_keterangan;
+
+    private String keterangan;
 
     @ManyToOne
     @JoinColumn(name = "jenis_informasi_id")
     private JenisInformasi jenisInformasi;
-
-    @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<IsiInformasiKeterangan> isiInformasiKeteranganList;
 
     public Long getId() {
         return id;
@@ -26,12 +24,12 @@ public class JenisKeterangan {
         this.id = id;
     }
 
-    public String getNama_keterangan() {
-        return nama_keterangan;
+    public String getKeterangan() {
+        return keterangan;
     }
 
-    public void setNama_keterangan(String nama_keterangan) {
-        this.nama_keterangan = nama_keterangan;
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
     }
 
     public JenisInformasi getJenisInformasi() {
@@ -40,13 +38,5 @@ public class JenisKeterangan {
 
     public void setJenisInformasi(JenisInformasi jenisInformasi) {
         this.jenisInformasi = jenisInformasi;
-    }
-
-    public List<IsiInformasiKeterangan> getIsiInformasiKeteranganList() {
-        return isiInformasiKeteranganList;
-    }
-
-    public void setIsiInformasiKeteranganList(List<IsiInformasiKeterangan> isiInformasiKeteranganList) {
-        this.isiInformasiKeteranganList = isiInformasiKeteranganList;
     }
 }

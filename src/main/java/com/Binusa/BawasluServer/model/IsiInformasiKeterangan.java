@@ -14,7 +14,7 @@ public class IsiInformasiKeterangan {
 
     @ManyToOne
     @JoinColumn(name = "jenis_keterangan_id")
-    private JenisKeterangan jenisKeterangan;
+    private JenisKeterangan jenisKeteranganId;
 
     public Long getId() {
         return id;
@@ -32,12 +32,12 @@ public class IsiInformasiKeterangan {
         this.dokumen = dokumen;
     }
 
-    public JenisKeterangan getJenisKeterangan() {
-        return jenisKeterangan;
+    public JenisKeterangan getJenisKeteranganId() {
+        return jenisKeteranganId;
     }
 
-    public void setJenisKeterangan(JenisKeterangan jenisKeterangan) {
-        this.jenisKeterangan = jenisKeterangan;
+    public void setJenisKeteranganId(JenisKeterangan jenisKeteranganId) {
+        this.jenisKeteranganId = jenisKeteranganId;
     }
 
     public String getPdfDokumen() {
@@ -47,5 +47,6 @@ public class IsiInformasiKeterangan {
     public void setPdfDokumen(String pdfDokumen) {
         this.pdfDokumen = pdfDokumen;
     }
+
 }
 
