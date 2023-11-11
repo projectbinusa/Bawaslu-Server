@@ -2,6 +2,7 @@ package com.Binusa.BawasluServer.service;
 
 import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.model.CategoryBerita;
+import com.Binusa.BawasluServer.repository.BeritaRepository;
 import com.Binusa.BawasluServer.repository.CategoryBeritaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class CategoryBeritaService {
     @Autowired
     private CategoryBeritaRepository categoryBeritaRepository;
+    @Autowired
+    private BeritaRepository beritaRepository;
     private long id;
 
     public CategoryBeritaService() {
@@ -36,7 +39,16 @@ public class CategoryBeritaService {
     }
 
     public void delete(Long id) {
-        CategoryBerita categoryBerita = categoryBeritaRepository.findById(id);
+        CategoryBerita categoryBerita = categoryBeritaRepository.getById(id);
+        if (categoryBerita != null) {
+            List<Berita> relatedBeritas = beritaRepository.getAllByCategory(categoryBerita.getId());
+
+            for (Berita berita : relatedBeritas) {
+                beritaRepository.delete(berita);
+            }
+
+            categoryBeritaRepository.delete(categoryBerita);
+        }
         categoryBeritaRepository.delete(categoryBerita);
     }
 

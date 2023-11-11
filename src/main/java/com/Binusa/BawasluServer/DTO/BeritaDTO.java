@@ -5,7 +5,6 @@ public class BeritaDTO {
     private long id;
     private String judulBerita;
     private String author;
-    private String tags;
     private String isiBerita;
     private Long categoryId;
     public long getId() {
@@ -30,14 +29,6 @@ public class BeritaDTO {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public String getIsiBerita() {
