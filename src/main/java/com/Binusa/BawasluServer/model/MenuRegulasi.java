@@ -11,7 +11,7 @@ public class MenuRegulasi extends DateConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String menuRegulasi;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "jenis_regulasi_id")
     private JenisRegulasi jenisRegulasiId;
 

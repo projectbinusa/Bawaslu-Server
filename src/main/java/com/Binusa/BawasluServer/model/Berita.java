@@ -29,7 +29,7 @@ public class Berita extends DateConfig {
     )
     private Set<Tags> tagsBerita = new HashSet<>();
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "category_id")
     private CategoryBerita categoryBerita;
 
