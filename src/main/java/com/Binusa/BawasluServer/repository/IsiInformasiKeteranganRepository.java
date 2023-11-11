@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface IsiInformasiKeteranganRepository extends JpaRepository<IsiInformasiKeterangan, Long> {
-    List<IsiInformasiKeterangan> findByJenisInformasiId(Long jenisInformasiId);
+    List<IsiInformasiKeterangan> findByJenisKeteranganId(Long jenisKeteranganId);
 }

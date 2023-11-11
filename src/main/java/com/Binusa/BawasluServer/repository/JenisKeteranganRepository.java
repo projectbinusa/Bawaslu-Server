@@ -11,3 +11,4 @@ public interface JenisKeteranganRepository extends JpaRepository<JenisKeterangan
     List<JenisKeterangan> findByJenisInformasiId(Long jenisInformasiId);
 }
 
+

@@ -1,8 +1,7 @@
 package com.Binusa.BawasluServer.controller;
 
-import com.Binusa.BawasluServer.DTO.JenisInformasiDTO;
-import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
-import com.Binusa.BawasluServer.response.CommonResponse;
+import com.Binusa.BawasluServer.model.JenisInformasi;
+import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.JenisInformasiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -14,110 +13,87 @@ import java.util.List;
 @RequestMapping("bawaslu/api/jenisinformasi")
 @CrossOrigin(origins = "http://localhost:3000")
 public class JenisInformasiController {
-
     @Autowired
     private JenisInformasiService jenisInformasiService;
 
-    @GetMapping("/all")
-    public ResponseEntity<CommonResponse<List<JenisInformasiDTO>>> getAllJenisInformasi() {
-        CommonResponse<List<JenisInformasiDTO>> response = new CommonResponse<>();
-        List<JenisInformasiDTO> jenisInformasiDTOList = jenisInformasiService.getAllJenisInformasi();
-
-        if (!jenisInformasiDTOList.isEmpty()) {
+    // Endpoint untuk membuat jenis informasi baru
+    @PostMapping
+    public ResponseEntity<CustomResponse<JenisInformasi>> createJenisInformasi(
+            @RequestBody JenisInformasi jenisInformasi) {
+        JenisInformasi createdJenisInformasi = jenisInformasiService.createJenisInformasi(jenisInformasi);
+        CustomResponse<JenisInformasi> response = new CustomResponse<>();
+        if (createdJenisInformasi != null) {
             response.setStatus("success");
-            response.setCode(HttpStatus.OK.value());
-            response.setData(jenisInformasiDTOList);
-            response.setMessage("All Jenis Informasi retrieved successfully.");
-        } else {
-            response.setStatus("error");
-            response.setCode(HttpStatus.NOT_FOUND.value());
-            response.setData(null);
-            response.setMessage("No Jenis Informasi found.");
+            response.setCode(200);
+            response.setData(createdJenisInformasi);
+            response.setMessage("Jenis informasi berhasil dibuat");
+            return ResponseEntity.ok(response);
         }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        response.setStatus("error");
+        response.setCode(500);
+        response.setMessage("Gagal membuat jenis informasi");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<CommonResponse<JenisInformasiDTO>> createJenisInformasi(@RequestBody JenisInformasiDTO jenisInformasiDTO) {
-        CommonResponse<JenisInformasiDTO> response = new CommonResponse<>();
-        try {
-            JenisInformasiDTO savedDTO = jenisInformasiService.save(jenisInformasiDTO);
-            response.setStatus("success");
-            response.setCode(HttpStatus.CREATED.value());
-            response.setData(savedDTO);
-            response.setMessage("Jenis Informasi created successfully.");
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (Exception e) {
-            response.setStatus("error");
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setData(null);
-            response.setMessage("Failed to create Jenis Informasi: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // Endpoint untuk membaca semua jenis informasi
+    @GetMapping
+    public ResponseEntity<CustomResponse<List<JenisInformasi>>> getAllJenisInformasi() {
+        List<JenisInformasi> jenisInformasiList = jenisInformasiService.getAllJenisInformasi();
+        CustomResponse<List<JenisInformasi>> response = new CustomResponse<>();
+        response.setStatus("success");
+        response.setCode(200);
+        response.setData(jenisInformasiList);
+        response.setMessage("Data jenis informasi");
+        return ResponseEntity.ok(response);
     }
 
+    // Endpoint untuk membaca jenis informasi berdasarkan ID
     @GetMapping("/{id}")
-    public ResponseEntity<CommonResponse<JenisInformasiDTO>> getJenisInformasi(@PathVariable("id") Long id) {
-        CommonResponse<JenisInformasiDTO> response = new CommonResponse<>();
-        try {
-            JenisInformasiDTO jenisInformasiDTO = jenisInformasiService.findById(id);
-
-            // Mengambil jenis keterangan terkait dengan jenis informasi berdasarkan ID jenis informasi
-            List<JenisKeteranganDTO> jenisKeteranganList = jenisInformasiService.getJenisKeteranganByJenisInformasiId(id);
-            jenisInformasiDTO.setJenisKeteranganList(jenisKeteranganList);
-
+    public ResponseEntity<CustomResponse<JenisInformasi>> getJenisInformasiById(@PathVariable Long id) {
+        JenisInformasi jenisInformasi = jenisInformasiService.getJenisInformasiById(id);
+        CustomResponse<JenisInformasi> response = new CustomResponse<>();
+        if (jenisInformasi != null) {
             response.setStatus("success");
-            response.setCode(HttpStatus.OK.value());
-            response.setData(jenisInformasiDTO);
-            response.setMessage("Jenis Informasi retrieved successfully.");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.setStatus("error");
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setData(null);
-            response.setMessage("Failed to retrieve Jenis Informasi: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setCode(200);
+            response.setData(jenisInformasi);
+            response.setMessage("Detail jenis informasi");
+            return ResponseEntity.ok(response);
         }
+        response.setStatus("error");
+        response.setCode(404);
+        response.setMessage("Jenis informasi tidak ditemukan");
+        return ResponseEntity.notFound().build();
     }
 
+    // Endpoint untuk memperbarui jenis informasi berdasarkan ID
     @PutMapping("/{id}")
-    public ResponseEntity<CommonResponse<JenisInformasiDTO>> updateJenisInformasi(@PathVariable("id") Long id, @RequestBody JenisInformasiDTO jenisInformasiDTO) {
-        CommonResponse<JenisInformasiDTO> response = new CommonResponse<>();
-        try {
-            JenisInformasiDTO updatedDTO = jenisInformasiService.update(id, jenisInformasiDTO);
+    public ResponseEntity<CustomResponse<JenisInformasi>> updateJenisInformasi(
+            @PathVariable Long id, @RequestBody JenisInformasi jenisInformasi) {
+        JenisInformasi updatedJenisInformasi = jenisInformasiService.updateJenisInformasi(id, jenisInformasi);
+        CustomResponse<JenisInformasi> response = new CustomResponse<>();
+        if (updatedJenisInformasi != null) {
             response.setStatus("success");
-            response.setCode(HttpStatus.OK.value());
-            response.setData(updatedDTO);
-            response.setMessage("Jenis Informasi updated successfully.");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.setStatus("error");
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setData(null);
-            response.setMessage("Failed to update Jenis Informasi: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.setCode(200);
+            response.setData(updatedJenisInformasi);
+            response.setMessage("Jenis informasi berhasil diperbarui");
+            return ResponseEntity.ok(response);
         }
+        response.setStatus("error");
+        response.setCode(500);
+        response.setMessage("Gagal memperbarui jenis informasi");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
     }
 
-
+    // Endpoint untuk menghapus jenis informasi berdasarkan ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<CommonResponse<String>> deleteJenisInformasi(@PathVariable("id") Long id) {
-        CommonResponse<String> response = new CommonResponse<>();
-        try {
-            jenisInformasiService.delete(id);
-            response.setStatus("success");
-            response.setCode(HttpStatus.NO_CONTENT.value());
-            response.setData("Jenis Informasi deleted successfully.");
-            response.setMessage("Jenis Informasi with id " + id + " deleted successfully.");
-            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            response.setStatus("error");
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setData(null);
-            response.setMessage("Failed to delete Jenis Informasi: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<CustomResponse<Void>> deleteJenisInformasi(@PathVariable Long id) {
+        jenisInformasiService.deleteJenisInformasi(id);
+        CustomResponse<Void> response = new CustomResponse<>();
+        response.setStatus("success");
+        response.setCode(200);
+        response.setMessage("Jenis informasi berhasil dihapus");
+        return ResponseEntity.ok(response);
     }
-
 }
