@@ -3,8 +3,10 @@ package com.Binusa.BawasluServer.service;
 import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganDTO;
 import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
 import com.Binusa.BawasluServer.model.IsiInformasiKeterangan;
+import com.Binusa.BawasluServer.model.JenisInformasi;
 import com.Binusa.BawasluServer.model.JenisKeterangan;
 import com.Binusa.BawasluServer.repository.IsiInformasiKeteranganRepository;
+import com.Binusa.BawasluServer.repository.JenisInformasiRepository;
 import com.Binusa.BawasluServer.repository.JenisKeteranganRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 public class JenisKeteranganService {
     @Autowired
     private JenisKeteranganRepository jenisKeteranganRepository;
+
+    @Autowired
+    private JenisInformasiRepository jenisInformasiRepository;
 
     // Method untuk membuat jenis keterangan baru
     public JenisKeterangan createJenisKeterangan(JenisKeterangan jenisKeterangan) {
@@ -41,10 +46,26 @@ public class JenisKeteranganService {
                 .orElse(null);
         if (existingJenisKeterangan != null) {
             existingJenisKeterangan.setKeterangan(jenisKeterangan.getKeterangan());
+
+            // Mengganti jenisInformasi jika jenisInformasi yang diupdate tidak null
+            if (jenisKeterangan.getJenisInformasi() != null) {
+                // Lakukan validasi jenisInformasi, misalnya dengan mencari entitas jenisInformasi dari repository
+                JenisInformasi existingJenisInformasi = jenisInformasiRepository.findById(jenisKeterangan.getJenisInformasi().getId())
+                        .orElse(null);
+                if (existingJenisInformasi != null) {
+                    existingJenisKeterangan.setJenisInformasi(existingJenisInformasi);
+                } else {
+                    // Handle jika jenisInformasi yang diupdate tidak valid
+                    throw new IllegalArgumentException("JenisInformasi not found with id: " + jenisKeterangan.getJenisInformasi().getId());
+                }
+            }
+
             return jenisKeteranganRepository.save(existingJenisKeterangan);
         }
         return null;
     }
+
+
 
     // Method untuk menghapus jenis keterangan
     public void deleteJenisKeterangan(Long id) {

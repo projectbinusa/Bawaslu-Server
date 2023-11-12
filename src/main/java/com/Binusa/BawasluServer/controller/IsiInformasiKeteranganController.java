@@ -21,10 +21,11 @@ public class IsiInformasiKeteranganController {
 
     @PostMapping(value = "/add", consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> createIsiInformasiKeterangan(
-            @ModelAttribute IsiInformasiKeterangan isiInformasiKeterangan, @RequestPart("upload") MultipartFile multipartFile) {
+            @ModelAttribute IsiInformasiKeteranganDTO isiInformasiKeteranganDTO,
+            @RequestPart("upload") MultipartFile multipartFile) {
         CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
         try {
-            IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganService.save(isiInformasiKeterangan, multipartFile);
+            IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO, multipartFile);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
             response.setData(savedIsiInformasiKeterangan);
@@ -38,6 +39,29 @@ public class IsiInformasiKeteranganController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> updateIsiInformasiKeterangan(
+            @PathVariable("id") Long id,
+            @ModelAttribute IsiInformasiKeteranganDTO isiInformasiKeteranganDTO,
+            @RequestPart("upload") MultipartFile multipartFile) {
+        CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
+        try {
+            IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO, multipartFile);
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(updatedIsiInformasiKeterangan);
+            response.setMessage("Isi Informasi Keterangan updated successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to update Isi Informasi Keterangan: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> getIsiInformasiKeterangan(@PathVariable("id") Long id) {
@@ -54,26 +78,6 @@ public class IsiInformasiKeteranganController {
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
             response.setMessage("Failed to retrieve Isi Informasi Keterangan: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> updateIsiInformasiKeterangan(
-            @PathVariable("id") Long id, @ModelAttribute IsiInformasiKeterangan isiInformasiKeterangan, @RequestPart("upload") MultipartFile multipartFile) {
-        CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
-        try {
-            IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganService.update(id, isiInformasiKeterangan, multipartFile);
-            response.setStatus("success");
-            response.setCode(HttpStatus.OK.value());
-            response.setData(updatedIsiInformasiKeterangan);
-            response.setMessage("Isi Informasi Keterangan updated successfully.");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.setStatus("error");
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setData(null);
-            response.setMessage("Failed to update Isi Informasi Keterangan: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
