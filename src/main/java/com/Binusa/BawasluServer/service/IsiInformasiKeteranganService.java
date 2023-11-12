@@ -35,11 +35,12 @@ public class IsiInformasiKeteranganService {
 
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
-    public IsiInformasiKeterangan save(IsiInformasiKeterangan isiInformasiKeterangan, MultipartFile multipartFile) throws Exception {
-        isiInformasiKeterangan.setDokumen(isiInformasiKeterangan.getDokumen());
+    public IsiInformasiKeterangan save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
+        IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
+        isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
 
-        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeterangan.getJenisKeteranganId().getId())
-                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeterangan.getJenisKeteranganId().getId()));
+        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
+                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
 
         isiInformasiKeterangan.setJenisKeteranganId(jenisKeterangan);
 
@@ -49,20 +50,15 @@ public class IsiInformasiKeteranganService {
         return isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
     }
 
-    public IsiInformasiKeterangan findById(Long id) {
-        return isiInformasiKeteranganRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
-    }
-
-    public IsiInformasiKeterangan update(Long id, IsiInformasiKeterangan isiInformasiKeterangan, MultipartFile multipartFile) throws Exception {
+    public IsiInformasiKeterangan update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
         IsiInformasiKeterangan existingIsiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
 
-        existingIsiInformasiKeterangan.setDokumen(isiInformasiKeterangan.getDokumen());
+        existingIsiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
 
         // Atur jenisKeterangan berdasarkan jenisKeteranganId yang diterima
-        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeterangan.getJenisKeteranganId().getId())
-                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeterangan.getJenisKeteranganId().getId()));
+        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
+                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
 
         existingIsiInformasiKeterangan.setJenisKeteranganId(jenisKeterangan);
 
@@ -70,6 +66,11 @@ public class IsiInformasiKeteranganService {
         existingIsiInformasiKeterangan.setPdfDokumen(uploadPdf(multipartFile));
 
         return isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
+    }
+
+    public IsiInformasiKeterangan findById(Long id) {
+        return isiInformasiKeteranganRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
     }
 
     public void delete(Long id) {
