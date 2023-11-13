@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.controller;
 
+import com.Binusa.BawasluServer.DTO.CategoryBeritaDTO;
 import com.Binusa.BawasluServer.model.CategoryBerita;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.CategoryBeritaService;
@@ -20,7 +21,7 @@ public class CategoryBeritaContoller {
     private CategoryBeritaService categoryBeritaService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CommonResponse<CategoryBerita>> createCategoryBerita(@RequestBody CategoryBerita categoryBerita) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<CategoryBerita>> createCategoryBerita(@RequestBody CategoryBeritaDTO categoryBerita) throws SQLException, ClassNotFoundException {
         CommonResponse<CategoryBerita> response = new CommonResponse<>();
         try {
             CategoryBerita berita1 = categoryBeritaService.save(categoryBerita);
@@ -58,7 +59,7 @@ public class CategoryBeritaContoller {
     }
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<CommonResponse<CategoryBerita>> updateCategoryBerita(@PathVariable("id") Long id, @RequestBody CategoryBerita categoryBerita) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<CategoryBerita>> updateCategoryBerita(@PathVariable("id") Long id, @RequestBody CategoryBeritaDTO categoryBerita) throws SQLException, ClassNotFoundException {
         CommonResponse<CategoryBerita> response = new CommonResponse<>();
         try {
             Optional<CategoryBerita> currentCategoryBerita = categoryBeritaService.findById(id);

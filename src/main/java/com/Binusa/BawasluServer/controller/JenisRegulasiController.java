@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.controller;
 
+import com.Binusa.BawasluServer.DTO.JenisRegulasiDTO;
 import com.Binusa.BawasluServer.model.JenisRegulasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.JenisRegulasiService;
@@ -20,7 +21,7 @@ public class JenisRegulasiController {
     private JenisRegulasiService jenisRegulasiService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<CommonResponse<JenisRegulasi>> addJenisRegulasi(@RequestBody JenisRegulasi jenisRegulasi) {
+    public ResponseEntity<CommonResponse<JenisRegulasi>> addJenisRegulasi(@RequestBody JenisRegulasiDTO jenisRegulasi) {
         CommonResponse<JenisRegulasi> response = new CommonResponse<>();
         try {
             JenisRegulasi jenisRegulasi1 = jenisRegulasiService.save(jenisRegulasi);
@@ -58,7 +59,7 @@ public class JenisRegulasiController {
     }
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasi jenisRegulasi) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasiDTO jenisRegulasi) throws SQLException, ClassNotFoundException {
         CommonResponse<JenisRegulasi> response = new CommonResponse<>();
         try {
             Optional<JenisRegulasi> currentJenisRegulasi = jenisRegulasiService.findById(id);

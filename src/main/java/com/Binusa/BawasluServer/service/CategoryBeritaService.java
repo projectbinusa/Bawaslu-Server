@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.service;
 
+import com.Binusa.BawasluServer.DTO.CategoryBeritaDTO;
 import com.Binusa.BawasluServer.model.Berita;
 import com.Binusa.BawasluServer.model.CategoryBerita;
 import com.Binusa.BawasluServer.repository.BeritaRepository;
@@ -22,7 +23,7 @@ public class CategoryBeritaService {
     public CategoryBeritaService() {
     }
 
-    public CategoryBerita save(CategoryBerita categoryBerita) {
+    public CategoryBerita save(CategoryBeritaDTO categoryBerita) {
         CategoryBerita categoryBerita1 = new CategoryBerita();
         categoryBerita1.setCategory(categoryBerita.getCategory());
         return categoryBeritaRepository.save(categoryBerita1);
@@ -52,7 +53,7 @@ public class CategoryBeritaService {
         categoryBeritaRepository.delete(categoryBerita);
     }
 
-    public CategoryBerita update(Long id, CategoryBerita categoryBerita) {
+    public CategoryBerita update(Long id, CategoryBeritaDTO categoryBerita) {
         CategoryBerita categoryBerita1 = categoryBeritaRepository.findById(id);
         categoryBerita1.setCategory(categoryBerita.getCategory());
         return categoryBeritaRepository.save(categoryBerita1);
