@@ -2,8 +2,10 @@ package com.Binusa.BawasluServer.service;
 
 import com.Binusa.BawasluServer.DTO.MenuRegulasiDTO;
 import com.Binusa.BawasluServer.model.MenuRegulasi;
+import com.Binusa.BawasluServer.model.Regulasi;
 import com.Binusa.BawasluServer.repository.JenisRegulasiRepository;
 import com.Binusa.BawasluServer.repository.MenuRegulasiRepository;
+import com.Binusa.BawasluServer.repository.RegulasiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class MenuRegulasiService {
     private MenuRegulasiRepository menuRegulasiRepository;
     @Autowired
     private JenisRegulasiRepository jenisRegulasiRepository;
+    @Autowired
+    private RegulasiRepository regulasiRepository;
     private long id;
 
     public MenuRegulasiService() {
@@ -48,6 +52,15 @@ public class MenuRegulasiService {
 
     public void delete(Long id) {
         MenuRegulasi menuRegulasi = menuRegulasiRepository.findById(id);
+        if(menuRegulasi != null) {
+            List<Regulasi> regulasiList = regulasiRepository.getByMenuRegulasi(menuRegulasi.getId());
+
+            for(Regulasi regulasi : regulasiList) {
+                regulasiRepository.delete(regulasi);
+            }
+
+            menuRegulasiRepository.delete(menuRegulasi);
+        }
         menuRegulasiRepository.delete(menuRegulasi);
     }
 
