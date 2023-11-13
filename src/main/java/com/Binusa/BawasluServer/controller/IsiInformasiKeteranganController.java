@@ -2,7 +2,9 @@ package com.Binusa.BawasluServer.controller;
 
 import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganDTO;
 import com.Binusa.BawasluServer.model.IsiInformasiKeterangan;
+import com.Binusa.BawasluServer.model.JenisInformasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
+import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.IsiInformasiKeteranganService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bawaslu/api/isiinformasiketerangan")
+@RequestMapping("/bawaslu/api/isi-keterangan-informasi")
 @CrossOrigin(origins = "http://localhost:3000")
 public class IsiInformasiKeteranganController {
     @Autowired
@@ -40,6 +42,17 @@ public class IsiInformasiKeteranganController {
         }
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<CustomResponse<List<IsiInformasiKeterangan>>> getAllIsiInformasiKeterangan() {
+        List<IsiInformasiKeterangan> isiInformasiKeteranganList = isiInformasiKeteranganService.getAllIsiInformasiKeterangan();
+        CustomResponse<List<IsiInformasiKeterangan>> response = new CustomResponse<>();
+        response.setStatus("success");
+        response.setCode(200);
+        response.setData(isiInformasiKeteranganList);
+        response.setMessage("Data jenis informasi");
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> updateIsiInformasiKeterangan(
             @PathVariable("id") Long id,
@@ -63,7 +76,7 @@ public class IsiInformasiKeteranganController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/getBy/{id}")
     public ResponseEntity<CommonResponse<IsiInformasiKeterangan>> getIsiInformasiKeterangan(@PathVariable("id") Long id) {
         CommonResponse<IsiInformasiKeterangan> response = new CommonResponse<>();
         try {

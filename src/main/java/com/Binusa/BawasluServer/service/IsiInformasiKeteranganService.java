@@ -73,6 +73,11 @@ public class IsiInformasiKeteranganService {
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
     }
 
+    public List<IsiInformasiKeterangan> getAllIsiInformasiKeterangan() {
+        return isiInformasiKeteranganRepository.findAll();
+    }
+
+
     public void delete(Long id) {
         IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
