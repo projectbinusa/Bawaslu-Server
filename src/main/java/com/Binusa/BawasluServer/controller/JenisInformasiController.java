@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("bawaslu/api/jenisinformasi")
+@RequestMapping("bawaslu/api/jenis-informasi")
 @CrossOrigin(origins = "http://localhost:3000")
 public class JenisInformasiController {
     @Autowired
     private JenisInformasiService jenisInformasiService;
 
     // Endpoint untuk membuat jenis informasi baru
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<CustomResponse<JenisInformasi>> createJenisInformasi(
             @RequestBody JenisInformasi jenisInformasi) {
         JenisInformasi createdJenisInformasi = jenisInformasiService.createJenisInformasi(jenisInformasi);
@@ -37,7 +37,7 @@ public class JenisInformasiController {
     }
 
     // Endpoint untuk membaca semua jenis informasi
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<CustomResponse<List<JenisInformasi>>> getAllJenisInformasi() {
         List<JenisInformasi> jenisInformasiList = jenisInformasiService.getAllJenisInformasi();
         CustomResponse<List<JenisInformasi>> response = new CustomResponse<>();
@@ -49,7 +49,7 @@ public class JenisInformasiController {
     }
 
     // Endpoint untuk membaca jenis informasi berdasarkan ID
-    @GetMapping("/{id}")
+    @GetMapping("/getBy/{id}")
     public ResponseEntity<CustomResponse<JenisInformasi>> getJenisInformasiById(@PathVariable Long id) {
         JenisInformasi jenisInformasi = jenisInformasiService.getJenisInformasiById(id);
         CustomResponse<JenisInformasi> response = new CustomResponse<>();

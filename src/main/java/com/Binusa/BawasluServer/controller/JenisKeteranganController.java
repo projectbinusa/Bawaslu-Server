@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bawaslu/api/jenisketerangan")
+@RequestMapping("/bawaslu/api/jenis-keterangan")
 @CrossOrigin(origins = "http://localhost:3000")
 public class JenisKeteranganController {
     @Autowired
     private JenisKeteranganService jenisKeteranganService;
 
     // Endpoint untuk membuat jenis keterangan baru
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<CustomResponse<JenisKeterangan>> createJenisKeterangan(
             @RequestBody JenisKeterangan jenisKeterangan) {
         JenisKeterangan createdJenisKeterangan = jenisKeteranganService.createJenisKeterangan(jenisKeterangan);
@@ -38,7 +38,7 @@ public class JenisKeteranganController {
     }
 
     // Endpoint untuk membaca semua jenis keterangan
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<CustomResponse<List<JenisKeterangan>>> getAllJenisKeterangan() {
         List<JenisKeterangan> jenisKeteranganList = jenisKeteranganService.getAllJenisKeterangan();
         CustomResponse<List<JenisKeterangan>> response = new CustomResponse<>();
@@ -50,7 +50,7 @@ public class JenisKeteranganController {
     }
 
     // Endpoint untuk membaca jenis keterangan berdasarkan ID
-    @GetMapping("/{id}")
+    @GetMapping("/getBy/{id}")
     public ResponseEntity<CustomResponse<JenisKeterangan>> getJenisKeteranganById(@PathVariable Long id) {
         JenisKeterangan jenisKeterangan = jenisKeteranganService.getJenisKeteranganById(id);
         if (jenisKeterangan != null) {
