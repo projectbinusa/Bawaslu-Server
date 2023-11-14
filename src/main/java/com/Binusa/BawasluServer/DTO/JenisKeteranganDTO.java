@@ -1,25 +1,22 @@
 package com.Binusa.BawasluServer.DTO;
 
-import java.util.List;
-
 public class JenisKeteranganDTO {
-    private String nama_keterangan;
-    private List<IsiInformasiKeteranganDTO> isiInformasiKeteranganDTOList;
+    private String keterangan;
+    private Long jenisInformasi;
 
-
-    public String getNama_keterangan() {
-        return nama_keterangan;
+    public String getKeterangan() {
+        return keterangan;
     }
 
-    public void setNama_keterangan(String nama_keterangan) {
-        this.nama_keterangan = nama_keterangan;
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
     }
 
-    public List<IsiInformasiKeteranganDTO> getIsiInformasiKeteranganDTOList() {
-        return isiInformasiKeteranganDTOList;
+    public Long getJenisInformasi() {
+        return jenisInformasi;
     }
 
-    public void setIsiInformasiKeteranganDTOList(List<IsiInformasiKeteranganDTO> isiInformasiKeteranganDTOList) {
-        this.isiInformasiKeteranganDTOList = isiInformasiKeteranganDTOList;
+    public void setJenisInformasi(Long jenisInformasi) {
+        this.jenisInformasi = jenisInformasi;
     }
 }

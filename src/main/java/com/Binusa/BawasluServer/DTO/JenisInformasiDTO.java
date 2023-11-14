@@ -4,23 +4,22 @@ package com.Binusa.BawasluServer.DTO;
 import java.util.List;
 
 public class JenisInformasiDTO {
-    private String nama_jenis;
-    private List<JenisKeteranganDTO> jenisKeteranganList;
+    private Long id;
+    private String namaInformasi;
 
-
-    public String getNama_jenis() {
-        return nama_jenis;
+    public Long getId() {
+        return id;
     }
 
-    public void setNama_jenis(String nama_jenis) {
-        this.nama_jenis = nama_jenis;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public List<JenisKeteranganDTO> getJenisKeteranganList() {
-        return jenisKeteranganList;
+    public String getNamaInformasi() {
+        return namaInformasi;
     }
 
-    public void setJenisKeteranganList(List<JenisKeteranganDTO> jenisKeteranganList) {
-        this.jenisKeteranganList = jenisKeteranganList;
+    public void setNamaInformasi(String namaInformasi) {
+        this.namaInformasi = namaInformasi;
     }
 }

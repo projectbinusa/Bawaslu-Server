@@ -14,6 +14,8 @@ public class JenisInformasi {
     private Long id;
 
     private String namaInformasi;
+    @OneToMany(mappedBy = "jenisInformasi")
+    private List<JenisKeterangan> jenisKeteranganList;
 
 
 
@@ -31,6 +33,14 @@ public class JenisInformasi {
 
     public void setNamaInformasi(String namaInformasi) {
         this.namaInformasi = namaInformasi;
+    }
+
+    public List<JenisKeterangan> getJenisKeteranganList() {
+        return jenisKeteranganList;
+    }
+
+    public void setJenisKeteranganList(List<JenisKeterangan> jenisKeteranganList) {
+        this.jenisKeteranganList = jenisKeteranganList;
     }
 }
 

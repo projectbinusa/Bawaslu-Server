@@ -16,6 +16,9 @@ public class JenisKeterangan {
     @JoinColumn(name = "jenis_informasi_id")
     private JenisInformasi jenisInformasi;
 
+    @OneToMany(mappedBy = "jenisKeterangan")
+    private List<IsiInformasiKeterangan> isiInformasiKeteranganList;
+
     public Long getId() {
         return id;
     }
@@ -38,5 +41,13 @@ public class JenisKeterangan {
 
     public void setJenisInformasi(JenisInformasi jenisInformasi) {
         this.jenisInformasi = jenisInformasi;
+    }
+
+    public List<IsiInformasiKeterangan> getIsiInformasiKeteranganList() {
+        return isiInformasiKeteranganList;
+    }
+
+    public void setIsiInformasiKeteranganList(List<IsiInformasiKeterangan> isiInformasiKeteranganList) {
+        this.isiInformasiKeteranganList = isiInformasiKeteranganList;
     }
 }
