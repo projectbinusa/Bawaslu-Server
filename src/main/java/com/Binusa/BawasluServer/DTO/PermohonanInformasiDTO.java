@@ -3,7 +3,6 @@ package com.Binusa.BawasluServer.DTO;
 import javax.persistence.Lob;
 
 public class PermohonanInformasiDTO {
-    private long id;
     private String email;
     private String nama;
     private String pendidikan;
@@ -16,14 +15,6 @@ public class PermohonanInformasiDTO {
     private String tujuanInformasi;
     private String caraMemperolehInformasi;
     private String caraMendapatInformasi;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;

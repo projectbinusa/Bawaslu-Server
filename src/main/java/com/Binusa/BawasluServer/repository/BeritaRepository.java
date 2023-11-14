@@ -18,7 +18,7 @@ public interface BeritaRepository extends CrudRepository<Berita, Integer> {
 
     @Query("SELECT p FROM Berita p WHERE " +
             "p.judulBerita LIKE CONCAT('%',:judul, '%')")
-    List<Berita> findByJudulBerita(String judul);
+    List<Berita> searchByJudulBerita(String judul);
 
     @Query("SELECT p FROM Berita p WHERE DATE_FORMAT(p.createdDate, '%Y-%m') LIKE CONCAT('%', :bulan, '%')")
     List<Berita> find(String bulan);
@@ -28,4 +28,12 @@ public interface BeritaRepository extends CrudRepository<Berita, Integer> {
 
     @Query(value = "SELECT * FROM berita  WHERE category_id = :categoryId", nativeQuery = true)
     List<Berita> getAllByCategory(Long categoryId);
+
+    @Query("SELECT SUBSTRING(b.judulBerita, 1, LOCATE(' ', b.judulBerita) - 1) FROM Berita b WHERE b.id = :id")
+    String getByIdBerita(Long id);
+
+    @Query(value = "SELECT * FROM berita WHERE judul_berita LIKE %:judul% LIMIT 4", nativeQuery = true)
+    List<Berita> relatedPost(@Param("judul") String judul);
+
 }
+

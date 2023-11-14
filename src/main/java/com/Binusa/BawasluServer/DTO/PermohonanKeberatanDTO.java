@@ -1,7 +1,6 @@
 package com.Binusa.BawasluServer.DTO;
 
 public class PermohonanKeberatanDTO {
-    private long id;
     private String email;
     private String nama;
     private String alamat;
@@ -11,15 +10,7 @@ public class PermohonanKeberatanDTO {
     private String kasusPosisi;
     private String tujuanPenggunaanInformasi;
     private String alasan;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
+    
     public String getEmail() {
         return email;
     }

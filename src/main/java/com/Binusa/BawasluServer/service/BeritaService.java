@@ -94,7 +94,7 @@ public class BeritaService {
     }
 
     public List<Berita> searchBerita(String judul) {
-        return beritaDao.findByJudulBerita(judul);
+        return beritaDao.searchByJudulBerita(judul);
     }
 
     public Berita getBeritaById(Long id) throws Exception {
@@ -123,6 +123,11 @@ public class BeritaService {
 
     public List<Berita> getByCategory(Long categoryId) {
         return beritaDao.getAllByCategory(categoryId);
+    }
+
+    public List<Berita> relatedPosts(Long idBerita) throws Exception {
+        String berita = beritaDao.getByIdBerita(idBerita);
+        return beritaDao.relatedPost(berita);
     }
 
     private String imageConverter(MultipartFile multipartFile) throws Exception {
