@@ -260,5 +260,24 @@ public class BeritaController {
         }
     }
 
+    @RequestMapping(value = "/berita/by-id", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<Berita>>> relatedPosts(@RequestParam("id") Long id) {
+        CommonResponse<List<Berita>> response = new CommonResponse<>();
+        try {
+            List<Berita> beritas = beritaService.relatedPosts(id);
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(beritas);
+            response.setMessage("Berita list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve berita list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
