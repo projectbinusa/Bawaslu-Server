@@ -1,7 +1,11 @@
 package com.Binusa.BawasluServer.controller;
 
-import com.Binusa.BawasluServer.model.JenisKeterangan;
+import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganByJenisKeteranganApiResponseDTO;
+import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
+import com.Binusa.BawasluServer.repository.IsiInformasiKeteranganRepository;
+import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.response.CustomResponse;
+import com.Binusa.BawasluServer.service.IsiInformasiKeteranganService;
 import com.Binusa.BawasluServer.service.JenisKeteranganService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -15,21 +19,23 @@ import java.util.List;
 public class JenisKeteranganController {
     @Autowired
     private JenisKeteranganService jenisKeteranganService;
+    @Autowired
+    private IsiInformasiKeteranganService isiInformasiKeteran;
 
     // Endpoint untuk membuat jenis keterangan baru
     @PostMapping("/add")
-    public ResponseEntity<CustomResponse<JenisKeterangan>> createJenisKeterangan(
-            @RequestBody JenisKeterangan jenisKeterangan) {
-        JenisKeterangan createdJenisKeterangan = jenisKeteranganService.createJenisKeterangan(jenisKeterangan);
+    public ResponseEntity<CustomResponse<JenisKeteranganDTO>> createJenisKeterangan(
+            @RequestBody JenisKeteranganDTO jenisKeteranganDTO) {
+        JenisKeteranganDTO createdJenisKeterangan = jenisKeteranganService.createJenisKeterangan(jenisKeteranganDTO);
         if (createdJenisKeterangan != null) {
-            CustomResponse<JenisKeterangan> response = new CustomResponse<>();
+            CustomResponse<JenisKeteranganDTO> response = new CustomResponse<>();
             response.setStatus("success");
             response.setCode(200);
             response.setData(createdJenisKeterangan);
             response.setMessage("Jenis keterangan berhasil dibuat");
             return ResponseEntity.ok(response);
         }
-        CustomResponse<JenisKeterangan> response = new CustomResponse<>();
+        CustomResponse<JenisKeteranganDTO> response = new CustomResponse<>();
         response.setStatus("error");
         response.setCode(500);
         response.setMessage("Gagal membuat jenis keterangan");
@@ -39,9 +45,9 @@ public class JenisKeteranganController {
 
     // Endpoint untuk membaca semua jenis keterangan
     @GetMapping("/all")
-    public ResponseEntity<CustomResponse<List<JenisKeterangan>>> getAllJenisKeterangan() {
-        List<JenisKeterangan> jenisKeteranganList = jenisKeteranganService.getAllJenisKeterangan();
-        CustomResponse<List<JenisKeterangan>> response = new CustomResponse<>();
+    public ResponseEntity<CustomResponse<List<JenisKeteranganDTO>>>getAllJenisKeterangan() {
+        List<JenisKeteranganDTO> jenisKeteranganList = jenisKeteranganService.getAllJenisKeterangan();
+        CustomResponse<List<JenisKeteranganDTO>>response = new CustomResponse<>();
         response.setStatus("success");
         response.setCode(200);
         response.setData(jenisKeteranganList);
@@ -51,17 +57,17 @@ public class JenisKeteranganController {
 
     // Endpoint untuk membaca jenis keterangan berdasarkan ID
     @GetMapping("/getBy/{id}")
-    public ResponseEntity<CustomResponse<JenisKeterangan>> getJenisKeteranganById(@PathVariable Long id) {
-        JenisKeterangan jenisKeterangan = jenisKeteranganService.getJenisKeteranganById(id);
+    public ResponseEntity<CustomResponse<JenisKeteranganDTO>> getJenisKeteranganById(@PathVariable Long id) {
+        JenisKeteranganDTO jenisKeterangan = jenisKeteranganService.getJenisKeteranganById(id);
         if (jenisKeterangan != null) {
-            CustomResponse<JenisKeterangan> response = new CustomResponse<>();
+            CustomResponse<JenisKeteranganDTO> response = new CustomResponse<>();
             response.setStatus("success");
             response.setCode(200);
             response.setData(jenisKeterangan);
             response.setMessage("Detail jenis keterangan");
             return ResponseEntity.ok(response);
         }
-        CustomResponse<JenisKeterangan> response = new CustomResponse<>();
+        CustomResponse<JenisKeteranganDTO> response = new CustomResponse<>();
         response.setStatus("error");
         response.setCode(404);
         response.setMessage("Jenis keterangan tidak ditemukan");
@@ -70,18 +76,18 @@ public class JenisKeteranganController {
 
     // Endpoint untuk memperbarui jenis keterangan berdasarkan ID
     @PutMapping("/{id}")
-    public ResponseEntity<CustomResponse<JenisKeterangan>> updateJenisKeterangan(
-            @PathVariable Long id, @RequestBody JenisKeterangan jenisKeterangan) {
-        JenisKeterangan updatedJenisKeterangan = jenisKeteranganService.updateJenisKeterangan(id, jenisKeterangan);
+    public ResponseEntity<CustomResponse<JenisKeteranganDTO>> updateJenisKeterangan(
+            @PathVariable Long id, @RequestBody JenisKeteranganDTO jenisKeteranganDTO) {
+        JenisKeteranganDTO updatedJenisKeterangan = jenisKeteranganService.updateJenisKeterangan(id, jenisKeteranganDTO);
         if (updatedJenisKeterangan != null) {
-            CustomResponse<JenisKeterangan> response = new CustomResponse<>();
+            CustomResponse<JenisKeteranganDTO> response = new CustomResponse<>();
             response.setStatus("success");
             response.setCode(200);
             response.setData(updatedJenisKeterangan);
             response.setMessage("Jenis keterangan berhasil diperbarui");
             return ResponseEntity.ok(response);
         }
-        CustomResponse<JenisKeterangan> response = new CustomResponse<>();
+        CustomResponse<JenisKeteranganDTO> response = new CustomResponse<>();
         response.setStatus("error");
         response.setCode(500);
         response.setMessage("Gagal memperbarui jenis keterangan");
@@ -99,4 +105,16 @@ public class JenisKeteranganController {
         response.setMessage("Jenis keterangan berhasil dihapus");
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/{jenisKeterangan}/isi-informasi")
+    public ResponseEntity<CommonResponse<IsiInformasiKeteranganByJenisKeteranganApiResponseDTO>> getIsiInformasiByCategory(
+            @PathVariable("jenisKeterangan") Long jenisKeterangan) {
+        IsiInformasiKeteranganByJenisKeteranganApiResponseDTO isiInformasiKeteranganDTO = jenisKeteranganService.getByCategory(jenisKeterangan);
+        CommonResponse<IsiInformasiKeteranganByJenisKeteranganApiResponseDTO> response = new CommonResponse<>();
+        response.setStatus("success");
+        response.setCode(200);
+        response.setData(isiInformasiKeteranganDTO);
+        response.setMessage("Informasi retrieved successfully.");
+        return ResponseEntity.ok(response);
+    }
 }
+

@@ -1,23 +1,22 @@
 package com.Binusa.BawasluServer.DTO;
 
 public class JenisKeteranganInformasiDTO {
-    private String nama_keterangan;
-    private JenisInformasiDTO jenisInformasi;
+    private Long id;
+    private String keterangan;
 
-
-    public String getNama_keterangan() {
-        return nama_keterangan;
+    public Long getId() {
+        return id;
     }
 
-    public void setNama_keterangan(String nama_keterangan) {
-        this.nama_keterangan = nama_keterangan;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public JenisInformasiDTO getJenisInformasi() {
-        return jenisInformasi;
+    public String getKeterangan() {
+        return keterangan;
     }
 
-    public void setJenisInformasi(JenisInformasiDTO jenisInformasi) {
-        this.jenisInformasi = jenisInformasi;
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
     }
 }

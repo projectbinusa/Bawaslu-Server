@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.service;
 
+import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganApiResponseDTO;
 import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganDTO;
 import com.Binusa.BawasluServer.model.IsiInformasiKeterangan;
 import com.Binusa.BawasluServer.model.JenisKeterangan;
@@ -24,7 +25,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IsiInformasiKeteranganService {
@@ -35,53 +36,79 @@ public class IsiInformasiKeteranganService {
 
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
-    public IsiInformasiKeterangan save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
+    public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
         IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
         isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
 
         JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
                 .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
 
-        isiInformasiKeterangan.setJenisKeteranganId(jenisKeterangan);
+        isiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
         // Lanjutkan dengan proses upload PDF dan simpan ke repository
         isiInformasiKeterangan.setPdfDokumen(uploadPdf(multipartFile));
 
-        return isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
+        IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
+        return mapIsiInformasiKeteranganToDTO(savedIsiInformasiKeterangan);
     }
 
-    public IsiInformasiKeterangan update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
+
+    public IsiInformasiKeteranganApiResponseDTO update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
         IsiInformasiKeterangan existingIsiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
 
         existingIsiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
 
-        // Atur jenisKeterangan berdasarkan jenisKeteranganId yang diterima
         JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
                 .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
 
-        existingIsiInformasiKeterangan.setJenisKeteranganId(jenisKeterangan);
+        existingIsiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
-        // Lanjutkan dengan proses upload PDF dan simpan ke repository
         existingIsiInformasiKeterangan.setPdfDokumen(uploadPdf(multipartFile));
 
-        return isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
+        IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
+        return convertToApiResponseDTO(updatedIsiInformasiKeterangan);
     }
 
-    public IsiInformasiKeterangan findById(Long id) {
-        return isiInformasiKeteranganRepository.findById(id)
+    public IsiInformasiKeteranganApiResponseDTO findById(Long id) {
+        IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
+
+        return convertToApiResponseDTO(isiInformasiKeterangan);
     }
 
-    public List<IsiInformasiKeterangan> getAllIsiInformasiKeterangan() {
-        return isiInformasiKeteranganRepository.findAll();
+    public List<IsiInformasiKeteranganApiResponseDTO> getAllIsiInformasiKeterangan() {
+        List<IsiInformasiKeterangan> isiInformasiKeteranganList = isiInformasiKeteranganRepository.findAll();
+        List<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganDTOList = isiInformasiKeteranganList.stream()
+                .map(this::convertToApiResponseDTO)
+                .collect(Collectors.toList());
+        return isiInformasiKeteranganDTOList;
     }
-
 
     public void delete(Long id) {
         IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
         isiInformasiKeteranganRepository.delete(isiInformasiKeterangan);
+    }
+
+    private IsiInformasiKeteranganApiResponseDTO convertToApiResponseDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
+        IsiInformasiKeteranganApiResponseDTO isiInformasiKeteranganDTO = new IsiInformasiKeteranganApiResponseDTO();
+        isiInformasiKeteranganDTO.setId(isiInformasiKeterangan.getId());
+        isiInformasiKeteranganDTO.setDokumen(isiInformasiKeterangan.getDokumen());
+        isiInformasiKeteranganDTO.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
+        isiInformasiKeteranganDTO.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
+        // Set other DTO properties as needed
+        return isiInformasiKeteranganDTO;
+    }
+
+    private IsiInformasiKeteranganApiResponseDTO mapIsiInformasiKeteranganToDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
+        IsiInformasiKeteranganApiResponseDTO dto = new IsiInformasiKeteranganApiResponseDTO();
+        dto.setId(isiInformasiKeterangan.getId());
+        dto.setDokumen(isiInformasiKeterangan.getDokumen());
+        dto.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
+        dto.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
+
+        return dto;
     }
 
     private String uploadPdf(MultipartFile multipartFile) throws Exception {
@@ -119,4 +146,3 @@ public class IsiInformasiKeteranganService {
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
     }
 }
-
