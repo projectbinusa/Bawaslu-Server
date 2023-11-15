@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/tags")
-@CrossOrigin(origins = "http://41.216.186.59")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TagsController {
     @Autowired
     private TagsService tagsService;

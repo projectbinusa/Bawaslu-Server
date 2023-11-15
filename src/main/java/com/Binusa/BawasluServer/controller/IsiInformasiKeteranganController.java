@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
     @RestController
     @RequestMapping("/bawaslu/api/isi-keterangan-informasi")
-    @CrossOrigin(origins = "http://41.216.186.59")
+    @CrossOrigin(origins = "http://localhost:3000")
     public class IsiInformasiKeteranganController {
         @Autowired
         private IsiInformasiKeteranganService isiInformasiKeteranganService;
