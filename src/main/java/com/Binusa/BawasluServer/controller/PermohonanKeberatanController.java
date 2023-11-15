@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://41.216.186.59")
 public class PermohonanKeberatanController {
     @Autowired
     private PermohonanKeberatanService permohonanKeberatanService;

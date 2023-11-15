@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/regulasi")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://41.216.186.59")
 public class RegulasiController {
     @Autowired
     private RegulasiService regulasiService;

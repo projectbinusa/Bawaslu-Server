@@ -34,10 +34,16 @@ public class CategoryBeritaService {
     }
 
     public List<CategoryBerita> findAll() {
-        List<CategoryBerita> categoryBerita = new ArrayList<>();
-        categoryBeritaRepository.findAll().forEach(categoryBerita::add);
-        return categoryBerita;
+        List<CategoryBerita> category = new ArrayList<>();
+        categoryBeritaRepository.findAll().forEach(category::add);
+        return category;
     }
+
+//    public List<Berita> findAll() {
+//        List<Berita> berita = new ArrayList<>();
+//        beritaDao.findAll().forEach(berita::add);
+//        return berita;
+//    }
 
     public void delete(Long id) {
         CategoryBerita categoryBerita = categoryBeritaRepository.getById(id);
