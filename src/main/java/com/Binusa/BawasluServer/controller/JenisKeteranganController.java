@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bawaslu/api/jenis-keterangan")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://41.216.186.59")
 public class JenisKeteranganController {
     @Autowired
     private JenisKeteranganService jenisKeteranganService;
