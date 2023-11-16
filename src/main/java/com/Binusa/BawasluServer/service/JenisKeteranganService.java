@@ -28,11 +28,10 @@ public class JenisKeteranganService {
     @Autowired
     private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository ;
 
-    // Method untuk membuat jenis keterangan baru
-    // Service
     public JenisKeteranganDTO createJenisKeterangan(JenisKeteranganDTO jenisKeteranganDTO) {
         // Ubah jenisKeteranganDTO ke entitas JenisKeterangan sebelum menyimpan
         JenisKeterangan jenisKeterangan = new JenisKeterangan();
+        jenisKeterangan.setId(jenisKeteranganDTO.getId());
         jenisKeterangan.setKeterangan(jenisKeteranganDTO.getKeterangan());
 
         // Lakukan validasi jenisInformasi, misalnya dengan mencari entitas jenisInformasi dari repository
@@ -49,6 +48,7 @@ public class JenisKeteranganService {
 
         // Konversi entitas JenisKeterangan yang sudah tersimpan kembali ke JenisKeteranganDTO
         JenisKeteranganDTO savedJenisKeteranganDTO = new JenisKeteranganDTO();
+        savedJenisKeteranganDTO.setId(savedJenisKeterangan.getId());
         savedJenisKeteranganDTO.setKeterangan(savedJenisKeterangan.getKeterangan());
         savedJenisKeteranganDTO.setJenisInformasi(savedJenisKeterangan.getJenisInformasi().getId());
 
@@ -89,6 +89,7 @@ public class JenisKeteranganService {
     // Method untuk mengonversi JenisKeterangan menjadi JenisKeteranganDTO
     private JenisKeteranganDTO convertToDTO(JenisKeterangan jenisKeterangan) {
         JenisKeteranganDTO dto = new JenisKeteranganDTO();
+        dto.setId(jenisKeterangan.getId());
         dto.setKeterangan(jenisKeterangan.getKeterangan());
         dto.setJenisInformasi(jenisKeterangan.getJenisInformasi().getId());
         return dto;
@@ -97,6 +98,7 @@ public class JenisKeteranganService {
     // Method untuk mengonversi JenisKeteranganDTO menjadi JenisKeterangan
     private JenisKeterangan convertToEntity(JenisKeteranganDTO jenisKeteranganDTO) {
         JenisKeterangan entity = new JenisKeterangan();
+        entity.setId(jenisKeteranganDTO.getId());
         entity.setKeterangan(jenisKeteranganDTO.getKeterangan());
 
         // Set jenisInformasi menggunakan ID yang diberikan dalam DTO
@@ -111,6 +113,7 @@ public class JenisKeteranganService {
                 .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + jenisKeteranganId));
 
         IsiInformasiKeteranganByJenisKeteranganApiResponseDTO responseDTO = new IsiInformasiKeteranganByJenisKeteranganApiResponseDTO();
+        responseDTO.setId(jenisKeterangan.getId());
         responseDTO.setKeterangan(jenisKeterangan.getKeterangan());
 
         List<IsiInformasiKeterangan> isiInformasiKeteranganList = jenisKeterangan.getIsiInformasiKeteranganList();

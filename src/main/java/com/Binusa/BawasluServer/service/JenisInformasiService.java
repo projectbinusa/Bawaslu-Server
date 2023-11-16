@@ -58,6 +58,7 @@ public class JenisInformasiService {
                 .orElseThrow(() -> new EntityNotFoundException("JenisInformasi not found with id: " + id));
 
         JenisInformasiKeteranganDTO jenisInformasiKeteranganDTO = new JenisInformasiKeteranganDTO();
+        jenisInformasiKeteranganDTO.setId(jenisInformasi.getId());
         jenisInformasiKeteranganDTO.setNamaInformasi(jenisInformasi.getNamaInformasi());
         jenisInformasiKeteranganDTO.setJenisKeteranganInformasiDTOList(mapJenisKeteranganToDTO(jenisInformasi.getJenisKeteranganList()));
 
