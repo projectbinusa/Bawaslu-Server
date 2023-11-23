@@ -10,6 +10,8 @@ import com.Binusa.BawasluServer.repository.JenisInformasiRepository;
 import com.Binusa.BawasluServer.repository.JenisKeteranganRepository;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +31,8 @@ public class JenisInformasiService {
         return jenisInformasiRepository.save(jenisInformasi);
     }
 
-    public List<JenisInformasi> getAllJenisInformasi() {
-        return jenisInformasiRepository.findAll();
+    public Page<JenisInformasi> getAllJenisInformasi(Pageable pageable) {
+        return jenisInformasiRepository.findAll(pageable);
     }
 
     public JenisInformasi getJenisInformasiById(Long id) {
