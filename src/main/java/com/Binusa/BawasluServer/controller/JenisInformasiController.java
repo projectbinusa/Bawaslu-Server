@@ -7,6 +7,7 @@ import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.JenisInformasiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,15 +40,24 @@ public class JenisInformasiController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<CustomResponse<List<JenisInformasiDTO>>> getAllJenisInformasi() {
-        List<JenisInformasi> jenisInformasiList = jenisInformasiService.getAllJenisInformasi();
+    public ResponseEntity<CustomResponse<List<JenisInformasiDTO>>> getAllJenisInformasi(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder
+    ) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<JenisInformasi> jenisInformasiPage = jenisInformasiService.getAllJenisInformasi(pageable);
+
         CustomResponse<List<JenisInformasiDTO>> response = new CustomResponse<>();
         response.setStatus("success");
         response.setCode(200);
-        response.setData(convertToDTOList(jenisInformasiList));
+        response.setData(convertToDTOList(jenisInformasiPage.getContent()));
         response.setMessage("Data jenis informasi");
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/getBy/{id}")
     public ResponseEntity<CustomResponse<JenisInformasiDTO>> getJenisInformasiById(@PathVariable Long id) {
