@@ -52,7 +52,6 @@ public class IsiInformasiKeteranganService {
         return mapIsiInformasiKeteranganToDTO(savedIsiInformasiKeterangan);
     }
 
-
     public IsiInformasiKeteranganApiResponseDTO update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
         IsiInformasiKeterangan existingIsiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
@@ -113,7 +112,14 @@ public class IsiInformasiKeteranganService {
 
     private String uploadPdf(MultipartFile multipartFile) throws Exception {
         try {
-            String fileName = getExtension(multipartFile.getOriginalFilename());
+            String fileName = multipartFile.getOriginalFilename();
+            String fileExtension = getFileExtension(fileName);
+
+            // Memeriksa apakah file adalah gambar yang diizinkan
+            if (!isImageFile(fileExtension)) {
+                throw new IllegalArgumentException("Jenis file tidak diizinkan");
+            }
+
             File file = convertFile(multipartFile, fileName);
             var RESPONSE_URL = uploadFile(file, fileName);
             file.delete();
@@ -124,8 +130,13 @@ public class IsiInformasiKeteranganService {
         }
     }
 
-    private String getExtension(String fileName) {
-        return fileName.split("\\.")[0];
+    private String getFileExtension(String fileName) {
+        String[] splitFileName = fileName.split("\\.");
+        return splitFileName[splitFileName.length - 1].toLowerCase();
+    }
+
+    private boolean isImageFile(String fileExtension) {
+        return fileExtension.equals("jpg") || fileExtension.equals("png") || fileExtension.equals("jpeg");
     }
 
     private File convertFile(MultipartFile multipartFile, String fileName) throws IOException {
@@ -139,7 +150,7 @@ public class IsiInformasiKeteranganService {
 
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("application/pdf").build();
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/bawaslu-firebase.json"));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
