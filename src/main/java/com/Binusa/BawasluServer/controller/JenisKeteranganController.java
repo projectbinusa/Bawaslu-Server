@@ -1,5 +1,6 @@
 package com.Binusa.BawasluServer.controller;
 
+import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganApiResponseDTO;
 import com.Binusa.BawasluServer.DTO.IsiInformasiKeteranganByJenisKeteranganApiResponseDTO;
 import com.Binusa.BawasluServer.DTO.JenisKeteranganDTO;
 import com.Binusa.BawasluServer.repository.IsiInformasiKeteranganRepository;
@@ -8,6 +9,10 @@ import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.IsiInformasiKeteranganService;
 import com.Binusa.BawasluServer.service.JenisKeteranganService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -106,15 +111,29 @@ public class JenisKeteranganController {
         return ResponseEntity.ok(response);
     }
     @GetMapping("/{jenisKeterangan}/isi-informasi")
-    public ResponseEntity<CommonResponse<IsiInformasiKeteranganByJenisKeteranganApiResponseDTO>> getIsiInformasiByCategory(
-            @PathVariable("jenisKeterangan") Long jenisKeterangan) {
-        IsiInformasiKeteranganByJenisKeteranganApiResponseDTO isiInformasiKeteranganDTO = jenisKeteranganService.getByCategory(jenisKeterangan);
-        CommonResponse<IsiInformasiKeteranganByJenisKeteranganApiResponseDTO> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<Page<IsiInformasiKeteranganApiResponseDTO>>> getIsiInformasiByCategory(
+            @PathVariable("jenisKeterangan") Long jenisKeterangan,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        Pageable pageable;
+        if (sortOrder.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        }
+
+        Page<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganPage = jenisKeteranganService.getByCategoryWithPagination(jenisKeterangan, pageable);
+
+        CommonResponse<Page<IsiInformasiKeteranganApiResponseDTO>> response = new CommonResponse<>();
         response.setStatus("success");
         response.setCode(200);
-        response.setData(isiInformasiKeteranganDTO);
+        response.setData(isiInformasiKeteranganPage);
         response.setMessage("Informasi retrieved successfully.");
         return ResponseEntity.ok(response);
     }
+
 }
 

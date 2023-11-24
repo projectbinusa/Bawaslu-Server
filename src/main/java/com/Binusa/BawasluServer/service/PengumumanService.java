@@ -10,6 +10,8 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,10 +58,8 @@ public class PengumumanService {
     }
 
 
-    public List<Pengumuman> findAll() {
-        List<Pengumuman> pengmuman = new ArrayList<>();
-        pengumumanRepository.findAll().forEach(pengmuman::add);
-        return pengmuman;
+    public Page<Pengumuman> findAllWithPagination(Pageable pageable) {
+        return pengumumanRepository.findAll(pageable);
     }
 
 
