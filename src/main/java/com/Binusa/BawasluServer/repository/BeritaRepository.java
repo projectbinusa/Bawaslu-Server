@@ -1,6 +1,8 @@
 package com.Binusa.BawasluServer.repository;
 
 import com.Binusa.BawasluServer.model.Berita;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +15,7 @@ import java.util.List;
 
 public interface BeritaRepository extends CrudRepository<Berita, Integer> {
     Berita findById(long id);
+    Page<Berita> findAll(Pageable pageable);
 
     List<Berita> findFirst5ByOrderByUpdatedDateDesc();
 
