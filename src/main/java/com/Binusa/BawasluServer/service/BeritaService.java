@@ -13,6 +13,8 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -65,12 +67,9 @@ public class BeritaService {
         return Optional.ofNullable(beritaDao.findById(id));
     }
 
-    public List<Berita> findAll() {
-        List<Berita> berita = new ArrayList<>();
-        beritaDao.findAll().forEach(berita::add);
-        return berita;
+    public Page<Berita> findAllWithPagination(Pageable pageable) {
+        return beritaDao.findAll(pageable);
     }
-
 
     public void delete(Long id) {
         Berita berita = beritaDao.findById(id);

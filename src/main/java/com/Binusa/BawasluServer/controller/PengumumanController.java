@@ -5,6 +5,10 @@ import com.Binusa.BawasluServer.model.Pengumuman;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.PengumumanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,13 +46,25 @@ public class PengumumanController {
     }
 
     @RequestMapping(value = "/pengumuman", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<Pengumuman>>> listAllPengumuman() throws SQLException, ClassNotFoundException {
-        CommonResponse<List<Pengumuman>> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<Page<Pengumuman>>> listAllPengumuman(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        Pageable pageable;
+        if (sortOrder.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        }
+
+        CommonResponse<Page<Pengumuman>> response = new CommonResponse<>();
         try {
-            List<Pengumuman> pengumuman = pengumumanService.findAll();
+            Page<Pengumuman> pengumumanPage = pengumumanService.findAllWithPagination(pageable);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(pengumuman);
+            response.setData(pengumumanPage);
             response.setMessage("Pengumuman list retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -59,6 +75,7 @@ public class PengumumanController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Pengumuman>> updatePengumuman(@PathVariable("id") long id, PengumumanDTO pengumuman, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {

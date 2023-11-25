@@ -8,6 +8,9 @@ import com.Binusa.BawasluServer.model.JenisInformasi;
 import com.Binusa.BawasluServer.repository.IsiInformasiKeteranganRepository;
 import com.Binusa.BawasluServer.repository.JenisInformasiRepository;
 import com.Binusa.BawasluServer.repository.JenisKeteranganRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.Binusa.BawasluServer.model.JenisKeterangan;
@@ -108,21 +111,17 @@ public class JenisKeteranganService {
 
         return entity;
     }
-    public IsiInformasiKeteranganByJenisKeteranganApiResponseDTO getByCategory(Long jenisKeteranganId) {
+    public Page<IsiInformasiKeteranganApiResponseDTO> getByCategoryWithPagination(Long jenisKeteranganId, Pageable pageable) {
         JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(jenisKeteranganId)
                 .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + jenisKeteranganId));
 
-        IsiInformasiKeteranganByJenisKeteranganApiResponseDTO responseDTO = new IsiInformasiKeteranganByJenisKeteranganApiResponseDTO();
-        responseDTO.setId(jenisKeterangan.getId());
-        responseDTO.setKeterangan(jenisKeterangan.getKeterangan());
+        Page<IsiInformasiKeterangan> isiInformasiKeteranganPage = isiInformasiKeteranganRepository.findByJenisKeteranganId(jenisKeteranganId, pageable);
 
-        List<IsiInformasiKeterangan> isiInformasiKeteranganList = jenisKeterangan.getIsiInformasiKeteranganList();
-        List<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganApiResponseDTOList = isiInformasiKeteranganList.stream()
+        List<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganApiResponseDTOList = isiInformasiKeteranganPage.getContent().stream()
                 .map(this::mapToApiResponseDTO)
                 .collect(Collectors.toList());
 
-        responseDTO.setIsiInformasiKeteranganDTOList(isiInformasiKeteranganApiResponseDTOList);
-        return responseDTO;
+        return new PageImpl<>(isiInformasiKeteranganApiResponseDTOList, pageable, isiInformasiKeteranganPage.getTotalElements());
     }
 
     private IsiInformasiKeteranganApiResponseDTO mapToApiResponseDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
