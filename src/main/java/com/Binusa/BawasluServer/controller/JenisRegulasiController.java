@@ -40,7 +40,7 @@ public class JenisRegulasiController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<JenisRegulasi>>> listAllBerita() throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<List<JenisRegulasi>>> listAllJenisRegulasi() throws SQLException, ClassNotFoundException {
         CommonResponse<List<JenisRegulasi>> response = new CommonResponse<>();
         try {
             List<JenisRegulasi> jenisRegulasis = jenisRegulasiService.allJenisRegulasi();
@@ -58,7 +58,7 @@ public class JenisRegulasiController {
         }
     }
 
-    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT)
     public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasiDTO jenisRegulasi) throws SQLException, ClassNotFoundException {
         CommonResponse<JenisRegulasi> response = new CommonResponse<>();
         try {
@@ -70,8 +70,6 @@ public class JenisRegulasiController {
                 response.setMessage("Jenis regulasi with id " + id + " not found.");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
-
-//            // Update berita here...
 
             JenisRegulasi jenisRegulasi1 = jenisRegulasiService.update(id, jenisRegulasi);
             response.setStatus("success");
