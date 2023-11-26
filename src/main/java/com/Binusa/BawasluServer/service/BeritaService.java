@@ -80,7 +80,7 @@ public class BeritaService {
     public Berita update(Long id, BeritaDTO beritaDTO, MultipartFile multipartFile) throws Exception {
         Berita berita = beritaDao.findById(id);
         String image = imageConverter(multipartFile);
-        berita.setJudulBerita(berita.getJudulBerita());
+        berita.setJudulBerita(beritaDTO.getJudulBerita());
         berita.setIsiBerita(beritaDTO.getIsiBerita());
         berita.setAuthor(beritaDTO.getAuthor());
         berita.setImage(image);
