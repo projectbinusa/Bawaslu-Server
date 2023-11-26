@@ -84,6 +84,12 @@ public class PengumumanService {
         return pengumumanRepository.findByJudulPengumuman(judul);
     }
 
+    public Pengumuman getPengumumanById(Long id) throws Exception {
+        Pengumuman pengumuman = pengumumanRepository.findById(id);
+        if (pengumuman == null) throw new Exception("Pengumuman not found!!!");
+        return pengumuman;
+    }
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());
