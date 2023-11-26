@@ -38,5 +38,8 @@ public interface BeritaRepository extends CrudRepository<Berita, Integer> {
     @Query(value = "SELECT * FROM berita WHERE judul_berita LIKE %:judul% LIMIT 4", nativeQuery = true)
     List<Berita> relatedPost(@Param("judul") String judul);
 
+    @Query(value = "SELECT * FROM berita WHERE category_id = :categoryId ORDER BY updated_date DESC LIMIT 5", nativeQuery = true)
+    List<Berita> terbaruByCategory(Long categoryId);
+
 }
 

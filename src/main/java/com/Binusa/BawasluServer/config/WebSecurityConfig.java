@@ -83,7 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/category-berita/all",
             "/bawaslu/api/category-berita/get",
             "/bawaslu/api/berita/by-category",
-            "/bawaslu/api/berita/by-tags"
+            "/bawaslu/api/berita/by-tags",
+            "/bawaslu/api/berita/terbaru-by-category"
     };
 
     private static final String[] AUTH_AUTHORIZATION = {

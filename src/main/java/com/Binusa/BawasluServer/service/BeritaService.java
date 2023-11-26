@@ -129,6 +129,10 @@ public class BeritaService {
         return beritaDao.relatedPost(berita);
     }
 
+    public List<Berita> terbaruByCategory(Long categoryId) {
+        return beritaDao.terbaruByCategory(categoryId);
+    }
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());
