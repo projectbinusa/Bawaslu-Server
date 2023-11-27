@@ -171,4 +171,23 @@ public class PengumumanController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/pengumuman/related-pengumuman/by-id-pengumuman", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<Pengumuman>>> relatedPosts(@RequestParam("id") Long id) {
+        CommonResponse<List<Pengumuman>> response = new CommonResponse<>();
+        try {
+            List<Pengumuman> pengumumanList = pengumumanService.relatedPosts(id);
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(pengumumanList);
+            response.setMessage("Pengumuman list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve pengumuman list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -90,6 +90,11 @@ public class PengumumanService {
         return pengumuman;
     }
 
+    public List<Pengumuman> relatedPosts(Long idPengumuman) throws Exception {
+        String pengumuman = pengumumanRepository.getByIdPengumuman(idPengumuman);
+        return pengumumanRepository.relatedPost(pengumuman);
+    }
+
     private String imageConverter(MultipartFile multipartFile) throws Exception {
         try {
             String fileName = getExtension(multipartFile.getOriginalFilename());
