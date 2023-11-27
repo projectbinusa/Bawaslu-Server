@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/berita",
             "/bawaslu/api/pengumuman",
             "/bawaslu/api/pengumuman/get/{id}",
+            "/bawaslu/api/related-pengumuman/by-id-pengumuman",
             "/bawaslu/api/permohonan-informasi/add",
             "/bawaslu/api/permohonan-keberatan/add",
             "/bawaslu/api/berita-terbaru",
