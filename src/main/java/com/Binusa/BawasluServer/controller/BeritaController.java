@@ -232,7 +232,8 @@ public class BeritaController {
         return beritaService.tagsInBerita(berita, tags);
     }
 
-    @RequestMapping(value = "/berita/by-tags", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita/by-tags", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/by-tags")
     public ResponseEntity<CommonResponse<List<Berita>>> searchTags(@RequestParam("tags") Long tagsId) {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
@@ -258,7 +259,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/by-category", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita/by-category", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/by-category")
     public ResponseEntity<CommonResponse<List<Berita>>> allByCategory(@RequestParam("categoryId") Long categoryId) {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
@@ -284,7 +286,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/related-berita/by-id-berita", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita/related-berita/by-id-berita", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/related-berita/by-id-berita")
     public ResponseEntity<CommonResponse<List<Berita>>> relatedPosts(@RequestParam("id") Long id) {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
@@ -303,7 +306,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/terbaru-by-category", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita/terbaru-by-category", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/terbaru-by-category")
     public ResponseEntity<CommonResponse<List<Berita>>> beritaTerbaruByCategory(@RequestParam("categoryId") Long categoryId) {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
