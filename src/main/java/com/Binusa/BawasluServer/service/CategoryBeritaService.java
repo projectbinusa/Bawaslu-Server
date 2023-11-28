@@ -39,12 +39,6 @@ public class CategoryBeritaService {
         return category;
     }
 
-//    public List<Berita> findAll() {
-//        List<Berita> berita = new ArrayList<>();
-//        beritaDao.findAll().forEach(berita::add);
-//        return berita;
-//    }
-
     public void delete(Long id) {
         CategoryBerita categoryBerita = categoryBeritaRepository.getById(id);
         if (categoryBerita != null) {

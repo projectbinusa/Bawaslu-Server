@@ -33,7 +33,7 @@ public class PermohonanKeberatanService {
     public PermohonanKeberatanService() {
     }
 
-    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.firebaseapp.com/o/%s?alt=media";
+    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
     public PermohonanKeberatan save(PermohonanKeberatanDTO permohonanKeberatanDTO, MultipartFile multipartFile) throws Exception {
         PermohonanKeberatan permohonanKeberatan = new PermohonanKeberatan();

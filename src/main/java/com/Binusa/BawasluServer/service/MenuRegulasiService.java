@@ -22,6 +22,7 @@ public class MenuRegulasiService {
     private JenisRegulasiRepository jenisRegulasiRepository;
     @Autowired
     private RegulasiRepository regulasiRepository;
+
     private long id;
 
     public MenuRegulasiService() {

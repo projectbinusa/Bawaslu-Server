@@ -31,18 +31,6 @@ public class TagsService {
         return tagsRepository.save(tags);
     }
 
-//    public Product addProduct(AddProductDto addProductDto, MultipartFile multipartFile, Category category, Toko toko) throws Exception {
-//        Date date = new Date();
-//        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-//        String image = imageConverter(multipartFile);
-//        Product products = new Product(image, addProductDto.getName(), addProductDto.getPrice(), addProductDto.getStock(), addProductDto.getDescription(), category, toko);
-//        products.setCreatedDay(LocalDate.now().getDayOfMonth());
-//        products.setCreatedMonth(months[date.getMonth()]);
-//        products.setCreatedYear(Year.now().getValue());
-//        products.setToko(toko);
-//        return productRepository.save(products);
-//    }
-
     public Optional<Tags> findById(Long id) {
         return Optional.ofNullable(tagsRepository.findById(id));
     }
