@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bawaslu/api")
+@RequestMapping("/bawaslu/api/berita")
 @CrossOrigin(origins = "http://localhost:3000")
 public class BeritaController {
 
     @Autowired
     private BeritaService beritaService;
 
-    @RequestMapping(value = "/berita/add", method = RequestMethod.POST, consumes = "multipart/form-data")
+    @PostMapping(path = "/add", consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Berita>> createberita(BeritaDTO berita, @RequestPart("file")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {
@@ -45,7 +45,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping
     public ResponseEntity<CommonResponse<Page<Berita>>> listAllBerita(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -77,7 +78,8 @@ public class BeritaController {
     }
 
 
-    @RequestMapping(value = "/berita/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+//    @RequestMapping(value = "/berita/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    @PutMapping(path = "/put/{id}", consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Berita>> updateBerita(@PathVariable("id") Long id, BeritaDTO berita, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {
@@ -108,7 +110,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/delete/{id}", method = RequestMethod.DELETE)
+//    @RequestMapping(value = "/berita/delete/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<CommonResponse<String>> deleteberita(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
@@ -127,7 +130,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita-terbaru", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita-terbaru", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/terbaru")
     public ResponseEntity<CommonResponse<List<Berita>>> listBeritaTerbaru() throws SQLException, ClassNotFoundException {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
@@ -146,7 +150,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/search", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita/search", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/search")
     public ResponseEntity<CommonResponse<List<Berita>>> searchBerita(@RequestParam("search") String judul) {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
@@ -172,7 +177,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/arsip", method = RequestMethod.GET, produces = "application/json")
+//    @RequestMapping(value = "/berita/arsip", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(path = "/arsip")
     public ResponseEntity<CommonResponse<List<Berita>>> listBeritaArsip(@RequestParam("bulan") String bulan) throws SQLException, ClassNotFoundException {
         CommonResponse<List<Berita>> response = new CommonResponse<>();
         try {
@@ -198,7 +204,8 @@ public class BeritaController {
         }
     }
 
-    @RequestMapping(value = "/berita/get/{id}", method = RequestMethod.GET)
+//    @RequestMapping(value = "/berita/get/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/get/{id}")
     public ResponseEntity<CommonResponse<Berita>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {

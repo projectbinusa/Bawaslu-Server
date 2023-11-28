@@ -1,7 +1,5 @@
 package com.Binusa.BawasluServer.controller;
 
-
-
 import com.Binusa.BawasluServer.DTO.UserDTO;
 import com.Binusa.BawasluServer.config.JwtTokenUtil;
 import com.Binusa.BawasluServer.model.JwtRequest;
@@ -34,7 +32,7 @@ public class JwtAuthenticationController {
     @Autowired
     private UserRepository userDao;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -48,7 +46,7 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token, date));
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
     }

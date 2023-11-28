@@ -69,20 +69,6 @@ public class JenisRegulasiService {
         jenisRegulasiRepository.delete(jenisRegulasi);
     }
 
-//        public void delete(Long id) {
-//        CategoryBerita categoryBerita = categoryBeritaRepository.getById(id);
-//        if (categoryBerita != null) {
-//            List<Berita> relatedBeritas = beritaRepository.getAllByCategory(categoryBerita.getId());
-//
-//            for (Berita berita : relatedBeritas) {
-//                beritaRepository.delete(berita);
-//            }
-//
-//            categoryBeritaRepository.delete(categoryBerita);
-//        }
-//        categoryBeritaRepository.delete(categoryBerita);
-//    }
-
     public JenisRegulasi update(long id, JenisRegulasiDTO jenisRegulasi) throws Exception{
         JenisRegulasi jenisRegulasi1 = jenisRegulasiRepository.findById(id);
         jenisRegulasi1.setJenisRegulasi(jenisRegulasi.getJenisRegulasi());

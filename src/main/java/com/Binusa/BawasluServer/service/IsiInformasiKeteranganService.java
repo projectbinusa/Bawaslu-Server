@@ -45,7 +45,6 @@ public class IsiInformasiKeteranganService {
 
         isiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
-        // Lanjutkan dengan proses upload PDF dan simpan ke repository
         isiInformasiKeterangan.setPdfDokumen(uploadPdf(multipartFile));
 
         IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
@@ -96,7 +95,6 @@ public class IsiInformasiKeteranganService {
         isiInformasiKeteranganDTO.setDokumen(isiInformasiKeterangan.getDokumen());
         isiInformasiKeteranganDTO.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
         isiInformasiKeteranganDTO.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
-        // Set other DTO properties as needed
         return isiInformasiKeteranganDTO;
     }
 
@@ -115,7 +113,6 @@ public class IsiInformasiKeteranganService {
             String fileName = multipartFile.getOriginalFilename();
             String fileExtension = getFileExtension(fileName);
 
-            // Memeriksa apakah file adalah gambar yang diizinkan
             if (!isImageFile(fileExtension)) {
                 throw new IllegalArgumentException("Jenis file tidak diizinkan");
             }

@@ -38,7 +38,7 @@ public class RegulasiService {
     public RegulasiService() {
     }
 
-    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.firebaseapp.com/o/%s?alt=media";
+    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
     public Regulasi save(RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
         Regulasi regulasi = new Regulasi();
