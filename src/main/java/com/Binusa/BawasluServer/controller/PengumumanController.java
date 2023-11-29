@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 public class PengumumanController {
 
     @Autowired
