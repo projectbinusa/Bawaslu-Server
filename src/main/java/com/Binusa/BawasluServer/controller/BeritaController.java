@@ -20,14 +20,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/berita")
-@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+@CrossOrigin(origins = "https://127.0.0.1")
 public class BeritaController {
 
     @Autowired
     private BeritaService beritaService;
 
     @PostMapping(path = "/add", consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<Berita>> createberita(BeritaDTO berita, @RequestPart("file")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<Berita>> createberita2(BeritaDTO berita, @RequestPart("file")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Berita> response = new CommonResponse<>();
         try {
             Berita berita1 = beritaService.save(berita, multipartFile);
