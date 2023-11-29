@@ -140,7 +140,7 @@ public class BeritaService {
             return RESPONSE_URL;
         } catch (Exception e) {
             e.getStackTrace();
-            throw new Exception("Error upload file!");
+            throw new Exception("Error upload file: " + e.getMessage());
         }
     }
 
@@ -154,8 +154,18 @@ public class BeritaService {
             fos.write(multipartFile.getBytes());
             fos.close();
         }
+        System.out.println("File size: " + file.length());
         return file;
     }
+
+//    private File convertFile(MultipartFile multipartFile, String fileName) throws IOException {
+//        File file = new File(fileName);
+//        try (FileOutputStream fos = new FileOutputStream(file)) {
+//            fos.write(multipartFile.getBytes());
+//        }
+//        return file;
+//    }
+
 
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
