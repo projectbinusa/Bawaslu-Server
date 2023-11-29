@@ -58,6 +58,25 @@ public class CategoryBeritaContoller {
         }
     }
 
+    @RequestMapping(value = "/all-limit-7", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CommonResponse<List<CategoryBerita>>> listAlCategoryBeritaLimit7() throws SQLException, ClassNotFoundException {
+        CommonResponse<List<CategoryBerita>> response = new CommonResponse<>();
+        try {
+            List<CategoryBerita> categoryBeritas = categoryBeritaService.findAllByLimit7();
+            response.setStatus("success");
+            response.setCode(HttpStatus.OK.value());
+            response.setData(categoryBeritas);
+            response.setMessage("Category berita list retrieved successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setData(null);
+            response.setMessage("Failed to retrieve category berita list: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<CommonResponse<CategoryBerita>> updateCategoryBerita(@PathVariable("id") Long id, @RequestBody CategoryBeritaDTO categoryBerita) throws SQLException, ClassNotFoundException {
         CommonResponse<CategoryBerita> response = new CommonResponse<>();

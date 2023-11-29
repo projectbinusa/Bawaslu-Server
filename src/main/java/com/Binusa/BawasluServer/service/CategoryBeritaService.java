@@ -40,6 +40,12 @@ public class CategoryBeritaService {
         return category;
     }
 
+    public List<CategoryBerita> findAllByLimit7() {
+        List<CategoryBerita> category = new ArrayList<>();
+        categoryBeritaRepository.limit7().forEach(category::add);
+        return category;
+    }
+
     public void delete(Long id) {
         CategoryBerita categoryBerita = categoryBeritaRepository.getById(id);
         if (categoryBerita != null) {
