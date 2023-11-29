@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bawaslu/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/bawaslu/api/permohonan-informasi")
+@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 public class PermohonanInformasiController {
     @Autowired
     private PermohonanInformasiService permohonanInformasiService;
 
-    @RequestMapping(value = "/permohonan-informasi/add", method = RequestMethod.POST, consumes = "multipart/form-data")
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<PermohonanInformasi>> createPermohonanInformasi(PermohonanInformasiDTO permohonanInformasiDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanInformasi> response = new CommonResponse<>();
         try {
@@ -40,7 +40,7 @@ public class PermohonanInformasiController {
         }
     }
 
-    @RequestMapping(value = "/permohonan-informasi", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<List<PermohonanInformasi>>> listAllPermohonanInformasi() throws SQLException, ClassNotFoundException {
         CommonResponse<List<PermohonanInformasi>> response = new CommonResponse<>();
         try {
@@ -59,7 +59,7 @@ public class PermohonanInformasiController {
         }
     }
 
-    @RequestMapping(value = "/permohonan-informasi/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<PermohonanInformasi>> updatePermohonanInformasi(@PathVariable("id") Long id, PermohonanInformasiDTO permohonanInformasiDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanInformasi> response = new CommonResponse<>();
         try {
@@ -90,7 +90,7 @@ public class PermohonanInformasiController {
         }
     }
 
-    @RequestMapping(value = "/permohonan-informasi/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<CommonResponse<String>> deletePermohonanInformasi(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
@@ -109,7 +109,7 @@ public class PermohonanInformasiController {
         }
     }
 
-    @RequestMapping(value = "/permohonan-informasi/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseEntity<CommonResponse<PermohonanInformasi>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanInformasi> response = new CommonResponse<>();
         try {

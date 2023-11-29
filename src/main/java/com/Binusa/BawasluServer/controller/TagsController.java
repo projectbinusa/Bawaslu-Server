@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/tags")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 public class TagsController {
     @Autowired
     private TagsService tagsService;
@@ -29,7 +29,6 @@ public class TagsController {
     public ResponseEntity<CommonResponse<Tags>> createTags(@RequestBody TagsDTO tags) throws SQLException, ClassNotFoundException {
         CommonResponse<Tags> response = new CommonResponse<>();
         try {
-//            Berita berita = beritaService.getBeritaById(tags.getBeritaId());
             Tags tags1 = tagsService.save(tags);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
@@ -45,7 +44,7 @@ public class TagsController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<List<Tags>>> listAllTags() throws SQLException, ClassNotFoundException {
         CommonResponse<List<Tags>> response = new CommonResponse<>();
         try {
@@ -64,7 +63,7 @@ public class TagsController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<CommonResponse<Tags>> updateTags(@PathVariable("id") Long id, Tags berita) throws SQLException, ClassNotFoundException {
         CommonResponse<Tags> response = new CommonResponse<>();
         try {
@@ -95,7 +94,7 @@ public class TagsController {
         }
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<CommonResponse<String>> deleteTags(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {

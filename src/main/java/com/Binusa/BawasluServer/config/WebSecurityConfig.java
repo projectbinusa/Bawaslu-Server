@@ -56,45 +56,63 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             // API controller
             "/login", "/register",
-            "/bawaslu/api/berita",
-            "/bawaslu/api/pengumuman",
-            "/bawaslu/api/pengumuman/get/{id}",
-            "/bawaslu/api/related-pengumuman/by-id-pengumuman",
-            "/bawaslu/api/permohonan-informasi/add",
-            "/bawaslu/api/permohonan-keberatan/add",
-            "/bawaslu/api/berita-terbaru",
+            // Berita
+            "/bawaslu/api/berita/all",
+            "/bawaslu/api/berita/terbaru",
             "/bawaslu/api/berita/search",
             "/bawaslu/api/berita/arsip",
+            "/bawaslu/api/berita/get/{id}",
+            "/bawaslu/api/berita/by-tags",
+            "/bawaslu/api/berita/by-category",
+            "/bawaslu/api/berita/terbaru-by-category",
+            "/bawaslu/api/berita/related-berita/by-id-berita",
+            // Category Berita
+            "/bawaslu/api/category-berita/all",
+            "/bawaslu/api/category-berita/get/{id}",
+            // Tags Berita
+            "/bawaslu/api/tags/all",
+            // Pengumuman
+            "/bawaslu/api/pengumuman",
+            "/bawaslu/api/pengumuman/get/{id}",
+            "/bawaslu/api/pengumuman/related-pengumuman/by-id-pengumuman",
+            // Jenis Regulasi
             "/bawaslu/api/jenis-regulasi/all",
+            "/bawaslu/api/jenis-regulasi/get-by-id",
+            // Menu Regulasi
+            "/bawaslu/api/menu-regulasi/all",
+            "/bawaslu/api/menu-regulasi/get/{id}",
+            "/bawaslu/api/menu-regulasi/get-by-jeni-regulasi",
+            // Regulasi
+            "/bawaslu/api/regulasi/all",
+            "/bawaslu/api/regulasi/get/{id}",
+            "/bawaslu/api/regulasi/get-by-menu-regulasi",
+            // Permohonan Informasi
+            "/bawaslu/api/permohonan-informasi",
+            "/bawaslu/api/permohonan-informasi/get/{id}",
+            "/bawaslu/api/permohonan-informasi/add",
+            // Permohonan Keberatan
+            "/bawaslu/api/permohonan-keberatan",
+            "/bawaslu/api/permohonan-keberatan/add",
+            "/bawaslu/api/permohonan-keberatan/get/{id}",
+            // Jenis Informasi
             "/bawaslu/api/jenis-informasi/all",
             "/bawaslu/api/jenis-informasi/getBy/{id}",
             "/bawaslu/api/jenis-informasi/getByIdWithKeterangan/{id}",
-            "/bawaslu/api/jenis-keterangan/all",
+            // Jenis Keterangan Informasi
+            "/bawaslu/api/jenis-keterangan/add",
             "/bawaslu/api/jenis-keterangan/getBy/{id}",
             "/bawaslu/api/jenis-keterangan/{jenisKeterangan}/isi-informasi",
+            // Isi Informasi
             "/bawaslu/api/isi-keterangan-informasi/all",
-            "/bawaslu/api/isi-keterangan-informasi/getBy/{id}",
-            "/bawaslu/api/jenis-regulasi/get-by-id",
-            "/bawaslu/api/menu-regulasi/all",
-            "/bawaslu/api/menu-regulasi/get-by-jenis-regulasi",
-            "/bawaslu/api/menu-regulasi/get",
-            "/bawaslu/api/regulasi/all",
-            "/bawaslu/api/regulasi/get-by-menu-regulasi",
-            "/bawaslu/api/regulasi/get",
-            "/bawaslu/api/berita/get",
-            "/bawaslu/api/category-berita/all",
-            "/bawaslu/api/category-berita/get",
-            "/bawaslu/api/berita/by-category",
-            "/bawaslu/api/berita/by-tags",
-            "/bawaslu/api/berita/terbaru-by-category"
+            "/bawaslu/api/isi-keterangan-informasi/getBy/{id}"
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
             "/bawaslu/api/berita/**",
             "/bawaslu/api/pengumuman/**",
-            "/bawaslu/api/isiinformasiketerangan/**",
-            "/bawaslu/api/jenisinformasi/**",
-            "/bawaslu/api/jenisketerangan/**",
+            "/bawaslu/api/isi-keterangan-informasi/**",
+            "/bawaslu/api/jenis-informasi/**",
+            "/bawaslu/api/jenis-keterangan/**",
             "/bawaslu/api/permohonan-informasi/**",
             "/bawaslu/api/permohonan-keberatan/**",
             "/bawaslu/api/tags/**",
