@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bawaslu/api/jenis-informasi")
+@RequestMapping("bawaslu/api/jenis-informasi")
+
 @CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 public class JenisInformasiController {
     @Autowired
