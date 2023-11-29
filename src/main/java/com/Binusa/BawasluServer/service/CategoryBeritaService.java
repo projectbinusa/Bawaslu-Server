@@ -18,6 +18,7 @@ public class CategoryBeritaService {
     private CategoryBeritaRepository categoryBeritaRepository;
     @Autowired
     private BeritaRepository beritaRepository;
+
     private long id;
 
     public CategoryBeritaService() {
@@ -36,6 +37,12 @@ public class CategoryBeritaService {
     public List<CategoryBerita> findAll() {
         List<CategoryBerita> category = new ArrayList<>();
         categoryBeritaRepository.findAll().forEach(category::add);
+        return category;
+    }
+
+    public List<CategoryBerita> findAllByLimit7() {
+        List<CategoryBerita> category = new ArrayList<>();
+        categoryBeritaRepository.limit7().forEach(category::add);
         return category;
     }
 
