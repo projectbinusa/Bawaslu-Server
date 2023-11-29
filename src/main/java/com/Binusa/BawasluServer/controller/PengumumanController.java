@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/bawaslu/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/bawaslu/api/pengumuman")
+@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 public class PengumumanController {
 
     @Autowired
     private PengumumanService pengumumanService;
 
-    @RequestMapping(value = "/pengumuman/add", method = RequestMethod.POST, consumes = "multipart/form-data")
+    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Pengumuman>> createpengumuman(PengumumanDTO pengumuman, @RequestPart("file")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Pengumuman> response = new CommonResponse<>();
         try {
@@ -45,7 +45,7 @@ public class PengumumanController {
         }
     }
 
-    @RequestMapping(value = "/pengumuman", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<Page<Pengumuman>>> listAllPengumuman(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -77,7 +77,7 @@ public class PengumumanController {
     }
 
 
-    @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Pengumuman>> updatePengumuman(@PathVariable("id") long id, PengumumanDTO pengumuman, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Pengumuman> response = new CommonResponse<>();
         try {
@@ -108,7 +108,7 @@ public class PengumumanController {
         }
     }
 
-    @RequestMapping(value = "/pengumuman/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<CommonResponse<String>> deletepengumuman(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
@@ -127,7 +127,7 @@ public class PengumumanController {
         }
     }
 
-    @RequestMapping(value = "/pengumuman/search", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<List<Pengumuman>>> searchPengumuman(@RequestParam("search") String judul) {
         CommonResponse<List<Pengumuman>> response = new CommonResponse<>();
         try {
@@ -153,7 +153,7 @@ public class PengumumanController {
         }
     }
 
-    @RequestMapping(value = "/pengumuman/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     public ResponseEntity<CommonResponse<Pengumuman>> getById(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
         CommonResponse<Pengumuman> response = new CommonResponse<>();
         try {
@@ -172,7 +172,7 @@ public class PengumumanController {
         }
     }
 
-    @RequestMapping(value = "/pengumuman/related-pengumuman/by-id-pengumuman", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/related-pengumuman/by-id-pengumuman", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<List<Pengumuman>>> relatedPosts(@RequestParam("id") Long id) {
         CommonResponse<List<Pengumuman>> response = new CommonResponse<>();
         try {

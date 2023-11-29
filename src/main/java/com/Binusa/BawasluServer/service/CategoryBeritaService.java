@@ -18,6 +18,7 @@ public class CategoryBeritaService {
     private CategoryBeritaRepository categoryBeritaRepository;
     @Autowired
     private BeritaRepository beritaRepository;
+
     private long id;
 
     public CategoryBeritaService() {
