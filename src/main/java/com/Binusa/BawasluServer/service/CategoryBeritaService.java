@@ -6,6 +6,8 @@ import com.Binusa.BawasluServer.model.CategoryBerita;
 import com.Binusa.BawasluServer.repository.BeritaRepository;
 import com.Binusa.BawasluServer.repository.CategoryBeritaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,12 +36,9 @@ public class CategoryBeritaService {
         return Optional.ofNullable(categoryBeritaRepository.findById(id));
     }
 
-    public List<CategoryBerita> findAll() {
-        List<CategoryBerita> category = new ArrayList<>();
-        categoryBeritaRepository.findAll().forEach(category::add);
-        return category;
+    public Page<CategoryBerita> findAll(Pageable pageable) {
+        return categoryBeritaRepository.findAll(pageable);
     }
-
     public List<CategoryBerita> findAllByLimit7() {
         List<CategoryBerita> category = new ArrayList<>();
         categoryBeritaRepository.limit7().forEach(category::add);

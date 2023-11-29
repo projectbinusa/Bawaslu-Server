@@ -7,6 +7,8 @@ import com.Binusa.BawasluServer.repository.JenisRegulasiRepository;
 import com.Binusa.BawasluServer.repository.MenuRegulasiRepository;
 import com.Binusa.BawasluServer.repository.RegulasiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -51,6 +53,10 @@ public class MenuRegulasiService {
         return menuRegulasis;
     }
 
+    // Metode untuk mendukung paginasi
+    public Page<MenuRegulasi> allMenuRegulasiWithPagination(int page, int size) {
+        return menuRegulasiRepository.getAllMenuRegulasi(PageRequest.of(page, size));
+    }
     public void delete(Long id) {
         MenuRegulasi menuRegulasi = menuRegulasiRepository.findById(id);
         if(menuRegulasi != null) {
@@ -76,4 +82,8 @@ public class MenuRegulasiService {
         return menuRegulasiRepository.getByJenis(id);
     }
 
+    // Metode yang mendukung paginasi
+    public Page<MenuRegulasi> allByJenisRegulasiWithPagination(Long id, int page, int size) {
+        return menuRegulasiRepository.getByJenis(id, PageRequest.of(page, size));
+    }
 }

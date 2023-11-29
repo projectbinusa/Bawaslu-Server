@@ -5,6 +5,10 @@ import com.Binusa.BawasluServer.model.Regulasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.RegulasiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,14 +44,16 @@ public class RegulasiController {
         }
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<Regulasi>>> listAllRegulasi() throws SQLException, ClassNotFoundException {
-        CommonResponse<List<Regulasi>> response = new CommonResponse<>();
+    @GetMapping("/all")
+    public ResponseEntity<CommonResponse<Page<Regulasi>>> listAllRegulasi(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) throws SQLException, ClassNotFoundException {
+        CommonResponse<Page<Regulasi>> response = new CommonResponse<>();
         try {
-            List<Regulasi> regulasi = regulasiService.findAll();
+            Page<Regulasi> regulasiPage = regulasiService.findAll(PageRequest.of(page, size));
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(regulasi);
+            response.setData(regulasiPage);
             response.setMessage("Regulasi list retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -58,6 +64,8 @@ public class RegulasiController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<Regulasi>> updateRegulasi(@PathVariable("id") Long id, RegulasiDTO regulasiDTO, @RequestPart("upload")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
@@ -128,18 +136,37 @@ public class RegulasiController {
         }
     }
 
-    @RequestMapping(value = "/get-by-menu-regulasi", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<Regulasi>>> listRegulasiByMenuRegulasi(@RequestParam("id-menu-regulasi") Long id) throws SQLException, ClassNotFoundException {
-        CommonResponse<List<Regulasi>> response = new CommonResponse<>();
+    @GetMapping(value = "/get-by-menu-regulasi", produces = "application/json")
+    public ResponseEntity<CommonResponse<Page<Regulasi>>> listRegulasiByMenuRegulasi(
+            @RequestParam("id-menu-regulasi") Long id,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = "ASC") String sortOrder
+    ) {
+        CommonResponse<Page<Regulasi>> response = new CommonResponse<>();
         try {
-            List<Regulasi> regulasis = regulasiService.allByMenuRegulasi(id);
-            if(regulasis.isEmpty()) {
+            // Validasi ukuran halaman dan urutan
+            if (page < 0 || size <= 0) {
+                throw new IllegalArgumentException("Invalid page or size parameters.");
+            }
+
+            // Validasi urutan pengurutan
+            if (!sortOrder.equalsIgnoreCase("ASC") && !sortOrder.equalsIgnoreCase("DESC")) {
+                throw new IllegalArgumentException("Invalid sortOrder parameter. Use 'ASC' or 'DESC'.");
+            }
+
+            // Memanggil service dengan paginasi
+            Page<Regulasi> regulasis = regulasiService.allByMenuRegulasi(id, page, size, sortBy, sortOrder);
+
+            if (regulasis.isEmpty()) {
                 response.setStatus("not found");
                 response.setCode(HttpStatus.NOT_FOUND.value());
                 response.setData(null);
                 response.setMessage("Regulasi list not found");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(regulasis);

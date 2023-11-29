@@ -11,6 +11,10 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,6 +59,11 @@ public class RegulasiService {
         return regulasis;
     }
 
+    public Page<Regulasi> findAll(Pageable pageable) {
+        return regulasiRepository.findAll(pageable);
+    }
+
+
     public void delete(Long id) {
         Regulasi regulasi = regulasiRepository.findById(id);
         regulasiRepository.delete(regulasi);
@@ -74,9 +83,20 @@ public class RegulasiService {
         return regulasi;
     }
 
-    public List<Regulasi> allByMenuRegulasi(Long id) {
-        return regulasiRepository.getByMenuRegulasi(id);
+    public Page<Regulasi> allByMenuRegulasi(Long id, int page, int size, String sortBy, String sortOrder) {
+        // Validasi urutan pengurutan
+        Sort.Direction direction = Sort.Direction.ASC;
+        if (sortOrder.equalsIgnoreCase("DESC")) {
+            direction = Sort.Direction.DESC;
+        }
+
+        // Membuat objek Pageable untuk paginasi dan pengurutan
+        Pageable pageable = PageRequest.of(page, size, direction, sortBy);
+
+        // Memanggil repository dengan paginasi
+        return regulasiRepository.getByMenuRegulasi(id, pageable);
     }
+
 
     private String uploadPdf(MultipartFile multipartFile) throws Exception {
         try {
