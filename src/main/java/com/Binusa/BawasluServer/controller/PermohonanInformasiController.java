@@ -5,6 +5,9 @@ import com.Binusa.BawasluServer.model.PermohonanInformasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.PermohonanInformasiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,13 +44,18 @@ public class PermohonanInformasiController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<PermohonanInformasi>>> listAllPermohonanInformasi() throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<List<PermohonanInformasi>>> listAllPermohonanInformasi(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) throws SQLException, ClassNotFoundException {
         CommonResponse<List<PermohonanInformasi>> response = new CommonResponse<>();
         try {
-            List<PermohonanInformasi> informasis = permohonanInformasiService.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            Page<PermohonanInformasi> informasiPage = permohonanInformasiService.findAll(pageable);
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(informasis);
+            response.setData(informasiPage.getContent());
             response.setMessage("Permohonan informasi list retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -58,6 +66,7 @@ public class PermohonanInformasiController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<PermohonanInformasi>> updatePermohonanInformasi(@PathVariable("id") Long id, PermohonanInformasiDTO permohonanInformasiDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {

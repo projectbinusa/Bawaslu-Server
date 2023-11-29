@@ -10,6 +10,8 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,10 +51,8 @@ public class PermohonanKeberatanService {
         return permohonanKeberatanRepository.save(permohonanKeberatan);
     }
 
-    public List<PermohonanKeberatan> findAll() {
-        List<PermohonanKeberatan> permohonanKeberatans = new ArrayList<>();
-        permohonanKeberatanRepository.findAll().forEach(permohonanKeberatans::add);
-        return permohonanKeberatans;
+    public Page<PermohonanKeberatan> findAll(Pageable pageable) {
+        return permohonanKeberatanRepository.findAll(pageable);
     }
 
     public Optional<PermohonanKeberatan> findById(Long id) {

@@ -8,6 +8,8 @@ import com.Binusa.BawasluServer.repository.JenisRegulasiRepository;
 import com.Binusa.BawasluServer.repository.MenuRegulasiRepository;
 import com.Binusa.BawasluServer.repository.RegulasiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,10 +38,9 @@ public class JenisRegulasiService {
         return jenisRegulasiRepository.save(jenisRegulasi1);
     }
 
-    public List<JenisRegulasi> allJenisRegulasi() {
-        List<JenisRegulasi> jenisRegulasis = new ArrayList<>();
-        jenisRegulasiRepository.findAll().forEach(jenisRegulasis::add);
-        return jenisRegulasis;
+    public List<JenisRegulasi> allJenisRegulasi(Pageable pageable) {
+        Page<JenisRegulasi> jenisRegulasiPage = jenisRegulasiRepository.findAll(pageable);
+        return jenisRegulasiPage.getContent();
     }
 
     public JenisRegulasi getJenisRegulasiById(Long id) throws Exception{

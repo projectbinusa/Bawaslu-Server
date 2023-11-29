@@ -119,22 +119,33 @@ public class JenisInformasiController {
         return jenisInformasiDTOList;
     }
 
-    @GetMapping("/getByIdWithKeterangan/{id}")
-    public ResponseEntity<CommonResponse<JenisInformasiKeteranganDTO>> getJenisInformasiWithKeterangan(@PathVariable Long id) {
-        JenisInformasiKeteranganDTO jenisInformasiKeteranganDTO = jenisInformasiService.getJenisInformasiWithKeterangan(id);
-        CommonResponse<JenisInformasiKeteranganDTO> response = new CommonResponse<>();
-        if (jenisInformasiKeteranganDTO != null) {
+    @GetMapping("/getByIdWithKeterangan")
+    public ResponseEntity<CommonResponse<Page<JenisInformasiKeteranganDTO>>> getJenisInformasiWithKeterangan(
+            @RequestParam Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder
+    ) {
+        CommonResponse<Page<JenisInformasiKeteranganDTO>> response = new CommonResponse<>();
+        try {
+            Sort.Direction direction = sortOrder.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+
+            Page<JenisInformasiKeteranganDTO> jenisInformasiPage = jenisInformasiService.getJenisInformasiWithKeterangan(id, pageable);
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(jenisInformasiKeteranganDTO);
+            response.setData(jenisInformasiPage);
             response.setMessage("Informasi retrieved successfully.");
             return ResponseEntity.ok(response);
-        } else {
+        } catch (Exception e) {
             response.setStatus("error");
-            response.setCode(HttpStatus.NOT_FOUND.value());
-            response.setMessage("Informasi not found.");
-            return ResponseEntity.notFound().build();
+            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setMessage("Failed to retrieve informasi: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
-    }
+
+}

@@ -5,6 +5,9 @@ import com.Binusa.BawasluServer.model.JenisRegulasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.JenisRegulasiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +43,18 @@ public class JenisRegulasiController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<JenisRegulasi>>> listAllJenisRegulasi() throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<List<JenisRegulasi>>> listAllJenisRegulasi(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder
+    ) throws SQLException, ClassNotFoundException {
         CommonResponse<List<JenisRegulasi>> response = new CommonResponse<>();
         try {
-            List<JenisRegulasi> jenisRegulasis = jenisRegulasiService.allJenisRegulasi();
+            Sort.Direction direction = sortOrder.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+            List<JenisRegulasi> jenisRegulasis = jenisRegulasiService.allJenisRegulasi(pageable);
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(jenisRegulasis);
@@ -57,6 +68,7 @@ public class JenisRegulasiController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT)
     public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasiDTO jenisRegulasi) throws SQLException, ClassNotFoundException {

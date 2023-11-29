@@ -5,6 +5,10 @@ import com.Binusa.BawasluServer.model.PermohonanKeberatan;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.PermohonanKeberatanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,13 +45,21 @@ public class PermohonanKeberatanController {
     }
 
     @RequestMapping(value = "/permohonan-keberatan", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<PermohonanKeberatan>>> listAllPermohonanInformasi() throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<List<PermohonanKeberatan>>> listAllPermohonanKeberatan(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder
+    ) throws SQLException, ClassNotFoundException {
         CommonResponse<List<PermohonanKeberatan>> response = new CommonResponse<>();
         try {
-            List<PermohonanKeberatan> keberatans = permohonanKeberatanService.findAll();
+            Sort.Direction direction = sortOrder.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+            Page<PermohonanKeberatan> keberatanPage = permohonanKeberatanService.findAll(pageable);
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
-            response.setData(keberatans);
+            response.setData(keberatanPage.getContent());
             response.setMessage("Permohonan keberatan list retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -58,6 +70,7 @@ public class PermohonanKeberatanController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @RequestMapping(value = "/permohonan-keberatan/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
     public ResponseEntity<CommonResponse<PermohonanKeberatan>> updatePermohonanKeberatan(@PathVariable("id") Long id, PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
