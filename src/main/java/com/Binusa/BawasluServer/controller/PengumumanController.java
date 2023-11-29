@@ -78,7 +78,7 @@ public class PengumumanController {
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<Pengumuman>> updatePengumuman(@PathVariable("id") long id, PengumumanDTO pengumuman, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<Pengumuman>> updatePengumuman(@PathVariable("id") Long id, PengumumanDTO pengumuman, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<Pengumuman> response = new CommonResponse<>();
         try {
             Optional<Pengumuman> currentPengumuman = pengumumanService.findById(id);
