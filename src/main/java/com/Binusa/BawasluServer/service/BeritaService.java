@@ -172,7 +172,7 @@ public class BeritaService {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
 //        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/bawaslu-firebase.json"));
 //        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("../resources/bawaslu-firebase.json"));
-        String filePath = "/bawaslu-firebase.json";
+        String filePath = "Bawaslu-Server/src/main/resources/bawaslu-firebase.json";
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream(filePath));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
