@@ -250,28 +250,31 @@ public class BeritaController {
         }
     }
 
-    @GetMapping(path = "/by-category")
-    public ResponseEntity<CommonResponse<List<Berita>>> allByCategory(@RequestParam("categoryId") Long categoryId) {
-        CommonResponse<List<Berita>> response = new CommonResponse<>();
+    @GetMapping("/by-category")
+    public ResponseEntity<CommonResponse<Page<Berita>>> allByCategory(
+            @RequestParam("categoryId") Long categoryId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sort", defaultValue = "createdDate") String sort,
+            @RequestParam(value = "order", defaultValue = "asc") String order) {
         try {
-            List<Berita> beritas = beritaService.getByCategory(categoryId);
-            if(beritas.isEmpty()) {
-                response.setStatus("not found");
-                response.setCode(HttpStatus.NOT_FOUND.value());
-                response.setData(null);
-                response.setMessage("Berita list not found");
-                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            }
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
+            Page<Berita> beritas = beritaService.getByCategory(categoryId, pageable);
+
+            CommonResponse<Page<Berita>> response = new CommonResponse<>();
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(beritas);
             response.setMessage("Berita list retrieved successfully.");
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+            CommonResponse<Page<Berita>> response = new CommonResponse<>();
             response.setStatus("error");
             response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setData(null);
             response.setMessage("Failed to retrieve berita list: " + e.getMessage());
+
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

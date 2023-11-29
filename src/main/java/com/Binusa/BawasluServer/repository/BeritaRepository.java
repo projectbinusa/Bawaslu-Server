@@ -18,6 +18,7 @@ public interface BeritaRepository extends CrudRepository<Berita, Integer> {
     Page<Berita> findAll(Pageable pageable);
 
     List<Berita> findFirst5ByOrderByUpdatedDateDesc();
+    Page<Berita> findByCategoryBerita_Id(Long categoryId, Pageable pageable);
 
     @Query("SELECT p FROM Berita p WHERE " +
             "p.judulBerita LIKE CONCAT('%',:judul, '%')")

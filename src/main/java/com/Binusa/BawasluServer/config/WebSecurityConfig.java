@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // Menu Regulasi
             "/bawaslu/api/menu-regulasi/all",
             "/bawaslu/api/menu-regulasi/get/{id}",
-            "/bawaslu/api/menu-regulasi/get-by-jeni-regulasi",
+            "/bawaslu/api/menu-regulasi/get-by-jenis-regulasi",
             // Regulasi
             "/bawaslu/api/regulasi/all",
             "/bawaslu/api/regulasi/get/{id}",
@@ -98,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // Jenis Informasi
             "/bawaslu/api/jenis-informasi/all",
             "/bawaslu/api/jenis-informasi/getBy/{id}",
-            "/bawaslu/api/jenis-informasi/getByIdWithKeterangan/{id}",
+            "/bawaslu/api/jenis-informasi/getByIdWithKeterangan",
             // Jenis Keterangan Informasi
             "/bawaslu/api/jenis-keterangan/add",
             "/bawaslu/api/jenis-keterangan/getBy/{id}",

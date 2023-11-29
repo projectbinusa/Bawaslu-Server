@@ -22,7 +22,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -115,10 +114,9 @@ public class BeritaService {
         return beritaDao.getAllByTags(tagsId);
     }
 
-    public List<Berita> getByCategory(Long categoryId) {
-        return beritaDao.getAllByCategory(categoryId);
+    public Page<Berita> getByCategory(Long categoryId, Pageable pageable) {
+        return beritaDao.findByCategoryBerita_Id(categoryId, pageable);
     }
-
     public List<Berita> relatedPosts(Long idBerita) throws Exception {
         String berita = beritaDao.getByIdBerita(idBerita);
         return beritaDao.relatedPost(berita);

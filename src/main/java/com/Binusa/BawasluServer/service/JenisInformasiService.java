@@ -11,12 +11,14 @@ import com.Binusa.BawasluServer.repository.JenisKeteranganRepository;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,19 +57,25 @@ public class JenisInformasiService {
     public void deleteJenisInformasi(Long id) {
         jenisInformasiRepository.deleteById(id);
     }
-    public JenisInformasiKeteranganDTO getJenisInformasiWithKeterangan(Long id) {
+    public Page<JenisInformasiKeteranganDTO> getJenisInformasiWithKeterangan(Long id, Pageable pageable) {
         JenisInformasi jenisInformasi = jenisInformasiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("JenisInformasi not found with id: " + id));
 
-        JenisInformasiKeteranganDTO jenisInformasiKeteranganDTO = new JenisInformasiKeteranganDTO();
-        jenisInformasiKeteranganDTO.setId(jenisInformasi.getId());
-        jenisInformasiKeteranganDTO.setNamaInformasi(jenisInformasi.getNamaInformasi());
-        jenisInformasiKeteranganDTO.setJenisKeteranganInformasiDTOList(mapJenisKeteranganToDTO(jenisInformasi.getJenisKeteranganList()));
+        Page<JenisKeteranganInformasiDTO> jenisKeteranganInformasiDTOPage = mapJenisKeteranganToDTOPage(jenisInformasi.getJenisKeteranganList(), pageable);
 
-        return jenisInformasiKeteranganDTO;
+        List<JenisInformasiKeteranganDTO> result = new ArrayList<>();
+        for (JenisKeteranganInformasiDTO jenisKeteranganInformasiDTO : jenisKeteranganInformasiDTOPage.getContent()) {
+            JenisInformasiKeteranganDTO jenisInformasiKeteranganDTO = new JenisInformasiKeteranganDTO();
+            jenisInformasiKeteranganDTO.setId(jenisInformasi.getId());
+            jenisInformasiKeteranganDTO.setNamaInformasi(jenisInformasi.getNamaInformasi());
+            jenisInformasiKeteranganDTO.setJenisKeteranganInformasiDTOList(Collections.singletonList(jenisKeteranganInformasiDTO));
+            result.add(jenisInformasiKeteranganDTO);
+        }
+
+        return new PageImpl<>(result, pageable, jenisKeteranganInformasiDTOPage.getTotalElements());
     }
 
-    private List<JenisKeteranganInformasiDTO> mapJenisKeteranganToDTO(List<JenisKeterangan> jenisKeteranganList) {
+    private Page<JenisKeteranganInformasiDTO> mapJenisKeteranganToDTOPage(List<JenisKeterangan> jenisKeteranganList, Pageable pageable) {
         List<JenisKeteranganInformasiDTO> jenisKeteranganInformasiDTOList = new ArrayList<>();
         for (JenisKeterangan jenisKeterangan : jenisKeteranganList) {
             JenisKeteranganInformasiDTO jenisKeteranganInformasiDTO = new JenisKeteranganInformasiDTO();
@@ -75,7 +83,12 @@ public class JenisInformasiService {
             jenisKeteranganInformasiDTO.setKeterangan(jenisKeterangan.getKeterangan());
             jenisKeteranganInformasiDTOList.add(jenisKeteranganInformasiDTO);
         }
-        return jenisKeteranganInformasiDTOList;
+
+        int start = (int) pageable.getOffset();
+        int end = (start + pageable.getPageSize()) > jenisKeteranganInformasiDTOList.size() ? jenisKeteranganInformasiDTOList.size() : (start + pageable.getPageSize());
+        Page<JenisKeteranganInformasiDTO> jenisKeteranganInformasiDTOPage = new PageImpl<>(jenisKeteranganInformasiDTOList.subList(start, end), pageable, jenisKeteranganInformasiDTOList.size());
+
+        return jenisKeteranganInformasiDTOPage;
     }
 
 }
