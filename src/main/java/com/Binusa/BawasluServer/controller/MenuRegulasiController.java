@@ -59,7 +59,7 @@ public class MenuRegulasiController {
     }
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<CommonResponse<MenuRegulasi>> updateMenuRegulasi(@PathVariable("id") long id, MenuRegulasiDTO menuRegulasiDTO) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<MenuRegulasi>> updateMenuRegulasi(@PathVariable("id") Long id, MenuRegulasiDTO menuRegulasiDTO) throws SQLException, ClassNotFoundException {
         CommonResponse<MenuRegulasi> response = new CommonResponse<>();
         try {
             Optional<MenuRegulasi> currentMenuRegulasi = menuRegulasiService.findById(id);
@@ -90,7 +90,7 @@ public class MenuRegulasiController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<CommonResponse<String>> deleteMenuRegulasi(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<String>> deleteMenuRegulasi(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
             menuRegulasiService.delete(id);
@@ -109,7 +109,7 @@ public class MenuRegulasiController {
     }
 
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-    public ResponseEntity<CommonResponse<MenuRegulasi>> get(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<MenuRegulasi>> get(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         CommonResponse<MenuRegulasi> response = new CommonResponse<>();
         try {
             MenuRegulasi menuRegulasi = menuRegulasiService.getById(id);
