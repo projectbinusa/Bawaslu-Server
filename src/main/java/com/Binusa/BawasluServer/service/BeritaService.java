@@ -167,8 +167,6 @@ public class BeritaService {
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-//        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/bawaslu-firebase.json"));
-//        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("../resources/bawaslu-firebase.json"));
         InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("bawaslu-firebase.json");
         Credentials credentials = GoogleCredentials.fromStream(serviceAccount);
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
