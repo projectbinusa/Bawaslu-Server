@@ -171,7 +171,9 @@ public class BeritaService {
         BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
 //        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("./src/main/resources/bawaslu-firebase.json"));
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("../resources/bawaslu-firebase.json"));
+//        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("../resources/bawaslu-firebase.json"));
+        String filePath = "/bawaslu-firebase.json";
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream(filePath));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
