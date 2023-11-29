@@ -5,6 +5,10 @@ import com.Binusa.BawasluServer.model.CategoryBerita;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.CategoryBeritaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +44,19 @@ public class CategoryBeritaContoller {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CommonResponse<List<CategoryBerita>>> listAlCategoryBerita() throws SQLException, ClassNotFoundException {
-        CommonResponse<List<CategoryBerita>> response = new CommonResponse<>();
+    public ResponseEntity<CommonResponse<Page<CategoryBerita>>> listAlCategoryBerita(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "asc") String direction) throws SQLException, ClassNotFoundException {
+        CommonResponse<Page<CategoryBerita>> response = new CommonResponse<>();
         try {
-            List<CategoryBerita> categoryBeritas = categoryBeritaService.findAll();
+            // Membuat objek Pageable untuk digunakan dalam repository.findAll
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sort));
+
+            // Menggunakan service.findAll dengan pageable
+            Page<CategoryBerita> categoryBeritas = categoryBeritaService.findAll(pageable);
+
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(categoryBeritas);
@@ -57,6 +70,7 @@ public class CategoryBeritaContoller {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @RequestMapping(value = "/all-limit-7", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<List<CategoryBerita>>> listAlCategoryBeritaLimit7() throws SQLException, ClassNotFoundException {
