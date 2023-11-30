@@ -13,6 +13,8 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,12 +74,12 @@ public class IsiInformasiKeteranganService {
         return convertToApiResponseDTO(isiInformasiKeterangan);
     }
 
-    public List<IsiInformasiKeteranganApiResponseDTO> getAllIsiInformasiKeterangan() {
-        List<IsiInformasiKeterangan> isiInformasiKeteranganList = isiInformasiKeteranganRepository.findAll();
-        List<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganDTOList = isiInformasiKeteranganList.stream()
-                .map(this::convertToApiResponseDTO)
-                .collect(Collectors.toList());
-        return isiInformasiKeteranganDTOList;
+    public Page<IsiInformasiKeteranganApiResponseDTO> getAllIsiInformasiKeterangan(Pageable pageable) {
+        // Menggunakan repository.findAll dengan pageable
+        Page<IsiInformasiKeterangan> isiInformasiKeteranganPage = isiInformasiKeteranganRepository.findAll(pageable);
+
+        // Mengubah halaman IsiInformasiKeterangan menjadi halaman DTO
+        return isiInformasiKeteranganPage.map(this::convertToApiResponseDTO);
     }
 
     public void delete(Long id) {
