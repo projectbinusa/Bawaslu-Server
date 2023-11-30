@@ -8,6 +8,10 @@ import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.IsiInformasiKeteranganService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,15 +47,34 @@ import java.util.Optional;
         }
 
         @GetMapping("/all")
-        public ResponseEntity<CustomResponse<List<IsiInformasiKeteranganApiResponseDTO>>> getAllIsiInformasiKeterangan() {
-            List<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganList = isiInformasiKeteranganService.getAllIsiInformasiKeterangan();
-            CustomResponse<List<IsiInformasiKeteranganApiResponseDTO>> response = new CustomResponse<>();
-            response.setStatus("success");
-            response.setCode(200);
-            response.setData(isiInformasiKeteranganList);
-            response.setMessage("Data jenis informasi");
-            return ResponseEntity.ok(response);
+        public ResponseEntity<CustomResponse<Page<IsiInformasiKeteranganApiResponseDTO>>> getAllIsiInformasiKeterangan(
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size,
+                @RequestParam(defaultValue = "id") String sort,
+                @RequestParam(defaultValue = "asc") String direction) {
+
+            CustomResponse<Page<IsiInformasiKeteranganApiResponseDTO>> response = new CustomResponse<>();
+            try {
+                // Membuat objek Pageable untuk digunakan dalam repository.findAll
+                Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), sort));
+
+                // Menggunakan service.getAllIsiInformasiKeterangan dengan pageable
+                Page<IsiInformasiKeteranganApiResponseDTO> isiInformasiKeteranganList = isiInformasiKeteranganService.getAllIsiInformasiKeterangan(pageable);
+
+                response.setStatus("success");
+                response.setCode(200);
+                response.setData(isiInformasiKeteranganList);
+                response.setMessage("Data jenis informasi");
+                return ResponseEntity.ok(response);
+            } catch (Exception e) {
+                response.setStatus("error");
+                response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                response.setData(null);
+                response.setMessage("Failed to retrieve jenis informasi data: " + e.getMessage());
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
+
 
         @PutMapping(value = "/{id}", consumes = "multipart/form-data")
         public ResponseEntity<CommonResponse<IsiInformasiKeteranganApiResponseDTO>> updateIsiInformasiKeterangan(
