@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -66,9 +67,18 @@ public class BeritaService {
         return beritaDao.findAll(pageable);
     }
 
+    @Transactional
     public void delete(Long id) {
         Berita berita = beritaDao.findById(id);
-        beritaDao.delete(berita);
+
+        if (berita != null) {
+            berita.getTagsBerita().clear();
+            berita.setCategoryBerita(null);
+
+            beritaDao.delete(berita);
+        } else {
+            System.out.println("Entity with id " + id + " not found.");
+        }
     }
 
     public Berita update(Long id, BeritaDTO beritaDTO, MultipartFile multipartFile) throws Exception {

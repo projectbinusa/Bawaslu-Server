@@ -108,7 +108,7 @@ public class BeritaController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<CommonResponse<String>> deleteberita(@PathVariable("id") long id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<String>> deleteberita(@PathVariable("id") Long id) throws SQLException, ClassNotFoundException {
         CommonResponse<String> response = new CommonResponse<>();
         try {
             beritaService.delete(id);
