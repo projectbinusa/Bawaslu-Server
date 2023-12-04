@@ -12,7 +12,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void  addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+//                untuk local
                 .allowedOrigins("http://localhost:3000")
+
+//                untuk deploy client
+                .allowedOrigins("https://bawaslu.excellentsistem.com/")
                 .allowedMethods("*")
                 .allowedHeaders("X-Requested-With", "Content-Type", "Origin", "Authorization", "Accept", "Client-Security-Token", "Accept-Encoding")
                 .maxAge(3600);

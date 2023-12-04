@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -64,10 +65,30 @@ public class RegulasiService {
     }
 
 
+    @Transactional
     public void delete(Long id) {
         Regulasi regulasi = regulasiRepository.findById(id);
-        regulasiRepository.delete(regulasi);
+        if(regulasi != null) {
+            regulasi.setMenuRegulasi(null);
+            regulasiRepository.delete(regulasi);
+        } else {
+            System.out.println("Entity with id " + id + " not found.");
+        }
     }
+
+//        @Transactional
+//    public void delete(Long id) {
+//        Berita berita = beritaDao.findById(id);
+//
+//        if (berita != null) {
+//            berita.getTagsBerita().clear();
+//            berita.setCategoryBerita(null);
+//
+//            beritaDao.delete(berita);
+//        } else {
+//            System.out.println("Entity with id " + id + " not found.");
+//        }
+//    }
 
     public Regulasi update(Long id, RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
         Regulasi regulasi = regulasiRepository.findById(id);

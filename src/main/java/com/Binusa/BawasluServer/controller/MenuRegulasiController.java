@@ -16,7 +16,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/menu-regulasi")
-@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+//untuk deploy server
+//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+
+//untuk local
+@CrossOrigin(origins = "http://localhost:4040")
 public class MenuRegulasiController {
     @Autowired
     private MenuRegulasiService menuRegulasiService;
@@ -74,7 +78,7 @@ public class MenuRegulasiController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT)
     public ResponseEntity<CommonResponse<MenuRegulasi>> updateMenuRegulasi(@PathVariable("id") Long id, MenuRegulasiDTO menuRegulasiDTO) throws SQLException, ClassNotFoundException {
         CommonResponse<MenuRegulasi> response = new CommonResponse<>();
         try {
