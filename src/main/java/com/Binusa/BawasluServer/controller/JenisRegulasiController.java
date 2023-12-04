@@ -18,7 +18,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bawaslu/api/jenis-regulasi")
-@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+//untuk deploy server
+//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+
+//untuk local
+@CrossOrigin(origins = "http://localhost:4040")
 public class JenisRegulasiController {
     @Autowired
     private JenisRegulasiService jenisRegulasiService;

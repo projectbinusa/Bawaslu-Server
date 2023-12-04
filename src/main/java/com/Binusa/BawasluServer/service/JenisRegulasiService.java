@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,26 +50,31 @@ public class JenisRegulasiService {
         return jenisRegulasi;
     }
 
+    @Transactional
     public void delete(Long id) {
         JenisRegulasi jenisRegulasi = jenisRegulasiRepository.findById(id);
-        if(jenisRegulasi != null) {
+
+        if (jenisRegulasi != null) {
             List<MenuRegulasi> menuRegulasis = menuRegulasiRepository.getByJenis(jenisRegulasi.getId());
 
             for (MenuRegulasi menuRegulasi : menuRegulasis) {
                 List<Regulasi> regulasiList = regulasiRepository.getByMenuRegulasi(menuRegulasi.getId());
 
-                for(Regulasi regulasi : regulasiList) {
+                for (Regulasi regulasi : regulasiList) {
                     regulasiRepository.delete(regulasi);
                 }
 
                 menuRegulasiRepository.delete(menuRegulasi);
-
             }
 
             jenisRegulasiRepository.delete(jenisRegulasi);
+        } else {
+            // Log or handle the case where jenisRegulasi with the given ID is not found
+            // throw new EntityNotFoundException("JenisRegulasi with ID " + id + " not found");
         }
-        jenisRegulasiRepository.delete(jenisRegulasi);
     }
+
+
 
     public JenisRegulasi update(long id, JenisRegulasiDTO jenisRegulasi) throws Exception{
         JenisRegulasi jenisRegulasi1 = jenisRegulasiRepository.findById(id);

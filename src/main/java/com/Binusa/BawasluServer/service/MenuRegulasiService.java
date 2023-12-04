@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +58,12 @@ public class MenuRegulasiService {
     public Page<MenuRegulasi> allMenuRegulasiWithPagination(int page, int size) {
         return menuRegulasiRepository.getAllMenuRegulasi(PageRequest.of(page, size));
     }
+
+    @Transactional
     public void delete(Long id) {
         MenuRegulasi menuRegulasi = menuRegulasiRepository.findById(id);
         if(menuRegulasi != null) {
+            menuRegulasi.setJenisRegulasiId(null);
             List<Regulasi> regulasiList = regulasiRepository.getByMenuRegulasi(menuRegulasi.getId());
 
             for(Regulasi regulasi : regulasiList) {

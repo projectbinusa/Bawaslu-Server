@@ -20,7 +20,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bawaslu/api/jenis-keterangan")
-@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+//untuk deploy server
+//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+
+//untuk local
+@CrossOrigin(origins = "http://localhost:4040")
 public class JenisKeteranganController {
     @Autowired
     private JenisKeteranganService jenisKeteranganService;
