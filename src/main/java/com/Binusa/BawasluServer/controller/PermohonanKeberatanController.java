@@ -26,7 +26,7 @@ public class PermohonanKeberatanController {
     private PermohonanKeberatanService permohonanKeberatanService;
 
     @RequestMapping(value = "/permohonan-keberatan/add", method = RequestMethod.POST, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<PermohonanKeberatan>> createPermohonanKeberatan(PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<PermohonanKeberatan>> createPermohonanKeberatan(PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("fotoIdentitas") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanKeberatan> response = new CommonResponse<>();
         try {
             PermohonanKeberatan permohonanKeberatan = permohonanKeberatanService.save(permohonanKeberatanDTO, multipartFile);
@@ -73,7 +73,7 @@ public class PermohonanKeberatanController {
 
 
     @RequestMapping(value = "/permohonan-keberatan/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<PermohonanKeberatan>> updatePermohonanKeberatan(@PathVariable("id") Long id, PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("file") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<PermohonanKeberatan>> updatePermohonanKeberatan(@PathVariable("id") Long id, PermohonanKeberatanDTO permohonanKeberatanDTO, @RequestPart("fotoIdentitas") MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
         CommonResponse<PermohonanKeberatan> response = new CommonResponse<>();
         try {
             Optional<PermohonanKeberatan> currentPermohonanKeberatan = permohonanKeberatanService.findById(id);

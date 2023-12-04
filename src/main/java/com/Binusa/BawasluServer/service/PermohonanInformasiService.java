@@ -38,18 +38,17 @@ public class PermohonanInformasiService {
     public PermohonanInformasi save(PermohonanInformasiDTO permohonanInformasiDTO, MultipartFile multipartFile) throws Exception {
         PermohonanInformasi permohonanInformasi = new PermohonanInformasi();
         String image = imageConverter(multipartFile);
+        permohonanInformasi.setNamaPemohon(permohonanInformasiDTO.getNamaPemohon());
+        permohonanInformasi.setAlamatPemohon(permohonanInformasiDTO.getAlamatPemohon());
+        permohonanInformasi.setNomorIdentitasPemohon(permohonanInformasiDTO.getNomorIdentitasPemohon());
+        permohonanInformasi.setJenisIdentitas(permohonanInformasiDTO.getJenisIdentitas());
+        permohonanInformasi.setNoTlp(permohonanInformasiDTO.getNoTlp());
         permohonanInformasi.setEmail(permohonanInformasiDTO.getEmail());
-        permohonanInformasi.setNama(permohonanInformasiDTO.getNama());
-        permohonanInformasi.setNoHp(permohonanInformasiDTO.getNoHp());
-        permohonanInformasi.setPekerjaan(permohonanInformasiDTO.getPekerjaan());
-        permohonanInformasi.setPendidikan(permohonanInformasiDTO.getPendidikan());
-        permohonanInformasi.setRincianInformasi(permohonanInformasiDTO.getRincianInformasi());
-        permohonanInformasi.setTujuanInformasi(permohonanInformasiDTO.getTujuanInformasi());
-        permohonanInformasi.setAlamat(permohonanInformasiDTO.getAlamat());
+        permohonanInformasi.setRincianYangDibutuhkan(permohonanInformasiDTO.getRincianYangDibutuhkan());
+        permohonanInformasi.setTujuanPenggunaanInformasi(permohonanInformasiDTO.getTujuanPenggunaanInformasi());
         permohonanInformasi.setCaraMemperolehInformasi(permohonanInformasiDTO.getCaraMemperolehInformasi());
-        permohonanInformasi.setCaraMendapatInformasi(permohonanInformasiDTO.getCaraMendapatInformasi());
-        permohonanInformasi.setDitujukanKepada(permohonanInformasiDTO.getDitujukanKepada());
-        permohonanInformasi.setTandaPengenal(image);
+        permohonanInformasi.setCaraMendapatSalinanInformasi(permohonanInformasiDTO.getCaraMendapatSalinanInformasi());
+        permohonanInformasi.setFotoIdentitas(image);
 
         return permohonanInformasiRepository.save(permohonanInformasi);
     }
@@ -70,24 +69,23 @@ public class PermohonanInformasiService {
     public PermohonanInformasi update(Long id, PermohonanInformasiDTO permohonanInformasiDTO, MultipartFile multipartFile) throws Exception {
         PermohonanInformasi permohonanInformasi = permohonanInformasiRepository.findById(id);
         String image = imageConverter(multipartFile);
+        permohonanInformasi.setNamaPemohon(permohonanInformasiDTO.getNamaPemohon());
+        permohonanInformasi.setAlamatPemohon(permohonanInformasiDTO.getAlamatPemohon());
+        permohonanInformasi.setNomorIdentitasPemohon(permohonanInformasiDTO.getNomorIdentitasPemohon());
+        permohonanInformasi.setJenisIdentitas(permohonanInformasiDTO.getJenisIdentitas());
+        permohonanInformasi.setNoTlp(permohonanInformasiDTO.getNoTlp());
         permohonanInformasi.setEmail(permohonanInformasiDTO.getEmail());
-        permohonanInformasi.setNama(permohonanInformasiDTO.getNama());
-        permohonanInformasi.setNoHp(permohonanInformasiDTO.getNoHp());
-        permohonanInformasi.setPekerjaan(permohonanInformasiDTO.getPekerjaan());
-        permohonanInformasi.setPendidikan(permohonanInformasiDTO.getPendidikan());
-        permohonanInformasi.setRincianInformasi(permohonanInformasiDTO.getRincianInformasi());
-        permohonanInformasi.setTujuanInformasi(permohonanInformasiDTO.getTujuanInformasi());
-        permohonanInformasi.setAlamat(permohonanInformasiDTO.getAlamat());
+        permohonanInformasi.setRincianYangDibutuhkan(permohonanInformasiDTO.getRincianYangDibutuhkan());
+        permohonanInformasi.setTujuanPenggunaanInformasi(permohonanInformasiDTO.getTujuanPenggunaanInformasi());
         permohonanInformasi.setCaraMemperolehInformasi(permohonanInformasiDTO.getCaraMemperolehInformasi());
-        permohonanInformasi.setCaraMendapatInformasi(permohonanInformasiDTO.getCaraMendapatInformasi());
-        permohonanInformasi.setDitujukanKepada(permohonanInformasiDTO.getDitujukanKepada());
-        permohonanInformasi.setTandaPengenal(image);
+        permohonanInformasi.setCaraMendapatSalinanInformasi(permohonanInformasiDTO.getCaraMendapatSalinanInformasi());
+        permohonanInformasi.setFotoIdentitas(image);
         return permohonanInformasiRepository.save(permohonanInformasi);
     }
 
     public PermohonanInformasi getPermohonanKeberatanById(Long id) throws Exception {
         PermohonanInformasi permohonanInformasi = permohonanInformasiRepository.findById(id);
-        if (permohonanInformasi == null) throw new Exception("Berita not found!!!");
+        if (permohonanInformasi == null) throw new Exception("Permohonan not found!!!");
         return permohonanInformasi;
     }
 
