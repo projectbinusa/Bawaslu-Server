@@ -10,20 +10,21 @@ public class PermohonanInformasi extends DateConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String namaPemohon;
+    @Lob
+    private String alamatPemohon;
+    private String nomorIdentitasPemohon;
+    private String jenisIdentitas;
+    private String noTlp;
     private String email;
-    private String nama;
-    private String pendidikan;
-    private String pekerjaan;
-    private String noHp;
     @Lob
-    private String alamat;
-    private String ditujukanKepada;
-    private String rincianInformasi;
-    private String tujuanInformasi;
+    private String rincianYangDibutuhkan;
+    @Lob
+    private String tujuanPenggunaanInformasi;
     private String caraMemperolehInformasi;
-    private String caraMendapatInformasi;
     @Lob
-    private String tandaPengenal;
+    private String fotoIdentitas;
+    private String caraMendapatSalinanInformasi;
 
     public Long getId() {
         return id;
@@ -31,6 +32,46 @@ public class PermohonanInformasi extends DateConfig {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNamaPemohon() {
+        return namaPemohon;
+    }
+
+    public void setNamaPemohon(String namaPemohon) {
+        this.namaPemohon = namaPemohon;
+    }
+
+    public String getAlamatPemohon() {
+        return alamatPemohon;
+    }
+
+    public void setAlamatPemohon(String alamatPemohon) {
+        this.alamatPemohon = alamatPemohon;
+    }
+
+    public String getNomorIdentitasPemohon() {
+        return nomorIdentitasPemohon;
+    }
+
+    public void setNomorIdentitasPemohon(String nomorIdentitasPemohon) {
+        this.nomorIdentitasPemohon = nomorIdentitasPemohon;
+    }
+
+    public String getJenisIdentitas() {
+        return jenisIdentitas;
+    }
+
+    public void setJenisIdentitas(String jenisIdentitas) {
+        this.jenisIdentitas = jenisIdentitas;
+    }
+
+    public String getNoTlp() {
+        return noTlp;
+    }
+
+    public void setNoTlp(String noTlp) {
+        this.noTlp = noTlp;
     }
 
     public String getEmail() {
@@ -41,68 +82,20 @@ public class PermohonanInformasi extends DateConfig {
         this.email = email;
     }
 
-    public String getNama() {
-        return nama;
+    public String getRincianYangDibutuhkan() {
+        return rincianYangDibutuhkan;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setRincianYangDibutuhkan(String rincianYangDibutuhkan) {
+        this.rincianYangDibutuhkan = rincianYangDibutuhkan;
     }
 
-    public String getPendidikan() {
-        return pendidikan;
+    public String getTujuanPenggunaanInformasi() {
+        return tujuanPenggunaanInformasi;
     }
 
-    public void setPendidikan(String pendidikan) {
-        this.pendidikan = pendidikan;
-    }
-
-    public String getPekerjaan() {
-        return pekerjaan;
-    }
-
-    public void setPekerjaan(String pekerjaan) {
-        this.pekerjaan = pekerjaan;
-    }
-
-    public String getNoHp() {
-        return noHp;
-    }
-
-    public void setNoHp(String noHp) {
-        this.noHp = noHp;
-    }
-
-    public String getAlamat() {
-        return alamat;
-    }
-
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
-    }
-
-    public String getDitujukanKepada() {
-        return ditujukanKepada;
-    }
-
-    public void setDitujukanKepada(String ditujukanKepada) {
-        this.ditujukanKepada = ditujukanKepada;
-    }
-
-    public String getRincianInformasi() {
-        return rincianInformasi;
-    }
-
-    public void setRincianInformasi(String rincianInformasi) {
-        this.rincianInformasi = rincianInformasi;
-    }
-
-    public String getTujuanInformasi() {
-        return tujuanInformasi;
-    }
-
-    public void setTujuanInformasi(String tujuanInformasi) {
-        this.tujuanInformasi = tujuanInformasi;
+    public void setTujuanPenggunaanInformasi(String tujuanPenggunaanInformasi) {
+        this.tujuanPenggunaanInformasi = tujuanPenggunaanInformasi;
     }
 
     public String getCaraMemperolehInformasi() {
@@ -113,19 +106,19 @@ public class PermohonanInformasi extends DateConfig {
         this.caraMemperolehInformasi = caraMemperolehInformasi;
     }
 
-    public String getCaraMendapatInformasi() {
-        return caraMendapatInformasi;
+    public String getFotoIdentitas() {
+        return fotoIdentitas;
     }
 
-    public void setCaraMendapatInformasi(String caraMendapatInformasi) {
-        this.caraMendapatInformasi = caraMendapatInformasi;
+    public void setFotoIdentitas(String fotoIdentitas) {
+        this.fotoIdentitas = fotoIdentitas;
     }
 
-    public String getTandaPengenal() {
-        return tandaPengenal;
+    public String getCaraMendapatSalinanInformasi() {
+        return caraMendapatSalinanInformasi;
     }
 
-    public void setTandaPengenal(String tandaPengenal) {
-        this.tandaPengenal = tandaPengenal;
+    public void setCaraMendapatSalinanInformasi(String caraMendapatSalinanInformasi) {
+        this.caraMendapatSalinanInformasi = caraMendapatSalinanInformasi;
     }
 }

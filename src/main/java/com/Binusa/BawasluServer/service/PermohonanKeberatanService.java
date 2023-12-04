@@ -37,16 +37,16 @@ public class PermohonanKeberatanService {
     public PermohonanKeberatan save(PermohonanKeberatanDTO permohonanKeberatanDTO, MultipartFile multipartFile) throws Exception {
         PermohonanKeberatan permohonanKeberatan = new PermohonanKeberatan();
         String image = imageConverter(multipartFile);
-        permohonanKeberatan.setAlamat(permohonanKeberatanDTO.getAlamat());
-        permohonanKeberatan.setAlasan(permohonanKeberatanDTO.getAlasan());
-        permohonanKeberatan.setEmail(permohonanKeberatanDTO.getEmail());
+        permohonanKeberatan.setNamaPemohon(permohonanKeberatanDTO.getNamaPemohon());
+        permohonanKeberatan.setAlamatPemohon(permohonanKeberatanDTO.getAlamatPemohon());
+        permohonanKeberatan.setNomorIdentitasPemohon(permohonanKeberatanDTO.getNomorIdentitasPemohon());
         permohonanKeberatan.setJenisIdentitas(permohonanKeberatanDTO.getJenisIdentitas());
+        permohonanKeberatan.setNoTlp(permohonanKeberatanDTO.getNoTlp());
+        permohonanKeberatan.setEmail(permohonanKeberatanDTO.getEmail());
         permohonanKeberatan.setKasusPosisi(permohonanKeberatanDTO.getKasusPosisi());
-        permohonanKeberatan.setNama(permohonanKeberatanDTO.getNama());
-        permohonanKeberatan.setNomorIndentitas(permohonanKeberatanDTO.getNomorIndentitas());
-        permohonanKeberatan.setNoTelp(permohonanKeberatanDTO.getNoTelp());
-        permohonanKeberatan.setTandaPengenal(image);
         permohonanKeberatan.setTujuanPenggunaanInformasi(permohonanKeberatanDTO.getTujuanPenggunaanInformasi());
+        permohonanKeberatan.setAlasanPengajuanKeberatan(permohonanKeberatanDTO.getAlasanPengajuanKeberatan());
+        permohonanKeberatan.setFotoIdentitas(image);
 
         return permohonanKeberatanRepository.save(permohonanKeberatan);
     }
@@ -67,16 +67,16 @@ public class PermohonanKeberatanService {
      public PermohonanKeberatan update(Long id, PermohonanKeberatanDTO permohonanKeberatanDTO, MultipartFile multipartFile) throws Exception {
         PermohonanKeberatan permohonanKeberatan = permohonanKeberatanRepository.findById(id);
         String image = imageConverter(multipartFile);
-         permohonanKeberatan.setAlamat(permohonanKeberatanDTO.getAlamat());
-         permohonanKeberatan.setAlasan(permohonanKeberatanDTO.getAlasan());
-         permohonanKeberatan.setEmail(permohonanKeberatanDTO.getEmail());
+         permohonanKeberatan.setNamaPemohon(permohonanKeberatanDTO.getNamaPemohon());
+         permohonanKeberatan.setAlamatPemohon(permohonanKeberatanDTO.getAlamatPemohon());
+         permohonanKeberatan.setNomorIdentitasPemohon(permohonanKeberatanDTO.getNomorIdentitasPemohon());
          permohonanKeberatan.setJenisIdentitas(permohonanKeberatanDTO.getJenisIdentitas());
+         permohonanKeberatan.setNoTlp(permohonanKeberatanDTO.getNoTlp());
+         permohonanKeberatan.setEmail(permohonanKeberatanDTO.getEmail());
          permohonanKeberatan.setKasusPosisi(permohonanKeberatanDTO.getKasusPosisi());
-         permohonanKeberatan.setNama(permohonanKeberatanDTO.getNama());
-         permohonanKeberatan.setNomorIndentitas(permohonanKeberatanDTO.getNomorIndentitas());
-         permohonanKeberatan.setNoTelp(permohonanKeberatanDTO.getNoTelp());
-         permohonanKeberatan.setTandaPengenal(image);
          permohonanKeberatan.setTujuanPenggunaanInformasi(permohonanKeberatanDTO.getTujuanPenggunaanInformasi());
+         permohonanKeberatan.setAlasanPengajuanKeberatan(permohonanKeberatanDTO.getAlasanPengajuanKeberatan());
+         permohonanKeberatan.setFotoIdentitas(image);
         return permohonanKeberatanRepository.save(permohonanKeberatan);
     }
 

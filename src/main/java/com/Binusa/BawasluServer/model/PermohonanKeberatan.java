@@ -10,17 +10,17 @@ public class PermohonanKeberatan extends DateConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
-    private String nama;
-    private String alamat;
-    private String noTelp;
-    private String nomorIndentitas;
+    private String namaPemohon;
+    private String alamatPemohon;
+    private String nomorIdentitasPemohon;
     private String jenisIdentitas;
+    private String noTlp;
+    private String email;
     private String kasusPosisi;
     private String tujuanPenggunaanInformasi;
-    private String alasan;
+    private String alasanPengajuanKeberatan;
     @Lob
-    private String tandaPengenal;
+    private String fotoIdentitas;
 
     public Long getId() {
         return id;
@@ -30,44 +30,28 @@ public class PermohonanKeberatan extends DateConfig {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNamaPemohon() {
+        return namaPemohon;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNamaPemohon(String namaPemohon) {
+        this.namaPemohon = namaPemohon;
     }
 
-    public String getNama() {
-        return nama;
+    public String getAlamatPemohon() {
+        return alamatPemohon;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setAlamatPemohon(String alamatPemohon) {
+        this.alamatPemohon = alamatPemohon;
     }
 
-    public String getAlamat() {
-        return alamat;
+    public String getNomorIdentitasPemohon() {
+        return nomorIdentitasPemohon;
     }
 
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
-    }
-
-    public String getNoTelp() {
-        return noTelp;
-    }
-
-    public void setNoTelp(String noTelp) {
-        this.noTelp = noTelp;
-    }
-
-    public String getNomorIndentitas() {
-        return nomorIndentitas;
-    }
-
-    public void setNomorIndentitas(String nomorIndentitas) {
-        this.nomorIndentitas = nomorIndentitas;
+    public void setNomorIdentitasPemohon(String nomorIdentitasPemohon) {
+        this.nomorIdentitasPemohon = nomorIdentitasPemohon;
     }
 
     public String getJenisIdentitas() {
@@ -76,6 +60,22 @@ public class PermohonanKeberatan extends DateConfig {
 
     public void setJenisIdentitas(String jenisIdentitas) {
         this.jenisIdentitas = jenisIdentitas;
+    }
+
+    public String getNoTlp() {
+        return noTlp;
+    }
+
+    public void setNoTlp(String noTlp) {
+        this.noTlp = noTlp;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getKasusPosisi() {
@@ -94,19 +94,19 @@ public class PermohonanKeberatan extends DateConfig {
         this.tujuanPenggunaanInformasi = tujuanPenggunaanInformasi;
     }
 
-    public String getAlasan() {
-        return alasan;
+    public String getAlasanPengajuanKeberatan() {
+        return alasanPengajuanKeberatan;
     }
 
-    public void setAlasan(String alasan) {
-        this.alasan = alasan;
+    public void setAlasanPengajuanKeberatan(String alasanPengajuanKeberatan) {
+        this.alasanPengajuanKeberatan = alasanPengajuanKeberatan;
     }
 
-    public String getTandaPengenal() {
-        return tandaPengenal;
+    public String getFotoIdentitas() {
+        return fotoIdentitas;
     }
 
-    public void setTandaPengenal(String tandaPengenal) {
-        this.tandaPengenal = tandaPengenal;
+    public void setFotoIdentitas(String fotoIdentitas) {
+        this.fotoIdentitas = fotoIdentitas;
     }
 }
