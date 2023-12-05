@@ -21,10 +21,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/bawaslu/api/regulasi")
 //untuk deploy server
-//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 
 //untuk local
-@CrossOrigin(origins = "http://localhost:4040")
+//@CrossOrigin(origins = "http://localhost:4040")
 public class RegulasiController {
     @Autowired
     private RegulasiService regulasiService;
