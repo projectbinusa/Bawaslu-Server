@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -26,29 +27,35 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
+    public UserModel save(UserDTO user) {
+        try {
+            if (user.getUsername() != null && user.getPassword() != null && user.getPassword().length() >= 8) {
+                if (userDao.findByUsername(user.getUsername()) == null) {
+                    UserModel newUser = new UserModel();
+                    newUser.setUsername(user.getUsername());
+                    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+                    newUser.setRole(user.getRole());
+                    return userDao.save(newUser);
+                } else {
+                    throw new IllegalArgumentException("Username Telah Di Gunakan");
+                }
+            } else {
+                throw new IllegalArgumentException("Password Harus Lebih Dari 8 Karakter");
+            }
+        } catch (Exception e) {
+            // Catch any other exceptions and convert them to a meaningful error message
+            throw new IllegalArgumentException("Pendaftaran Gagal: " + e.getMessage());
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserModel user = userDao.findByUsername(username);
-        List<SimpleGrantedAuthority> roles = null;
-
-        if (user.getRole().equals("admin")) {
-            roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        if (user != null) {
+            List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
             return new User(username, user.getPassword(), roles);
-
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        if (user.getRole().equals("user")) {
-            roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
-            return new User(username, user.getPassword(), roles);
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
-    }
-
-    public UserModel save(UserDTO user) {
-        UserModel newUser = new UserModel();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        newUser.setRole(user.getRole());
-        return userDao.save(newUser);
     }
 }
