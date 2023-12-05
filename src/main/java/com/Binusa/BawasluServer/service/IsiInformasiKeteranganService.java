@@ -12,6 +12,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import com.google.protobuf.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,7 @@ public class IsiInformasiKeteranganService {
 
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
-    public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
+    public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
         IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
         isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
 
@@ -44,13 +45,13 @@ public class IsiInformasiKeteranganService {
 
         isiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
-        isiInformasiKeterangan.setPdfDokumen(uploadPdf(multipartFile));
+        isiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDocument());
 
         IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
-        return mapIsiInformasiKeteranganToDTO(savedIsiInformasiKeterangan);
+        return convertToApiResponseDTO(savedIsiInformasiKeterangan);
     }
 
-    public IsiInformasiKeteranganApiResponseDTO update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO, MultipartFile multipartFile) throws Exception {
+    public IsiInformasiKeteranganApiResponseDTO update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
         IsiInformasiKeterangan existingIsiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
 
@@ -61,7 +62,7 @@ public class IsiInformasiKeteranganService {
 
         existingIsiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
-        existingIsiInformasiKeterangan.setPdfDokumen(uploadPdf(multipartFile));
+        existingIsiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDocument());
 
         IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
         return convertToApiResponseDTO(updatedIsiInformasiKeterangan);

@@ -7,6 +7,7 @@ import com.Binusa.BawasluServer.model.JenisInformasi;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.response.CustomResponse;
 import com.Binusa.BawasluServer.service.IsiInformasiKeteranganService;
+import com.google.protobuf.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
     @RestController
@@ -29,26 +31,73 @@ import java.util.Optional;
         @Autowired
         private IsiInformasiKeteranganService isiInformasiKeteranganService;
 
-        @PostMapping(value = "/add", consumes = "multipart/form-data")
+        @PostMapping("/add")
         public ResponseEntity<CommonResponse<IsiInformasiKeteranganApiResponseDTO>> createIsiInformasiKeterangan(
-                @ModelAttribute IsiInformasiKeteranganDTO isiInformasiKeteranganDTO,
-                @RequestPart("upload") MultipartFile multipartFile) {
+                @RequestBody IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
             CommonResponse<IsiInformasiKeteranganApiResponseDTO> response = new CommonResponse<>();
             try {
-                IsiInformasiKeteranganApiResponseDTO savedIsiInformasiKeterangan = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO, multipartFile);
+                // Menyimpan data dengan memanggil service
+                IsiInformasiKeteranganApiResponseDTO savedIsiInformasiKeterangan = isiInformasiKeteranganService.save(isiInformasiKeteranganDTO);
+
                 response.setStatus("success");
                 response.setCode(HttpStatus.CREATED.value());
                 response.setData(savedIsiInformasiKeterangan);
                 response.setMessage("Isi Informasi Keterangan created successfully.");
+
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
+            } catch (EntityNotFoundException e) {
+                // Tangani kesalahan jika entitas tidak ditemukan
+                response.setStatus("error");
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setData(null);
+                response.setMessage("JenisKeterangan not found: " + e.getMessage());
+
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             } catch (Exception e) {
+                // Tangani kesalahan dari service dan kirim respon kesalahan yang sesuai
                 response.setStatus("error");
                 response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
                 response.setData(null);
                 response.setMessage("Failed to create Isi Informasi Keterangan: " + e.getMessage());
+
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+
+        @PutMapping("/{id}")
+        public ResponseEntity<CommonResponse<IsiInformasiKeteranganApiResponseDTO>> updateIsiInformasiKeterangan(
+                @PathVariable("id") Long id,
+                @RequestBody IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
+            CommonResponse<IsiInformasiKeteranganApiResponseDTO> response = new CommonResponse<>();
+            try {
+                // Memperbarui data dengan memanggil service
+                IsiInformasiKeteranganApiResponseDTO updatedIsiInformasiKeterangan = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO);
+
+                response.setStatus("success");
+                response.setCode(HttpStatus.OK.value());
+                response.setData(updatedIsiInformasiKeterangan);
+                response.setMessage("Isi Informasi Keterangan updated successfully.");
+
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } catch (EntityNotFoundException e) {
+                // Tangani kesalahan jika entitas tidak ditemukan
+                response.setStatus("error");
+                response.setCode(HttpStatus.NOT_FOUND.value());
+                response.setData(null);
+                response.setMessage("Isi Informasi Keterangan not found: " + e.getMessage());
+
+                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            } catch (Exception e) {
+                // Tangani kesalahan dari service dan kirim respon kesalahan yang sesuai
+                response.setStatus("error");
+                response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                response.setData(null);
+                response.setMessage("Failed to update Isi Informasi Keterangan: " + e.getMessage());
+
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
 
         @GetMapping("/all")
         public ResponseEntity<CustomResponse<Page<IsiInformasiKeteranganApiResponseDTO>>> getAllIsiInformasiKeterangan(
@@ -75,29 +124,6 @@ import java.util.Optional;
                 response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
                 response.setData(null);
                 response.setMessage("Failed to retrieve jenis informasi data: " + e.getMessage());
-                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-
-        @PutMapping(value = "/{id}", consumes = "multipart/form-data")
-        public ResponseEntity<CommonResponse<IsiInformasiKeteranganApiResponseDTO>> updateIsiInformasiKeterangan(
-                @PathVariable("id") Long id,
-                @ModelAttribute IsiInformasiKeteranganDTO isiInformasiKeteranganDTO,
-                @RequestPart("upload") MultipartFile multipartFile) {
-            CommonResponse<IsiInformasiKeteranganApiResponseDTO> response = new CommonResponse<>();
-            try {
-                IsiInformasiKeteranganApiResponseDTO updatedIsiInformasiKeterangan = isiInformasiKeteranganService.update(id, isiInformasiKeteranganDTO, multipartFile);
-                response.setStatus("success");
-                response.setCode(HttpStatus.OK.value());
-                response.setData(updatedIsiInformasiKeterangan);
-                response.setMessage("Isi Informasi Keterangan updated successfully.");
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } catch (Exception e) {
-                response.setStatus("error");
-                response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-                response.setData(null);
-                response.setMessage("Failed to update Isi Informasi Keterangan: " + e.getMessage());
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
