@@ -78,7 +78,7 @@ public class MenuRegulasiController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<CommonResponse<MenuRegulasi>> updateMenuRegulasi(@PathVariable("id") Long id, MenuRegulasiDTO menuRegulasiDTO) throws SQLException, ClassNotFoundException {
         CommonResponse<MenuRegulasi> response = new CommonResponse<>();
         try {

@@ -74,7 +74,7 @@ public class JenisRegulasiController {
     }
 
 
-    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasiDTO jenisRegulasi) throws SQLException, ClassNotFoundException {
         CommonResponse<JenisRegulasi> response = new CommonResponse<>();
         try {
