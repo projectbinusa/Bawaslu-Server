@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +51,17 @@ public class PermohonanInformasiController {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CommonResponse<List<PermohonanInformasi>>> listAllPermohonanInformasi(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) throws SQLException, ClassNotFoundException {
-        CommonResponse<List<PermohonanInformasi>> response = new CommonResponse<>();
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "updatedDate") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        Pageable pageable;
+        if (sortOrder.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        }        CommonResponse<List<PermohonanInformasi>> response = new CommonResponse<>();
         try {
-            Pageable pageable = PageRequest.of(page, size);
             Page<PermohonanInformasi> informasiPage = permohonanInformasiService.findAll(pageable);
 
             response.setStatus("success");

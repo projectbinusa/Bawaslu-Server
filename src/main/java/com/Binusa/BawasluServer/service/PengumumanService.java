@@ -56,7 +56,7 @@ public class PengumumanService {
 
 
     public Page<Pengumuman> findAllWithPagination(Pageable pageable) {
-        return pengumumanRepository.findAll(pageable);
+        return pengumumanRepository.findAllByOrderByUpdatedDateDesc(pageable);
     }
 
 

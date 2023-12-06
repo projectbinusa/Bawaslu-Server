@@ -20,4 +20,5 @@ public interface CategoryBeritaRepository extends CrudRepository<CategoryBerita,
     List<CategoryBerita> limit7();
 
     Page<CategoryBerita> findAll(Pageable pageable);
+    Page<CategoryBerita> findAllByOrderByUpdatedDateDesc(Pageable pageable);
 }

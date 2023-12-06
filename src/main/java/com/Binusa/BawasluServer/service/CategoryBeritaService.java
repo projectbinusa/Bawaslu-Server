@@ -38,7 +38,7 @@ public class CategoryBeritaService {
     }
 
     public Page<CategoryBerita> findAll(Pageable pageable) {
-        return categoryBeritaRepository.findAll(pageable);
+        return categoryBeritaRepository.findAllByOrderByUpdatedDateDesc(pageable);
     }
     public List<CategoryBerita> findAllByLimit7() {
         List<CategoryBerita> category = new ArrayList<>();

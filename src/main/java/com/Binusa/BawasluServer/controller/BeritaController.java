@@ -53,7 +53,7 @@ public class BeritaController {
     public ResponseEntity<CommonResponse<Page<Berita>>> listAllBerita(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "updatedDate") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder) {
 
         Pageable pageable;
@@ -69,7 +69,7 @@ public class BeritaController {
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(beritaPage);
-            response.setMessage("Berita list retrieved successfully.");
+            response.setMessage(" Berita list retrieved successfully.");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setStatus("error");

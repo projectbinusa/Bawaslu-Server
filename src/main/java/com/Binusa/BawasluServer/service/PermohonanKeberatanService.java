@@ -52,7 +52,7 @@ public class PermohonanKeberatanService {
     }
 
     public Page<PermohonanKeberatan> findAll(Pageable pageable) {
-        return permohonanKeberatanRepository.findAll(pageable);
+        return permohonanKeberatanRepository.findAllByOrderByUpdatedDateDesc(pageable);
     }
 
     public Optional<PermohonanKeberatan> findById(Long id) {

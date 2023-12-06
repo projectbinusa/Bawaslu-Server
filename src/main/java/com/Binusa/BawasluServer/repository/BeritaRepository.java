@@ -16,7 +16,7 @@ import java.util.List;
 public interface BeritaRepository extends CrudRepository<Berita, Integer> {
     Berita findById(long id);
     Page<Berita> findAll(Pageable pageable);
-
+    Page<Berita> findAllByOrderByUpdatedDateDesc(Pageable pageable);
     List<Berita> findFirst5ByOrderByUpdatedDateDesc();
     Page<Berita> findByCategoryBerita_Id(Long categoryId, Pageable pageable);
 

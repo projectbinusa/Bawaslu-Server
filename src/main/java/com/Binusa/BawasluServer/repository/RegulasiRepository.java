@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface RegulasiRepository extends CrudRepository<Regulasi, Integer> {
     Page<Regulasi> findAll(Pageable pageable);
+    Page<Regulasi> findAllByOrderByUpdatedDateDesc(Pageable pageable);
     @Query("SELECT r FROM Regulasi r WHERE r.menuRegulasi.id = :menuRegulasiId")
     Page<Regulasi> getByMenuRegulasi(@Param("menuRegulasiId") Long menuRegulasiId, Pageable pageable);
 

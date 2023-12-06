@@ -61,7 +61,7 @@ public class RegulasiService {
     }
 
     public Page<Regulasi> findAll(Pageable pageable) {
-        return regulasiRepository.findAll(pageable);
+        return regulasiRepository.findAllByOrderByUpdatedDateDesc(pageable);
     }
 
 
@@ -75,20 +75,6 @@ public class RegulasiService {
             System.out.println("Entity with id " + id + " not found.");
         }
     }
-
-//        @Transactional
-//    public void delete(Long id) {
-//        Berita berita = beritaDao.findById(id);
-//
-//        if (berita != null) {
-//            berita.getTagsBerita().clear();
-//            berita.setCategoryBerita(null);
-//
-//            beritaDao.delete(berita);
-//        } else {
-//            System.out.println("Entity with id " + id + " not found.");
-//        }
-//    }
 
     public Regulasi update(Long id, RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
         Regulasi regulasi = regulasiRepository.findById(id);

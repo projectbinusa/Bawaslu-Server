@@ -64,7 +64,7 @@ public class BeritaService {
     }
 
     public Page<Berita> findAllWithPagination(Pageable pageable) {
-        return beritaDao.findAll(pageable);
+        return beritaDao.findAllByOrderByUpdatedDateDesc(pageable);
     }
 
     @Transactional
@@ -91,6 +91,7 @@ public class BeritaService {
         berita.setCategoryBerita(categoryBeritaRepository.findById(beritaDTO.getCategoryId()));
         return beritaDao.save(berita);
     }
+
 
     public List<Berita> beritaTerbaru(){
         return beritaDao.findFirst5ByOrderByUpdatedDateDesc();

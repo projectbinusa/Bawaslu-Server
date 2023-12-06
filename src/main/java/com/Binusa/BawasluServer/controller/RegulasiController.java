@@ -145,7 +145,7 @@ public class RegulasiController {
             @RequestParam("id-menu-regulasi") Long id,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
-            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortBy", defaultValue = "updatedDate") String sortBy,
             @RequestParam(name = "sortOrder", defaultValue = "ASC") String sortOrder
     ) {
         CommonResponse<Page<Regulasi>> response = new CommonResponse<>();

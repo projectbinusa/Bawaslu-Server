@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface PermohonanKeberatanRepository extends CrudRepository<PermohonanKeberatan, Integer> {
     PermohonanKeberatan findById(long id);
     Page<PermohonanKeberatan> findAll(Pageable pageable);
+    Page<PermohonanKeberatan> findAllByOrderByUpdatedDateDesc(Pageable pageable);
+
 }

@@ -16,6 +16,8 @@ import java.util.List;
 public interface PengumumanRepository extends CrudRepository<Pengumuman, Integer> {
     Pengumuman findById(long id);
     Page<Pengumuman> findAll(Pageable pageable);
+    Page<Pengumuman> findAllByOrderByUpdatedDateDesc(Pageable pageable);
+
 
     @Query("SELECT p FROM Pengumuman p WHERE " +
             "p.judulPengumuman LIKE CONCAT('%',:judul, '%')")
