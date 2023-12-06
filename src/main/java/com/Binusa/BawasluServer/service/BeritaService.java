@@ -163,15 +163,6 @@ public class BeritaService {
         return file;
     }
 
-//    private File convertFile(MultipartFile multipartFile, String fileName) throws IOException {
-//        File file = new File(fileName);
-//        try (FileOutputStream fos = new FileOutputStream(file)) {
-//            fos.write(multipartFile.getBytes());
-//        }
-//        return file;
-//    }
-
-
     private String uploadFile(File file, String fileName) throws IOException {
         BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();

@@ -99,7 +99,7 @@ public class PermohonanInformasiService {
             return RESPONSE_URL;
         } catch (Exception e) {
             e.getStackTrace();
-            throw new Exception("Error upload file!");
+            throw new Exception("Error upload file: " + e.getMessage());
         }
     }
 
@@ -113,6 +113,7 @@ public class PermohonanInformasiService {
             fos.write(multipartFile.getBytes());
             fos.close();
         }
+        System.out.println("File size: " + file.length());
         return file;
     }
 
