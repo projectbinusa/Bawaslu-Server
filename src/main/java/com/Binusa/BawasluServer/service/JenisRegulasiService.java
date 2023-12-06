@@ -40,7 +40,7 @@ public class JenisRegulasiService {
     }
 
     public List<JenisRegulasi> allJenisRegulasi(Pageable pageable) {
-        Page<JenisRegulasi> jenisRegulasiPage = jenisRegulasiRepository.findAll(pageable);
+        Page<JenisRegulasi> jenisRegulasiPage = jenisRegulasiRepository.findAllByOrderByUpdatedDateDesc(pageable);
         return jenisRegulasiPage.getContent();
     }
 

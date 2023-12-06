@@ -52,7 +52,7 @@ public class PermohonanKeberatanController {
     public ResponseEntity<CommonResponse<List<PermohonanKeberatan>>> listAllPermohonanKeberatan(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "updatedDate") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder
     ) throws SQLException, ClassNotFoundException {
         CommonResponse<List<PermohonanKeberatan>> response = new CommonResponse<>();

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface JenisRegulasiRepository extends CrudRepository<JenisRegulasi, Integer> {
     JenisRegulasi findById(long id);
     Page<JenisRegulasi> findAll(Pageable pageable);
+    Page<JenisRegulasi> findAllByOrderByUpdatedDateDesc(Pageable pageable);
+
 }

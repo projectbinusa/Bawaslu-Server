@@ -54,7 +54,7 @@ public class PermohonanInformasiService {
     }
 
     public Page<PermohonanInformasi> findAll(Pageable pageable) {
-        return permohonanInformasiRepository.findAll(pageable);
+        return permohonanInformasiRepository.findAllByOrderByUpdatedDateDesc(pageable);
     }
 
     public Optional<PermohonanInformasi> findById(Long id) {
