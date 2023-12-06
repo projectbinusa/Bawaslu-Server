@@ -15,6 +15,10 @@ public class AppConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
+//                ini yang buat fe local
+//              .allowedOrigins("http://localhost:3000/")
+//                ini yang buat fe deploy
+//              .allowedOrigins("https://bawaslu.excellentsistem.com/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("X-Requested-With", "Content-Type", "Origin", "Authorization", "Accept", "Client-Security-Token", "Accept-Encoding")
                 .maxAge(3600);

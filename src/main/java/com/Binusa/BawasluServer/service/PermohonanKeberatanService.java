@@ -95,7 +95,7 @@ public class PermohonanKeberatanService {
             return RESPONSE_URL;
         } catch (Exception e) {
             e.getStackTrace();
-            throw new Exception("Error upload file!");
+            throw new Exception("Error upload file: " + e.getMessage());
         }
     }
 
@@ -109,6 +109,7 @@ public class PermohonanKeberatanService {
             fos.write(multipartFile.getBytes());
             fos.close();
         }
+        System.out.println("File size: " + file.length());
         return file;
     }
 
