@@ -60,11 +60,8 @@ public class JenisKeteranganService {
 
 
     // Method untuk membaca semua jenis keterangan
-    public List<JenisKeteranganDTO> getAllJenisKeterangan() {
-        List<JenisKeterangan> jenisKeteranganList = jenisKeteranganRepository.findAll();
-        return jenisKeteranganList.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Page<JenisKeteranganDTO> getAllJenisKeterangan(Pageable pageable) {
+        return jenisKeteranganRepository.findAllByOrderByUpdatedDateDesc(pageable);
     }
 
     // Method untuk membaca jenis keterangan berdasarkan ID

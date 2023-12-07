@@ -68,7 +68,7 @@ public class TagsController {
     }
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<CommonResponse<Tags>> updateTags(@PathVariable("id") Long id, Tags berita) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<Tags>> updateTags(@PathVariable("id") Long id, @RequestBody Tags berita) throws SQLException, ClassNotFoundException {
         CommonResponse<Tags> response = new CommonResponse<>();
         try {
             Optional<Tags> currentTags = tagsService.findById(id);

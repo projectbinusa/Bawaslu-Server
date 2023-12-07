@@ -1,10 +1,12 @@
 package com.Binusa.BawasluServer.model;
 
+import com.Binusa.BawasluServer.auditing.DateConfig;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "isi_informasi_keterangan")
-public class IsiInformasiKeterangan {
+public class IsiInformasiKeterangan extends DateConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
