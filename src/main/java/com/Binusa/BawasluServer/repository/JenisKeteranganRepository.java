@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface JenisKeteranganRepository extends JpaRepository<JenisKeterangan, Long> {
     List<JenisKeterangan> findByJenisInformasiId(Long jenisInformasiId);
-    Page<JenisKeteranganDTO> findAllByOrderByUpdatedDateDesc(Pageable pageable);
 }
 
 

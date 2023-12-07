@@ -48,7 +48,7 @@ public class JenisInformasiController {
     public ResponseEntity<CustomResponse<List<JenisInformasiDTO>>> getAllJenisInformasi(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder
     ) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortBy);
@@ -128,7 +128,7 @@ public class JenisInformasiController {
             @RequestParam Long id,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder
     ) {
         CommonResponse<Page<JenisInformasiKeteranganDTO>> response = new CommonResponse<>();
