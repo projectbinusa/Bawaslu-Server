@@ -51,7 +51,7 @@ public class CategoryBeritaContoller {
     public ResponseEntity<CommonResponse<Page<CategoryBerita>>> listAlCategoryBerita(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "updatedDate") String sort,
+            @RequestParam(defaultValue = "createdDate") String sort,
             @RequestParam(defaultValue = "asc") String direction) throws SQLException, ClassNotFoundException {
         CommonResponse<Page<CategoryBerita>> response = new CommonResponse<>();
         try {

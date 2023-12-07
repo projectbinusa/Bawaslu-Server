@@ -53,7 +53,7 @@ public class PengumumanController {
     public ResponseEntity<CommonResponse<Page<Pengumuman>>> listAllPengumuman(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "updatedDate") String sortBy,
+            @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder) {
 
         Pageable pageable;

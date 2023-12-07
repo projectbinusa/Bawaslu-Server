@@ -50,7 +50,7 @@ public class JenisRegulasiController {
     public ResponseEntity<CommonResponse<List<JenisRegulasi>>> listAllJenisRegulasi(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder
     ) throws SQLException, ClassNotFoundException {
         CommonResponse<List<JenisRegulasi>> response = new CommonResponse<>();
@@ -75,7 +75,7 @@ public class JenisRegulasiController {
 
 
     @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, JenisRegulasiDTO jenisRegulasi) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<CommonResponse<JenisRegulasi>> updateJenisRegulasi(@PathVariable("id") Long id, @RequestBody JenisRegulasiDTO jenisRegulasi) throws SQLException, ClassNotFoundException {
         CommonResponse<JenisRegulasi> response = new CommonResponse<>();
         try {
             Optional<JenisRegulasi> currentJenisRegulasi = jenisRegulasiService.findById(id);

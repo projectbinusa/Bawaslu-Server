@@ -4,6 +4,7 @@ public class RegulasiDTO {
     private long id;
     private String dokumen;
     private Long menuRegulasi;
+    private String pdfDokumen;
 
     public long getId() {
         return id;
@@ -27,5 +28,13 @@ public class RegulasiDTO {
 
     public void setMenuRegulasi(Long menuRegulasi) {
         this.menuRegulasi = menuRegulasi;
+    }
+
+    public String getPdfDokumen() {
+        return pdfDokumen;
+    }
+
+    public void setPdfDokumen(String pdfDokumen) {
+        this.pdfDokumen = pdfDokumen;
     }
 }

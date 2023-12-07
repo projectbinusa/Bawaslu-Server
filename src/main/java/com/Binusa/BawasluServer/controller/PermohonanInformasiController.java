@@ -52,7 +52,7 @@ public class PermohonanInformasiController {
     public ResponseEntity<CommonResponse<List<PermohonanInformasi>>> listAllPermohonanInformasi(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "updatedDate") String sortBy,
+            @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder) {
 
         Pageable pageable;

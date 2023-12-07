@@ -29,11 +29,11 @@ public class RegulasiController {
     @Autowired
     private RegulasiService regulasiService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<Regulasi>> createRegulasi(RegulasiDTO regulasiDTO, @RequestPart("upload")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<CommonResponse<Regulasi>> createRegulasi(@RequestBody RegulasiDTO regulasiDTO) throws SQLException, ClassNotFoundException {
         CommonResponse<Regulasi> response = new CommonResponse<>();
         try {
-            Regulasi regulasi = regulasiService.save(regulasiDTO, multipartFile);
+            Regulasi regulasi = regulasiService.save(regulasiDTO);
             response.setStatus("success");
             response.setCode(HttpStatus.CREATED.value());
             response.setData(regulasi);
@@ -50,8 +50,17 @@ public class RegulasiController {
 
     @GetMapping("/all")
     public ResponseEntity<CommonResponse<Page<Regulasi>>> listAllRegulasi(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) throws SQLException, ClassNotFoundException {
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        Pageable pageable;
+        if (sortOrder.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        }
         CommonResponse<Page<Regulasi>> response = new CommonResponse<>();
         try {
             Page<Regulasi> regulasiPage = regulasiService.findAll(PageRequest.of(page, size));
@@ -71,8 +80,8 @@ public class RegulasiController {
 
 
 
-    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, consumes = "multipart/form-data")
-    public ResponseEntity<CommonResponse<Regulasi>> updateRegulasi(@PathVariable("id") Long id, RegulasiDTO regulasiDTO, @RequestPart("upload")MultipartFile multipartFile) throws SQLException, ClassNotFoundException {
+    @RequestMapping(value = "/put/{id}", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity<CommonResponse<Regulasi>> updateRegulasi(@PathVariable("id") Long id, @RequestBody RegulasiDTO regulasiDTO) throws SQLException, ClassNotFoundException {
         CommonResponse<Regulasi> response = new CommonResponse<>();
         try {
             Optional<Regulasi> currentRegulasi = regulasiService.findById(id);
@@ -87,7 +96,7 @@ public class RegulasiController {
 
             // Update berita here...
 
-            Regulasi menuRegulasi = regulasiService.update(id, regulasiDTO, multipartFile);
+            Regulasi menuRegulasi = regulasiService.update(id, regulasiDTO);
             response.setStatus("success");
             response.setCode(HttpStatus.OK.value());
             response.setData(menuRegulasi);
@@ -145,9 +154,15 @@ public class RegulasiController {
             @RequestParam("id-menu-regulasi") Long id,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
-            @RequestParam(name = "sortBy", defaultValue = "updatedDate") String sortBy,
-            @RequestParam(name = "sortOrder", defaultValue = "ASC") String sortOrder
-    ) {
+            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        Pageable pageable;
+        if (sortOrder.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        }
         CommonResponse<Page<Regulasi>> response = new CommonResponse<>();
         try {
             // Validasi ukuran halaman dan urutan

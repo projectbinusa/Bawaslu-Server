@@ -42,11 +42,11 @@ public class RegulasiService {
 
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
-    public Regulasi save(RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
+    public Regulasi save(RegulasiDTO regulasiDTO) throws Exception {
         Regulasi regulasi = new Regulasi();
         regulasi.setMenuRegulasi(menuRegulasiRepository.findById(regulasiDTO.getMenuRegulasi()));
         regulasi.setDokumen(regulasiDTO.getDokumen());
-        regulasi.setPdfDokumen(uploadPdf(multipartFile));
+        regulasi.setPdfDokumen(regulasiDTO.getPdfDokumen());
         return regulasiRepository.save(regulasi);
     }
 
@@ -76,11 +76,11 @@ public class RegulasiService {
         }
     }
 
-    public Regulasi update(Long id, RegulasiDTO regulasiDTO, MultipartFile multipartFile) throws Exception {
+    public Regulasi update(Long id, RegulasiDTO regulasiDTO) throws Exception {
         Regulasi regulasi = regulasiRepository.findById(id);
         regulasi.setMenuRegulasi(menuRegulasiRepository.findById(regulasiDTO.getMenuRegulasi()));
         regulasi.setDokumen(regulasiDTO.getDokumen());
-        regulasi.setPdfDokumen(uploadPdf(multipartFile));
+        regulasi.setPdfDokumen(regulasiDTO.getPdfDokumen());
         return regulasiRepository.save(regulasi);
     }
 
