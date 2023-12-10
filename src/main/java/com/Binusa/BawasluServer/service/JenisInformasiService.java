@@ -59,12 +59,8 @@ public class JenisInformasiService {
         try {
             jenisInformasiRepository.deleteById(id);
         } catch (EntityNotFoundException e) {
-            // Tangani exception EntityNotFoundException
-            // Misalnya, log atau berikan respons yang sesuai
-            throw new EntityNotFoundException("Jenis informasi dengan ID " + id + " tidak ditemukan.");
+            throw new EntityNotFoundException("Jenis informasi dengan ID " + id + " tidak dapat ditemukan.");
         } catch (DataIntegrityViolationException e) {
-            // Tangani exception DataIntegrityViolationException
-            // Misalnya, log atau berikan respons yang sesuai
         }
     }
 
