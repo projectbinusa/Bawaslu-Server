@@ -12,7 +12,6 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import com.google.protobuf.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +23,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class IsiInformasiKeteranganService {
@@ -45,7 +42,7 @@ public class IsiInformasiKeteranganService {
 
         isiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
-        isiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDocument());
+        isiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDokumen());
 
         IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
         return convertToApiResponseDTO(savedIsiInformasiKeterangan);
@@ -62,7 +59,7 @@ public class IsiInformasiKeteranganService {
 
         existingIsiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
 
-        existingIsiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDocument());
+        existingIsiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDokumen());
 
         IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
         return convertToApiResponseDTO(updatedIsiInformasiKeterangan);

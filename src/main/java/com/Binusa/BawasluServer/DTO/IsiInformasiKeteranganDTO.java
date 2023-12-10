@@ -4,7 +4,7 @@ public class IsiInformasiKeteranganDTO {
 
     private Long id;
     private String dokumen;
-    private String pdfDocument;
+    private String pdfDokumen;
     private Long jenisKeteranganId;
 
     public Long getId() {
@@ -23,12 +23,12 @@ public class IsiInformasiKeteranganDTO {
         this.dokumen = dokumen;
     }
 
-    public String getPdfDocument() {
-        return pdfDocument;
+    public String getPdfDokumen() {
+        return pdfDokumen;
     }
 
-    public void setPdfDocument(String pdfDocument) {
-        this.pdfDocument = pdfDocument;
+    public void setPdfDokumen(String pdfDokumen) {
+        this.pdfDokumen = pdfDokumen;
     }
 
     public Long getJenisKeteranganId() {

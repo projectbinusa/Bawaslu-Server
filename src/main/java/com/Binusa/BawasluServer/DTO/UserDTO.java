@@ -4,7 +4,7 @@ public class UserDTO {
     private String username;
     private String password;
     private String role; // Assuming role is a string, you can modify this based on your needs
-    private String token; // For login endpoint
+//    private String token; // For login endpoint
 
     // getters and setters
 
@@ -32,11 +32,11 @@ public class UserDTO {
         this.role = role;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+//    public String getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
 }
