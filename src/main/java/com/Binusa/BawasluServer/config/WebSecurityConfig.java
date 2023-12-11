@@ -103,6 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/jenis-keterangan/all",
             "/bawaslu/api/jenis-keterangan/getBy/{id}",
             "/bawaslu/api/jenis-keterangan/{jenisKeterangan}/isi-informasi",
+            "/bawaslu/api/jenis-keterangan/all",
             // Isi Informasi
             "/bawaslu/api/isi-keterangan-informasi/all",
             "/bawaslu/api/isi-keterangan-informasi/getBy/{id}"
