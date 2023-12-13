@@ -86,7 +86,7 @@ public class RegulasiService {
 
     public Regulasi getById(Long id) throws Exception{
         Regulasi regulasi = regulasiRepository.findById(id);
-        if(regulasi == null) throw new Exception("Menu regulasi not found!");
+        if(regulasi == null) throw new Exception("Regulasi not found!");
         return regulasi;
     }
 
