@@ -76,9 +76,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/pengumuman",
             "/bawaslu/api/pengumuman/get/{id}",
             "/bawaslu/api/pengumuman/related-pengumuman/by-id-pengumuman",
+            "/bawaslu/api/pengumuman/search",
             // Jenis Regulasi
             "/bawaslu/api/jenis-regulasi/all",
-            "/bawaslu/api/jenis-regulasi/get-by-id",
+            "/bawaslu/api/jenis-regulasi/get-by-id/{id}",
             // Menu Regulasi
             "/bawaslu/api/menu-regulasi/all",
             "/bawaslu/api/menu-regulasi/get/{id}",
