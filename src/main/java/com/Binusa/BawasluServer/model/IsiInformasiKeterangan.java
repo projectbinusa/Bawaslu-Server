@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "isi_informasi_keterangan")
-public class IsiInformasiKeterangan extends DateConfig {
+public class IsiInformasiKeterangan{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

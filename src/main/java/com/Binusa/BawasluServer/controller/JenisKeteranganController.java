@@ -21,10 +21,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/bawaslu/api/jenis-keterangan")
 //untuk deploy server
-@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
+//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 
 //untuk local
-//@CrossOrigin(origins = "http://localhost:4040")
+@CrossOrigin(origins = "http://localhost:4040")
 public class JenisKeteranganController {
     @Autowired
     private JenisKeteranganService jenisKeteranganService;
@@ -54,19 +54,9 @@ public class JenisKeteranganController {
 
     // Endpoint untuk membaca semua jenis keterangan
     @GetMapping("/all")
-    public ResponseEntity<CustomResponse<Page<JenisKeteranganDTO>>>getAllJenisKeterangan(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortOrder) {
-        Pageable pageable;
-        if (sortOrder.equals("asc")) {
-            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
-        } else {
-            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
-        }
-        Page<JenisKeteranganDTO> jenisKeteranganList = jenisKeteranganService.getAllJenisKeterangan(pageable);
-        CustomResponse<Page<JenisKeteranganDTO>>response = new CustomResponse<>();
+    public ResponseEntity<CustomResponse<List<JenisKeteranganDTO>>>getAllJenisKeterangan() {
+        List<JenisKeteranganDTO> jenisKeteranganList = jenisKeteranganService.getAllJenisKeterangan();
+        CustomResponse<List<JenisKeteranganDTO>>response = new CustomResponse<>();
         response.setStatus("success");
         response.setCode(200);
         response.setData(jenisKeteranganList);
@@ -129,7 +119,7 @@ public class JenisKeteranganController {
             @PathVariable("jenisKeterangan") Long jenisKeterangan,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "asc") String sortOrder) {
 
         Pageable pageable;

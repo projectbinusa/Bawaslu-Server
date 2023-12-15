@@ -103,7 +103,7 @@ import java.util.Optional;
         public ResponseEntity<CustomResponse<Page<IsiInformasiKeteranganApiResponseDTO>>> getAllIsiInformasiKeterangan(
                 @RequestParam(defaultValue = "0") int page,
                 @RequestParam(defaultValue = "10") int size,
-                @RequestParam(defaultValue = "createdDate") String sort,
+                @RequestParam(defaultValue = "id") String sort,
                 @RequestParam(defaultValue = "asc") String direction) {
 
             CustomResponse<Page<IsiInformasiKeteranganApiResponseDTO>> response = new CustomResponse<>();

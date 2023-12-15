@@ -10,6 +10,7 @@ import com.Binusa.BawasluServer.repository.JenisInformasiRepository;
 import com.Binusa.BawasluServer.repository.JenisKeteranganRepository;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -55,8 +56,15 @@ public class JenisInformasiService {
     }
 
     public void deleteJenisInformasi(Long id) {
-        jenisInformasiRepository.deleteById(id);
+        try {
+            jenisInformasiRepository.deleteById(id);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Jenis informasi dengan ID " + id + " tidak dapat ditemukan.");
+        } catch (DataIntegrityViolationException e) {
+        }
     }
+
+
     public Page<JenisInformasiKeteranganDTO> getJenisInformasiWithKeterangan(Long id, Pageable pageable) {
         JenisInformasi jenisInformasi = jenisInformasiRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("JenisInformasi not found with id: " + id));

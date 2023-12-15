@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "jenis_keterangan")
-public class JenisKeterangan extends DateConfig {
+public class JenisKeterangan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
