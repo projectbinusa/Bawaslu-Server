@@ -107,7 +107,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/jenis-keterangan/all",
             // Isi Informasi
             "/bawaslu/api/isi-keterangan-informasi/all",
-            "/bawaslu/api/isi-keterangan-informasi/getBy/{id}"
+            "/bawaslu/api/isi-keterangan-informasi/getBy/{id}",
+            // Tabel Regulasi
+            "/bawaslu/api/tabel-regulasi/all",
+            "/bawaslu/api/tabel-regulasi/all-terbaru",
+            "/bawaslu/api/tabel-regulasi/all-by-daftar-regulasi",
+            // Tabel DIP
+            "/bawaslu/api/tabel-dip/all",
+            "/bawaslu/api/tabel-dip/all-terbaru",
+            "/bawaslu/api/tabel-dip/all-by-daftar-dip",
+            // Tabel SOP
+            "/bawaslu/api/tabel-sop/all",
+            "/bawaslu/api/tabel-sop/all-terbaru",
+            "/bawaslu/api/tabel-sop/all-by-daftar-sop",
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
@@ -123,6 +135,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/menu-regulasi/**",
             "/bawaslu/api/regulasi/**",
             "/bawaslu/api/category-berita/**",
+            "/bawaslu/api/tabel-regulasi/**",
+            "/bawaslu/api/tabel-dip/**",
+            "/bawaslu/api/tabel-sop/**",
     };
 
     @Override
