@@ -120,6 +120,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/tabel-sop/all",
             "/bawaslu/api/tabel-sop/all-terbaru",
             "/bawaslu/api/tabel-sop/all-by-daftar-sop",
+            // Tabel Carousel
+            "/bawaslu/carousel/ById{id}",
+            "/bawaslu/carousel/all",
+            "/bawaslu/carousel/terbaru",
     };
 
     private static final String[] AUTH_AUTHORIZATION = {
@@ -138,6 +142,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/tabel-regulasi/**",
             "/bawaslu/api/tabel-dip/**",
             "/bawaslu/api/tabel-sop/**",
+            "/bawaslu/api/carousel/**",
     };
 
     @Override
