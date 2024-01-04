@@ -121,9 +121,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/tabel-sop/all-terbaru",
             "/bawaslu/api/tabel-sop/all-by-daftar-sop",
             // Tabel Carousel
-            "/bawaslu/carousel/ById{id}",
-            "/bawaslu/carousel/all",
-            "/bawaslu/carousel/terbaru",
+            "/bawaslu/api/carousel/ById/{id}",
+            "/bawaslu/api/carousel/all",
+            "/bawaslu/api/carousel/terbaru",
     };
 
     private static final String[] AUTH_AUTHORIZATION = {

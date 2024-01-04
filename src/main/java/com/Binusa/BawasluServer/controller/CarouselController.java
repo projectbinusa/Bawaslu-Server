@@ -2,9 +2,7 @@ package com.Binusa.BawasluServer.controller;
 
 import com.Binusa.BawasluServer.DTO.CarouselPayloadDTO;
 import com.Binusa.BawasluServer.DTO.CarouselResponseDTO;
-import com.Binusa.BawasluServer.DTO.PengumumanDTO;
 import com.Binusa.BawasluServer.model.Carousel;
-import com.Binusa.BawasluServer.model.Pengumuman;
 import com.Binusa.BawasluServer.response.CommonResponse;
 import com.Binusa.BawasluServer.service.CarouselService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +24,12 @@ public class CarouselController {
     private CarouselService carouselService;
 
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public List<CarouselResponseDTO> getAllCarousels() {
         return carouselService.getAllCarousels();
     }
 
-    @GetMapping("ById/{id}")
+    @GetMapping("/ById/{id}")
     public ResponseEntity<CarouselResponseDTO> getCarouselById(@PathVariable Long id) {
         Optional<CarouselResponseDTO> carousel = carouselService.getCarouselById(id);
         return carousel.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
