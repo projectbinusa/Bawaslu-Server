@@ -22,11 +22,7 @@ import java.util.List;
 import java.util.Optional;
     @RestController
     @RequestMapping("/bawaslu/api/isi-keterangan-informasi")
-//untuk deploy server
-//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
-
-//untuk local
-//    @CrossOrigin(origins = "http://localhost:4040/")
+    @CrossOrigin(origins = "*")
     public class IsiInformasiKeteranganController {
         @Autowired
         private IsiInformasiKeteranganService isiInformasiKeteranganService;

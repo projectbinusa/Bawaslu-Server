@@ -14,13 +14,13 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-//                .allowedOrigins("*")
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("X-Requested-With", "Content-Type", "Origin", "Authorization", "Accept", "Client-Security-Token", "Accept-Encoding")
 //                ini yang buat fe local
-//              .allowedOrigins("http://localhost:3000/")
+//              .allowedOrigins("http://localhost:3000")
 //                ini yang buat fe deploy
-                .allowedOrigins("https://bawaslu.excellentsistem.com/")
+//                .allowedOrigins("https://bawaslu.excellentsistem.com/")
                 .maxAge(3600);
     }
 }
