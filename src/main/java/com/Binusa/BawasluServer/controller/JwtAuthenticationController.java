@@ -20,11 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 
 @RestController
-//untuk deploy server
-//@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
-
-//untuk local
-//@CrossOrigin(origins = "http://localhost:4040/")
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationController {
 
     @Autowired
