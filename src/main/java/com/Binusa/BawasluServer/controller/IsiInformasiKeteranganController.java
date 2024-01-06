@@ -26,7 +26,7 @@ import java.util.Optional;
 //@CrossOrigin(origins = "https://api-bawaslu.excellentsistem.com")
 
 //untuk local
-    @CrossOrigin(origins = "http://localhost:4040/")
+//    @CrossOrigin(origins = "http://localhost:4040/")
     public class IsiInformasiKeteranganController {
         @Autowired
         private IsiInformasiKeteranganService isiInformasiKeteranganService;
