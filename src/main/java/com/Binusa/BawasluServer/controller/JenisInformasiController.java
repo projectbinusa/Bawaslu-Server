@@ -22,6 +22,16 @@ public class JenisInformasiController {
     private JenisInformasiService jenisInformasiService;
 
     // Endpoint untuk membuat jenis informasi baru
+    @PostMapping("/truncate")
+    public ResponseEntity<CustomResponse<Void>> truncateJenisInformasiTable() {
+        jenisInformasiService.truncateJenisInformasiTable();
+        CustomResponse<Void> response = new CustomResponse<>();
+        response.setStatus("success");
+        response.setCode(200);
+        response.setMessage("Tabel jenis informasi berhasil di-truncate");
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<CustomResponse<JenisInformasiDTO>> createJenisInformasi(@RequestBody JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi createdJenisInformasi = jenisInformasiService.createJenisInformasi(jenisInformasiDTO);

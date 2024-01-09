@@ -28,6 +28,10 @@ public class JenisInformasiService {
     @Autowired
     private JenisInformasiRepository jenisInformasiRepository;
 
+    public void truncateJenisInformasiTable() {
+        jenisInformasiRepository.truncateTable();
+    }
+
     public JenisInformasi createJenisInformasi(JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = new JenisInformasi();
         jenisInformasi.setNamaInformasi(jenisInformasiDTO.getNamaInformasi());
