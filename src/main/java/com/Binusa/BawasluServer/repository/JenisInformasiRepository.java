@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+
 @Repository
 public interface JenisInformasiRepository extends JpaRepository<JenisInformasi, Long> {
     @Modifying
+    @Transactional
     @Query(value = "TRUNCATE TABLE jenis_informasi", nativeQuery = true)
     void truncateTable();
 }
