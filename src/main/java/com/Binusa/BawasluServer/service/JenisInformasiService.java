@@ -30,8 +30,8 @@ public class JenisInformasiService {
     private JenisInformasiRepository jenisInformasiRepository;
 
     @Transactional
-    public void truncateJenisInformasiTable(Long id) {
-        jenisInformasiRepository.truncateTable(id);
+    public void truncateAllTables() {
+        jenisInformasiRepository.truncateTable();
     }
 
     public JenisInformasi createJenisInformasi(JenisInformasiDTO jenisInformasiDTO) {
