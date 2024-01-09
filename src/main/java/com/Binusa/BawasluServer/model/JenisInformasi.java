@@ -2,7 +2,6 @@ package com.Binusa.BawasluServer.model;
 
 
 import com.Binusa.BawasluServer.auditing.DateConfig;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,21 +10,7 @@ import java.util.List;
 @Table(name = "jenis_informasi")
 public class JenisInformasi {
     @Id
-    @GenericGenerator(
-            name = "reset-sequence",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "sequence_name",
-                            value = "your_sequence_name"
-                    ),
-                    @org.hibernate.annotations.Parameter(
-                            name = "initial_value",
-                            value = "1"
-                    )
-            }
-    )
-    @GeneratedValue(generator = "reset-sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String namaInformasi;
