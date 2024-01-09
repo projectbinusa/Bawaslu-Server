@@ -2,10 +2,16 @@ package com.Binusa.BawasluServer.repository;
 
 import com.Binusa.BawasluServer.model.JenisInformasi;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JenisInformasiRepository extends JpaRepository<JenisInformasi, Long> {
+    @Modifying
+    @Query(value = "TRUNCATE TABLE jenis_informasi", nativeQuery = true)
+    void truncateTable();
 }
+
 
 
