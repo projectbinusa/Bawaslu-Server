@@ -14,7 +14,7 @@ public class JenisInformasi {
     private Long id;
 
     private String namaInformasi;
-    @OneToMany(mappedBy = "jenisInformasi")
+    @OneToMany(mappedBy = "jenisInformasi", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JenisKeterangan> jenisKeteranganList;
 
 
