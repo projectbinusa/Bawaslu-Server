@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +29,7 @@ public class JenisInformasiService {
     @Autowired
     private JenisInformasiRepository jenisInformasiRepository;
 
+    @Transactional
     public void truncateJenisInformasiTable() {
         jenisInformasiRepository.truncateTable();
     }
