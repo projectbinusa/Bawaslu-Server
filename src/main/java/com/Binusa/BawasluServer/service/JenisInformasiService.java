@@ -34,6 +34,7 @@ public class JenisInformasiService {
 
     public void truncateTable() {
         jenisInformasiRepository.truncateTable();
+        jenisInformasiRepository.truncateJenisKeterangan();
     }
     public JenisInformasi createJenisInformasi(JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = new JenisInformasi();
