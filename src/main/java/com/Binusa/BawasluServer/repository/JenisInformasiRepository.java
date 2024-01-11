@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 @Repository
 public interface JenisInformasiRepository extends JpaRepository<JenisInformasi, Long> {
     @Modifying
-    @Query(value = "DELETE FROM JenisInformasi")
+    @Query(value = "TRUNCATE TABLE jenis_informasi", nativeQuery = true)
     @Transactional
     void truncateTable();
 }
