@@ -8,10 +8,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "jenis_keterangan")
+@SequenceGenerator(name = "reset-sequence", sequenceName = "sequence_name", allocationSize = 1, initialValue = 1)
 public class JenisKeterangan {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reset-sequence")    private Long id;
 
     private String keterangan;
 
