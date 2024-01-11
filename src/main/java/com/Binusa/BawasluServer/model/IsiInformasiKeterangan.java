@@ -9,21 +9,8 @@ import javax.persistence.*;
 @Table(name = "isi_informasi_keterangan")
 public class IsiInformasiKeterangan{
     @Id
-    @GenericGenerator(
-            name = "reset-sequence",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter(
-                            name = "sequence_name",
-                            value = "your_sequence_name"
-                    ),
-                    @org.hibernate.annotations.Parameter(
-                            name = "initial_value",
-                            value = "1"
-                    )
-            }
-    )
-    @GeneratedValue(generator = "reset-sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String dokumen;
     @Lob
