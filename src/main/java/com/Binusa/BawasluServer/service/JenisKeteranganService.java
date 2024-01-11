@@ -31,8 +31,9 @@ public class JenisKeteranganService {
     @Autowired
     private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository ;
 
-    public void truncateTable() {
-        jenisKeteranganRepository.truncateTable();
+    public void truncateTables() {
+        jenisKeteranganRepository.truncateIsiInformasiKeterangan();
+        jenisKeteranganRepository.truncateJenisKeterangan();
     }
 
     public JenisKeteranganDTO createJenisKeterangan(JenisKeteranganDTO jenisKeteranganDTO) {
