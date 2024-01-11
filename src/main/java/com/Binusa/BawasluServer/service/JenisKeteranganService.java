@@ -31,6 +31,10 @@ public class JenisKeteranganService {
     @Autowired
     private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository ;
 
+    public void truncateTable() {
+        jenisKeteranganRepository.truncateTable();
+    }
+
     public JenisKeteranganDTO createJenisKeterangan(JenisKeteranganDTO jenisKeteranganDTO) {
         // Ubah jenisKeteranganDTO ke entitas JenisKeterangan sebelum menyimpan
         JenisKeterangan jenisKeterangan = new JenisKeterangan();

@@ -22,10 +22,10 @@ public class JenisInformasiController {
     private JenisInformasiService jenisInformasiService;
 
     // Endpoint untuk membuat jenis informasi baru
-    @PostMapping("/truncate-all-tables")
-    public ResponseEntity<String> truncateAllTables() {
-        jenisInformasiService.truncateAllTables();
-        return ResponseEntity.ok("Semua tabel berhasil di-truncate");
+    @PostMapping("/truncate-table")
+    public ResponseEntity<String> truncateTable() {
+        jenisInformasiService.truncateTable();
+        return ResponseEntity.ok("Tabel jenis_informasi berhasil di-truncate");
     }
 
     @PostMapping("/add")

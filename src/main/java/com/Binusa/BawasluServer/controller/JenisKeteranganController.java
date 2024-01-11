@@ -28,6 +28,11 @@ public class JenisKeteranganController {
     private IsiInformasiKeteranganService isiInformasiKeteran;
 
     // Endpoint untuk membuat jenis keterangan baru
+    @PostMapping("/truncate-table")
+    public ResponseEntity<String> truncateTable() {
+        jenisKeteranganService.truncateTable();
+        return ResponseEntity.ok("Tabel jenis_informasi berhasil di-truncate");
+    }
     @PostMapping("/add")
     public ResponseEntity<CustomResponse<JenisKeteranganDTO>> createJenisKeterangan(
             @RequestBody JenisKeteranganDTO jenisKeteranganDTO) {
