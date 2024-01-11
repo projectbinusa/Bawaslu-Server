@@ -33,6 +33,9 @@ public class IsiInformasiKeteranganService {
 
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
+    public void truncateTable() {
+        isiInformasiKeteranganRepository.truncateTable();
+    }
     public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
         IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
         isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());

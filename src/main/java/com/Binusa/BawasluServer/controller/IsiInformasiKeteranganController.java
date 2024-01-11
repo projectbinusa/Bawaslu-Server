@@ -27,6 +27,12 @@ import java.util.Optional;
         @Autowired
         private IsiInformasiKeteranganService isiInformasiKeteranganService;
 
+        @PostMapping("/truncate-table")
+        public ResponseEntity<String> truncateTable() {
+            isiInformasiKeteranganService.truncateTable();
+            return ResponseEntity.ok("Tabel jenis_informasi berhasil di-truncate");
+        }
+
         @PostMapping("/add")
         public ResponseEntity<CommonResponse<IsiInformasiKeteranganApiResponseDTO>> createIsiInformasiKeterangan(
                 @RequestBody IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
