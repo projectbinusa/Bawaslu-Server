@@ -7,9 +7,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "isi_informasi_keterangan")
+@SequenceGenerator(name = "reset-sequence", sequenceName = "sequence_name", allocationSize = 1, initialValue = 1)
 public class IsiInformasiKeterangan{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reset-sequence")
 
     private Long id;
     private String dokumen;
