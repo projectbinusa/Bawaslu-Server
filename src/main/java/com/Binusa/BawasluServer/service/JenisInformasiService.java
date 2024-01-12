@@ -31,10 +31,29 @@ public class JenisInformasiService {
     @Autowired
     private JenisInformasiRepository jenisInformasiRepository;
 
+    @Autowired
+    private JenisKeteranganRepository jenisKeteranganRepository;
 
-    public void truncateTable() {
-        jenisInformasiRepository.truncateTable();
-        jenisInformasiRepository.truncateJenisKeterangan();
+    @Autowired
+    private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository;
+
+    @Transactional
+    public void deleteRelatedEntities(JenisInformasi jenisInformasi) {
+        for (JenisKeterangan jenisKeterangan : jenisInformasi.getJenisKeteranganList()) {
+            for (IsiInformasiKeterangan isiInformasiKeterangan : jenisKeterangan.getIsiInformasiKeteranganList()) {
+                isiInformasiKeteranganRepository.delete(isiInformasiKeterangan);
+            }
+            jenisKeteranganRepository.delete(jenisKeterangan);
+        }
+    }
+
+    @Transactional
+    public void truncateAllTables() {
+        List<JenisInformasi> allJenisInformasi = jenisInformasiRepository.findAll();
+        for (JenisInformasi jenisInformasi : allJenisInformasi) {
+            deleteRelatedEntities(jenisInformasi);
+        }
+        jenisInformasiRepository.deleteAll();
     }
     public JenisInformasi createJenisInformasi(JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = new JenisInformasi();
