@@ -19,10 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,9 +28,6 @@ import java.util.Optional;
 
 @Service
 public class JenisInformasiService {
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Autowired
     private JenisInformasiRepository jenisInformasiRepository;
 
@@ -43,19 +37,12 @@ public class JenisInformasiService {
     @Autowired
     private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository;
 
-    public void truncateTables() {
-        // Hapus semua entitas JenisKeterangan
-        Query deleteJenisKeteranganQuery = entityManager.createQuery("DELETE FROM JenisKeterangan");
-        deleteJenisKeteranganQuery.executeUpdate();
-
-        // Hapus semua entitas JenisInformasi
-        Query deleteJenisInformasiQuery = entityManager.createQuery("DELETE FROM JenisInformasi");
-        deleteJenisInformasiQuery.executeUpdate();
-
-        // Reset sequence
-        Query resetSequenceQuery = entityManager.createNativeQuery("ALTER SEQUENCE sequence_name RESTART WITH 1");
-        resetSequenceQuery.executeUpdate();
+    @Transactional
+    public void truncateAllTables() {
+        jenisInformasiRepository.truncateTable();
+        jenisInformasiRepository.resetAutoIncrement();
     }
+
     public JenisInformasi createJenisInformasi(JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = new JenisInformasi();
         jenisInformasi.setNamaInformasi(jenisInformasiDTO.getNamaInformasi());

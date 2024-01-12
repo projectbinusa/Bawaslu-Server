@@ -9,13 +9,24 @@ import java.util.List;
 
 @Entity
 @Table(name = "jenis_informasi")
-@SequenceGenerator(name = "reset-sequence", sequenceName = "sequence_name", allocationSize = 1, initialValue = 1)
 public class JenisInformasi {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reset-sequence")
+    @GenericGenerator(
+            name = "reset-sequence",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "sequence_name",
+                            value = "your_sequence_name"
+                    ),
+                    @org.hibernate.annotations.Parameter(
+                            name = "initial_value",
+                            value = "1"
+                    )
+            }
+    )
+    @GeneratedValue(generator = "reset-sequence")
     private Long id;
-
-
     private String namaInformasi;
     @OneToMany(mappedBy = "jenisInformasi", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JenisKeterangan> jenisKeteranganList;
