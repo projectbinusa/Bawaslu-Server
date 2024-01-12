@@ -21,10 +21,14 @@ public class JenisInformasiController {
     @Autowired
     private JenisInformasiService jenisInformasiService;
 
-    @PostMapping("/truncate-tables")
-    public String truncateTables() {
-        jenisInformasiService.truncateTables();
-        return "Tabel berhasil di-truncate.";
+    @PostMapping("/truncate-all-tables")
+    public ResponseEntity<CustomResponse<Void>> truncateAllTables() {
+        jenisInformasiService.truncateAllTables();
+        CustomResponse<Void> response = new CustomResponse<>();
+        response.setStatus("success");
+        response.setCode(200);
+        response.setMessage("Semua data di tabel jenis informasi, jenis keterangan, dan isi informasi keterangan berhasil dihapus");
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/add")
