@@ -11,16 +11,17 @@ import java.util.List;
 @SequenceGenerator(name = "reset-sequence", sequenceName = "sequence_name", allocationSize = 1, initialValue = 1)
 public class JenisKeterangan {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reset-sequence")    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reset-sequence")
+    private Long id;
 
     private String keterangan;
 
-    @ManyToOne
-    @JoinColumn(name = "jenis_informasi_id", nullable = false)
-    private JenisInformasi jenisInformasi;
-
-    @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<IsiInformasiKeterangan> isiInformasiKeteranganList;
+//    @ManyToOne
+//    @JoinColumn(name = "jenis_informasi_id")
+//    private JenisInformasi jenisInformasi;
+//
+//    @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<IsiInformasiKeterangan> isiInformasiKeteranganList;
 
     public Long getId() {
         return id;
@@ -38,19 +39,19 @@ public class JenisKeterangan {
         this.keterangan = keterangan;
     }
 
-    public JenisInformasi getJenisInformasi() {
-        return jenisInformasi;
-    }
-
-    public void setJenisInformasi(JenisInformasi jenisInformasi) {
-        this.jenisInformasi = jenisInformasi;
-    }
-
-    public List<IsiInformasiKeterangan> getIsiInformasiKeteranganList() {
-        return isiInformasiKeteranganList;
-    }
-
-    public void setIsiInformasiKeteranganList(List<IsiInformasiKeterangan> isiInformasiKeteranganList) {
-        this.isiInformasiKeteranganList = isiInformasiKeteranganList;
-    }
+//    public JenisInformasi getJenisInformasi() {
+//        return jenisInformasi;
+//    }
+//
+//    public void setJenisInformasi(JenisInformasi jenisInformasi) {
+//        this.jenisInformasi = jenisInformasi;
+//    }
+//
+//    public List<IsiInformasiKeterangan> getIsiInformasiKeteranganList() {
+//        return isiInformasiKeteranganList;
+//    }
+//
+//    public void setIsiInformasiKeteranganList(List<IsiInformasiKeterangan> isiInformasiKeteranganList) {
+//        this.isiInformasiKeteranganList = isiInformasiKeteranganList;
+//    }
 }
