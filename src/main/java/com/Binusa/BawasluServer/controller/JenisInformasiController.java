@@ -21,22 +21,10 @@ public class JenisInformasiController {
     @Autowired
     private JenisInformasiService jenisInformasiService;
 
-    // Endpoint untuk membuat jenis informasi baru
-    @PostMapping("/truncate-all-tables")
-    public ResponseEntity<CommonResponse<Void>> truncateAllTables() {
-        CommonResponse<Void> response = new CommonResponse<>();
-        try {
-            jenisInformasiService.truncateAllTables();
-            response.setStatus("success");
-            response.setCode(HttpStatus.OK.value());
-            response.setMessage("Semua data di tabel berhasil dihapus");
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.setStatus("error");
-            response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.setMessage("Gagal menghapus data: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }
+    @PostMapping("/truncate-tables")
+    public String truncateTables() {
+        jenisInformasiService.truncateTables();
+        return "Tabel berhasil di-truncate.";
     }
 
     @PostMapping("/add")
