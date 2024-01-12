@@ -98,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/bawaslu/api/permohonan-keberatan/get/{id}",
             // Jenis Informasi
             "/bawaslu/api/jenis-informasi/all",
-            "/bawaslu/api/jenis-informasi/truncate-tables",
+            "/bawaslu/api/jenis-informasi/truncate-all-tables",
             "/bawaslu/api/jenis-informasi/getBy/{id}",
             "/bawaslu/api/jenis-informasi/getByIdWithKeterangan",
             // Jenis Keterangan Informasi
