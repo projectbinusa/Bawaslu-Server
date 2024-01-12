@@ -19,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +31,9 @@ import java.util.Optional;
 
 @Service
 public class JenisInformasiService {
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     private JenisInformasiRepository jenisInformasiRepository;
 
@@ -37,23 +43,18 @@ public class JenisInformasiService {
     @Autowired
     private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository;
 
-    @Transactional
-    public void deleteRelatedEntities(JenisInformasi jenisInformasi) {
-        for (JenisKeterangan jenisKeterangan : jenisInformasi.getJenisKeteranganList()) {
-            for (IsiInformasiKeterangan isiInformasiKeterangan : jenisKeterangan.getIsiInformasiKeteranganList()) {
-                isiInformasiKeteranganRepository.delete(isiInformasiKeterangan);
-            }
-            jenisKeteranganRepository.delete(jenisKeterangan);
-        }
-    }
+    public void truncateTables() {
+        // Hapus semua entitas JenisKeterangan
+        Query deleteJenisKeteranganQuery = entityManager.createQuery("DELETE FROM jenis_keterangan");
+        deleteJenisKeteranganQuery.executeUpdate();
 
-    @Transactional
-    public void truncateAllTables() {
-        List<JenisInformasi> allJenisInformasi = jenisInformasiRepository.findAll();
-        for (JenisInformasi jenisInformasi : allJenisInformasi) {
-            deleteRelatedEntities(jenisInformasi);
-        }
-        jenisInformasiRepository.deleteAll();
+        // Hapus semua entitas JenisInformasi
+        Query deleteJenisInformasiQuery = entityManager.createQuery("DELETE FROM jenis_informasi");
+        deleteJenisInformasiQuery.executeUpdate();
+
+        // Reset sequence
+        Query resetSequenceQuery = entityManager.createNativeQuery("ALTER SEQUENCE sequence_name RESTART WITH 1");
+        resetSequenceQuery.executeUpdate();
     }
     public JenisInformasi createJenisInformasi(JenisInformasiDTO jenisInformasiDTO) {
         JenisInformasi jenisInformasi = new JenisInformasi();
