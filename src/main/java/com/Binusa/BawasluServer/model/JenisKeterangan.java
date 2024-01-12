@@ -19,7 +19,7 @@ public class JenisKeterangan {
     @JoinColumn(name = "jenis_informasi_id")
     private JenisInformasi jenisInformasi;
 
-    @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "jenisKeterangan")
     private List<IsiInformasiKeterangan> isiInformasiKeteranganList;
 
     public Long getId() {

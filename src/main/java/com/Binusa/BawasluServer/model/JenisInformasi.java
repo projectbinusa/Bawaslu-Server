@@ -14,7 +14,7 @@ public class JenisInformasi {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String namaInformasi;
-    @OneToMany(mappedBy = "jenisInformasi", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "jenisInformasi")
     private List<JenisKeterangan> jenisKeteranganList;
 
 
