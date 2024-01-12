@@ -17,9 +17,9 @@ public class IsiInformasiKeterangan{
     @Lob
     private String pdfDokumen;
 
-    @ManyToOne
-    @JoinColumn(name = "jenis_keterangan_id")
-    private JenisKeterangan jenisKeterangan;
+//    @ManyToOne
+//    @JoinColumn(name = "jenis_keterangan_id")
+//    private JenisKeterangan jenisKeterangan;
 
     public Long getId() {
         return id;
@@ -37,13 +37,13 @@ public class IsiInformasiKeterangan{
         this.dokumen = dokumen;
     }
 
-    public JenisKeterangan getJenisKeterangan() {
-        return jenisKeterangan;
-    }
-
-    public void setJenisKeterangan(JenisKeterangan jenisKeterangan) {
-        this.jenisKeterangan = jenisKeterangan;
-    }
+//    public JenisKeterangan getJenisKeterangan() {
+//        return jenisKeterangan;
+//    }
+//
+//    public void setJenisKeterangan(JenisKeterangan jenisKeterangan) {
+//        this.jenisKeterangan = jenisKeterangan;
+//    }
 
     public String getPdfDokumen() {
         return pdfDokumen;

@@ -16,9 +16,10 @@ public interface JenisInformasiRepository extends JpaRepository<JenisInformasi, 
     void truncateTable();
 
     @Modifying
-    @Query(value = "ALTER TABLE jenis_informasi AUTO_INCREMENT = 1", nativeQuery = true)
+    @Query(value = "TRUNCATE TABLE jenis_keterangan", nativeQuery = true)
     @Transactional
-    void resetAutoIncrement();
+    void truncateJenisKeterangan();
+
 }
 
 

@@ -36,122 +36,122 @@ public class IsiInformasiKeteranganService {
     public void truncateTable() {
         isiInformasiKeteranganRepository.truncateTable();
     }
-    public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
-        IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
-        isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
-
-        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
-                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
-
-        isiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
-
-        isiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDokumen());
-
-        IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
-        return convertToApiResponseDTO(savedIsiInformasiKeterangan);
-    }
-
-    public IsiInformasiKeteranganApiResponseDTO update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
-        IsiInformasiKeterangan existingIsiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
-
-        existingIsiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
-
-        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
-                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
-
-        existingIsiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
-
-        existingIsiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDokumen());
-
-        IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
-        return convertToApiResponseDTO(updatedIsiInformasiKeterangan);
-    }
-
-    public IsiInformasiKeteranganApiResponseDTO findById(Long id) {
-        IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
-
-        return convertToApiResponseDTO(isiInformasiKeterangan);
-    }
-
-    public Page<IsiInformasiKeteranganApiResponseDTO> getAllIsiInformasiKeterangan(Pageable pageable) {
-        // Menggunakan repository.findAll dengan pageable
-        Page<IsiInformasiKeterangan> isiInformasiKeteranganPage = isiInformasiKeteranganRepository.findAll(pageable);
-
-        // Mengubah halaman IsiInformasiKeterangan menjadi halaman DTO
-        return isiInformasiKeteranganPage.map(this::convertToApiResponseDTO);
-    }
-
-    public void delete(Long id) {
-        IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
-        isiInformasiKeteranganRepository.delete(isiInformasiKeterangan);
-    }
-
-    private IsiInformasiKeteranganApiResponseDTO convertToApiResponseDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
-        IsiInformasiKeteranganApiResponseDTO isiInformasiKeteranganDTO = new IsiInformasiKeteranganApiResponseDTO();
-        isiInformasiKeteranganDTO.setId(isiInformasiKeterangan.getId());
-        isiInformasiKeteranganDTO.setDokumen(isiInformasiKeterangan.getDokumen());
-        isiInformasiKeteranganDTO.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
-        isiInformasiKeteranganDTO.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
-        return isiInformasiKeteranganDTO;
-    }
-
-    private IsiInformasiKeteranganApiResponseDTO mapIsiInformasiKeteranganToDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
-        IsiInformasiKeteranganApiResponseDTO dto = new IsiInformasiKeteranganApiResponseDTO();
-        dto.setId(isiInformasiKeterangan.getId());
-        dto.setDokumen(isiInformasiKeterangan.getDokumen());
-        dto.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
-        dto.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
-
-        return dto;
-    }
-
-    private String uploadPdf(MultipartFile multipartFile) throws Exception {
-        try {
-            String fileName = multipartFile.getOriginalFilename();
-            String fileExtension = getFileExtension(fileName);
-
-            if (!isImageFile(fileExtension)) {
-                throw new IllegalArgumentException("Jenis file tidak diizinkan");
-            }
-
-            File file = convertFile(multipartFile, fileName);
-            var RESPONSE_URL = uploadFile(file, fileName);
-            file.delete();
-            return RESPONSE_URL;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error upload file!");
-        }
-    }
-
-    private String getFileExtension(String fileName) {
-        String[] splitFileName = fileName.split("\\.");
-        return splitFileName[splitFileName.length - 1].toLowerCase();
-    }
-
-    private boolean isImageFile(String fileExtension) {
-        return fileExtension.equals("jpg") || fileExtension.equals("png") || fileExtension.equals("jpeg");
-    }
-
-    private File convertFile(MultipartFile multipartFile, String fileName) throws IOException {
-        File file = new File(fileName);
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(multipartFile.getBytes());
-            fos.close();
-        }
-        return file;
-    }
-
-    private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("bawaslu-firebase.json");
-        Credentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
-    }
+//    public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
+//        IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
+//        isiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
+//
+//        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
+//                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
+//
+//        isiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
+//
+//        isiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDokumen());
+//
+//        IsiInformasiKeterangan savedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(isiInformasiKeterangan);
+//        return convertToApiResponseDTO(savedIsiInformasiKeterangan);
+//    }
+//
+//    public IsiInformasiKeteranganApiResponseDTO update(Long id, IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
+//        IsiInformasiKeterangan existingIsiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
+//
+//        existingIsiInformasiKeterangan.setDokumen(isiInformasiKeteranganDTO.getDokumen());
+//
+//        JenisKeterangan jenisKeterangan = jenisKeteranganRepository.findById(isiInformasiKeteranganDTO.getJenisKeteranganId())
+//                .orElseThrow(() -> new EntityNotFoundException("JenisKeterangan not found with id: " + isiInformasiKeteranganDTO.getJenisKeteranganId()));
+//
+//        existingIsiInformasiKeterangan.setJenisKeterangan(jenisKeterangan);
+//
+//        existingIsiInformasiKeterangan.setPdfDokumen(isiInformasiKeteranganDTO.getPdfDokumen());
+//
+//        IsiInformasiKeterangan updatedIsiInformasiKeterangan = isiInformasiKeteranganRepository.save(existingIsiInformasiKeterangan);
+//        return convertToApiResponseDTO(updatedIsiInformasiKeterangan);
+//    }
+//
+//    public IsiInformasiKeteranganApiResponseDTO findById(Long id) {
+//        IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
+//
+//        return convertToApiResponseDTO(isiInformasiKeterangan);
+//    }
+//
+//    public Page<IsiInformasiKeteranganApiResponseDTO> getAllIsiInformasiKeterangan(Pageable pageable) {
+//        // Menggunakan repository.findAll dengan pageable
+//        Page<IsiInformasiKeterangan> isiInformasiKeteranganPage = isiInformasiKeteranganRepository.findAll(pageable);
+//
+//        // Mengubah halaman IsiInformasiKeterangan menjadi halaman DTO
+//        return isiInformasiKeteranganPage.map(this::convertToApiResponseDTO);
+//    }
+//
+//    public void delete(Long id) {
+//        IsiInformasiKeterangan isiInformasiKeterangan = isiInformasiKeteranganRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("IsiInformasiKeterangan not found with id: " + id));
+//        isiInformasiKeteranganRepository.delete(isiInformasiKeterangan);
+//    }
+//
+//    private IsiInformasiKeteranganApiResponseDTO convertToApiResponseDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
+//        IsiInformasiKeteranganApiResponseDTO isiInformasiKeteranganDTO = new IsiInformasiKeteranganApiResponseDTO();
+//        isiInformasiKeteranganDTO.setId(isiInformasiKeterangan.getId());
+//        isiInformasiKeteranganDTO.setDokumen(isiInformasiKeterangan.getDokumen());
+//        isiInformasiKeteranganDTO.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
+//        isiInformasiKeteranganDTO.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
+//        return isiInformasiKeteranganDTO;
+//    }
+//
+//    private IsiInformasiKeteranganApiResponseDTO mapIsiInformasiKeteranganToDTO(IsiInformasiKeterangan isiInformasiKeterangan) {
+//        IsiInformasiKeteranganApiResponseDTO dto = new IsiInformasiKeteranganApiResponseDTO();
+//        dto.setId(isiInformasiKeterangan.getId());
+//        dto.setDokumen(isiInformasiKeterangan.getDokumen());
+//        dto.setPdfDokumen(isiInformasiKeterangan.getPdfDokumen());
+//        dto.setJenisKeterangan(isiInformasiKeterangan.getJenisKeterangan().getId());
+//
+//        return dto;
+//    }
+//
+//    private String uploadPdf(MultipartFile multipartFile) throws Exception {
+//        try {
+//            String fileName = multipartFile.getOriginalFilename();
+//            String fileExtension = getFileExtension(fileName);
+//
+//            if (!isImageFile(fileExtension)) {
+//                throw new IllegalArgumentException("Jenis file tidak diizinkan");
+//            }
+//
+//            File file = convertFile(multipartFile, fileName);
+//            var RESPONSE_URL = uploadFile(file, fileName);
+//            file.delete();
+//            return RESPONSE_URL;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new Exception("Error upload file!");
+//        }
+//    }
+//
+//    private String getFileExtension(String fileName) {
+//        String[] splitFileName = fileName.split("\\.");
+//        return splitFileName[splitFileName.length - 1].toLowerCase();
+//    }
+//
+//    private boolean isImageFile(String fileExtension) {
+//        return fileExtension.equals("jpg") || fileExtension.equals("png") || fileExtension.equals("jpeg");
+//    }
+//
+//    private File convertFile(MultipartFile multipartFile, String fileName) throws IOException {
+//        File file = new File(fileName);
+//        try (FileOutputStream fos = new FileOutputStream(file)) {
+//            fos.write(multipartFile.getBytes());
+//            fos.close();
+//        }
+//        return file;
+//    }
+//
+//    private String uploadFile(File file, String fileName) throws IOException {
+//        BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
+//        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+//        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("bawaslu-firebase.json");
+//        Credentials credentials = GoogleCredentials.fromStream(serviceAccount);
+//        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+//        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
+//        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+//    }
 }

@@ -14,17 +14,11 @@ import java.util.List;
 
 @Repository
 public interface JenisKeteranganRepository extends JpaRepository<JenisKeterangan, Long> {
-    List<JenisKeterangan> findByJenisInformasiId(Long jenisInformasiId);
-        @Modifying
-        @Query(value = "DELETE FROM isi_informasi_keterangan", nativeQuery = true)
-        @Transactional
-        void truncateIsiInformasiKeterangan();
-
-        @Modifying
-        @Query(value = "DELETE FROM jenis_keterangan", nativeQuery = true)
-        @Transactional
-        void truncateJenisKeterangan();
-
+//    List<JenisKeterangan> findByJenisInformasiId(Long jenisInformasiId);
+    @Modifying
+    @Query(value = "TRUNCATE TABLE jenis_keterangan", nativeQuery = true)
+    @Transactional
+    void truncateTable();
 
 }
 
