@@ -45,11 +45,11 @@ public class JenisInformasiService {
 
     public void truncateTables() {
         // Hapus semua entitas JenisKeterangan
-        Query deleteJenisKeteranganQuery = entityManager.createQuery("DELETE FROM jenis_keterangan");
+        Query deleteJenisKeteranganQuery = entityManager.createQuery("DELETE FROM JenisKeterangan");
         deleteJenisKeteranganQuery.executeUpdate();
 
         // Hapus semua entitas JenisInformasi
-        Query deleteJenisInformasiQuery = entityManager.createQuery("DELETE FROM jenis_informasi");
+        Query deleteJenisInformasiQuery = entityManager.createQuery("DELETE FROM JenisInformasi");
         deleteJenisInformasiQuery.executeUpdate();
 
         // Reset sequence
