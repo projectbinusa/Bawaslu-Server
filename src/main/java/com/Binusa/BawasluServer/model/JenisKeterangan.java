@@ -16,7 +16,7 @@ public class JenisKeterangan {
     private String keterangan;
 
     @ManyToOne
-    @JoinColumn(name = "jenis_informasi_id")
+    @JoinColumn(name = "jenis_informasi_id", nullable = false)
     private JenisInformasi jenisInformasi;
 
     @OneToMany(mappedBy = "jenisKeterangan", cascade = CascadeType.ALL, orphanRemoval = true)
