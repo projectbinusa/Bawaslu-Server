@@ -13,11 +13,8 @@ import java.util.List;
 
 @Repository
 public interface IsiInformasiKeteranganRepository extends JpaRepository<IsiInformasiKeterangan, Long> {
-//    List<IsiInformasiKeterangan> findByJenisKeteranganId(Long jenisKeteranganId);
-//    Page<IsiInformasiKeterangan> findAll(Pageable pageable);
-//    Page<IsiInformasiKeterangan> findByJenisKeteranganId(Long jenisKeteranganId, Pageable pageable);
-    @Modifying
-    @Query(value = "TRUNCATE TABLE isi_informasi_keterangan", nativeQuery = true)
-    @Transactional
-    void truncateTable();
+    List<IsiInformasiKeterangan> findByJenisKeteranganId(Long jenisKeteranganId);
+    Page<IsiInformasiKeterangan> findAll(Pageable pageable);
+    Page<IsiInformasiKeterangan> findByJenisKeteranganId(Long jenisKeteranganId, Pageable pageable);
+
 }
