@@ -31,7 +31,6 @@ public class IsiInformasiKeteranganService {
     @Autowired
     private IsiInformasiKeteranganRepository isiInformasiKeteranganRepository;
 
-    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/bawaslu-a6bd2.appspot.com/o/%s?alt=media";
 
     public IsiInformasiKeteranganApiResponseDTO save(IsiInformasiKeteranganDTO isiInformasiKeteranganDTO) {
         IsiInformasiKeterangan isiInformasiKeterangan = new IsiInformasiKeterangan();
@@ -105,50 +104,4 @@ public class IsiInformasiKeteranganService {
         return dto;
     }
 
-    private String uploadPdf(MultipartFile multipartFile) throws Exception {
-        try {
-            String fileName = multipartFile.getOriginalFilename();
-            String fileExtension = getFileExtension(fileName);
-
-            if (!isImageFile(fileExtension)) {
-                throw new IllegalArgumentException("Jenis file tidak diizinkan");
-            }
-
-            File file = convertFile(multipartFile, fileName);
-            var RESPONSE_URL = uploadFile(file, fileName);
-            file.delete();
-            return RESPONSE_URL;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error upload file!");
-        }
-    }
-
-    private String getFileExtension(String fileName) {
-        String[] splitFileName = fileName.split("\\.");
-        return splitFileName[splitFileName.length - 1].toLowerCase();
-    }
-
-    private boolean isImageFile(String fileExtension) {
-        return fileExtension.equals("jpg") || fileExtension.equals("png") || fileExtension.equals("jpeg");
-    }
-
-    private File convertFile(MultipartFile multipartFile, String fileName) throws IOException {
-        File file = new File(fileName);
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(multipartFile.getBytes());
-            fos.close();
-        }
-        return file;
-    }
-
-    private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("bawaslu-a6bd2.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("bawaslu-firebase.json");
-        Credentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        return String.format(DOWNLOAD_URL, URLEncoder.encode(fileName, StandardCharsets.UTF_8));
-    }
 }
